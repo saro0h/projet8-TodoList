@@ -43,7 +43,7 @@ class TaskController extends Controller
     }
 
     /**
-     * @Route("/task/{id}/edit", name="task_edit")
+     * @Route("/tasks/{id}/edit", name="task_edit")
      */
     public function editAction(Task $task, Request $request)
     {
@@ -66,7 +66,7 @@ class TaskController extends Controller
     }
 
     /**
-     * @Route("/task/{id}/toggle", name="task_toggle")
+     * @Route("/tasks/{id}/toggle", name="task_toggle")
      */
     public function toggleTaskAction(Task $task)
     {

@@ -1,4 +1,6 @@
 ToDoList
 ========
 
-A Symfony project created on November 2, 2016, 10:12 am.
+Base du projet #8 : Améliorez un projet existant
+
+https://openclassrooms.com/projects/ameliorer-un-projet-existant-1
