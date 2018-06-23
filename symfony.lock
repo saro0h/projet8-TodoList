@@ -53,6 +53,12 @@
     "monolog/monolog": {
         "version": "1.23.0"
     },
+    "nikic/php-parser": {
+        "version": "v3.1.5"
+    },
+    "phpmetrics/phpmetrics": {
+        "version": "v2.3.2"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },

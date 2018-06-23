@@ -18,6 +18,7 @@
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
+        "phpmetrics/phpmetrics": "^2.3",
         "sensio/framework-extra-bundle": "^5.0.0",
         "symfony/asset": "^4.0",
         "symfony/browser-kit": "^4.0",
