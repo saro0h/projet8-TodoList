@@ -8,10 +8,12 @@ App\Entity\User:
       username: <{username}>
       password: <{password}>
       email: <{email}>
+      createdAt: <datetime()>
   user_{2..4}:
     username: <name()>
     password: <password()>
     email: <email()>
+    createdAt: <datetime()>
 
 App\Entity\Task:
   task_{@user_*}:
