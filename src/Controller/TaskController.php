@@ -3,13 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Task;
-use App\Form\TaskType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use App\Handler\TaskFormHandler;
+use App\Tests\Authentication;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class TaskController extends Controller
 {
+    use Authentication;
     /**
      * @Route("/tasks", name="task_list")
      */
@@ -20,49 +22,31 @@ class TaskController extends Controller
 
     /**
      * @Route("/tasks/create", name="task_create")
+     *
+     * @param TaskFormHandler $handler
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
-    public function createAction(Request $request)
+    public function createAction(TaskFormHandler $formHandler)
     {
-        $task = new Task();
-        $form = $this->createForm(TaskType::class, $task);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
-            $em->persist($task);
-            $em->flush();
-
-            $this->addFlash('success', 'La tâche a été bien été ajoutée.');
-
-            return $this->redirectToRoute('task_list');
-        }
-
-        return $this->render('task/create.html.twig', ['form' => $form->createView()]);
+        return $formHandler->handle(null, new Task(), 'task/create.html.twig', []);
     }
 
     /**
      * @Route("/tasks/{id}/edit", name="task_edit")
+     *
+     * @param TaskFormHandler $handler
+     * @param Task $task
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
-    public function editAction(Task $task, Request $request)
+    public function editAction(TaskFormHandler $formHandler, Task $task)
     {
-        $form = $this->createForm(TaskType::class, $task);
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            $this->addFlash('success', 'La tâche a bien été modifiée.');
-
-            return $this->redirectToRoute('task_list');
-        }
-
-        return $this->render('task/edit.html.twig', [
-            'form' => $form->createView(),
-            'task' => $task,
-        ]);
+        return $formHandler->handle(null, $task, 'task/edit.html.twig', ['task' => $task]);
     }
 
     /**

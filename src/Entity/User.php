@@ -22,6 +22,11 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Task", mappedBy="user", cascade={"persist"}, orphanRemoval=true)
+     */
+    private $tasks;
+
+    /**
      * @ORM\Column(type="string", length=25, unique=true)
      * @Assert\NotBlank(message="Vous devez saisir un nom d'utilisateur.")
      */
@@ -43,6 +48,33 @@ class User implements UserInterface
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
+
+    /**
+     * @param Task $task
+     */
+    public function addTask(Task $task)
+    {
+        $task->setUser($this);
+        $this->tasks->add($task);
+    }
+
+    /**
+     * @param Task $task
+     */
+    public function removeTask(Task $task)
+    {
+        $task->setUser(null);
+        $this->tasks->removeElement($task);
+    }
+
 
     public function getUsername()
     {

@@ -1,0 +1,20 @@
+parameters:
+  username: 'test'
+  password: '$2y$10$VpCQRogGaYDMwr5mT98vNOyMA4XK8c/1srxz4Gefs7uKceweEgFNy'  ##Correspond à "test"
+  email: 'test@gmail.com'
+
+App\Entity\User:
+  user_{1}:
+      username: <{username}>
+      password: <{password}>
+      email: <{email}>
+  user_{2..4}:
+    username: <name()>
+    password: <password()>
+    email: <email()>
+
+App\Entity\Task:
+  task_{@user_*}:
+    user: <current()>
+    title: <name()>
+    content: <text()>

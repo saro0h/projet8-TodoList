@@ -1,0 +1,8 @@
+language: php
+php:
+  - '7.2'
+
+script:
+   - composer install
+   - ./bin/phpunit
+   - php php-cs-fixer.phar fix src/

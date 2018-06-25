@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table
+ * @ORM\HasLifecycleCallbacks()
  */
 class Task
 {
@@ -17,6 +17,12 @@ class Task
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tasks")
+     * @ORM\JoinColumn(onDelete="CASCADE")
+     */
+    private $user;
 
     /**
      * @ORM\Column(type="datetime")
@@ -42,13 +48,36 @@ class Task
 
     public function __construct()
     {
-        $this->createdAt = new \Datetime();
         $this->isDone = false;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->createdAt = new \Datetime();
     }
 
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
+    {
+        $this->user = $user;
     }
 
     public function getCreatedAt()
