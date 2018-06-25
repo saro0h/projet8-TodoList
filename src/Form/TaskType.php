@@ -6,6 +6,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
+/**
+ * Class TaskType
+ * @package App\Form
+ */
 class TaskType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -13,7 +17,6 @@ class TaskType extends AbstractType
         $builder
             ->add('title')
             ->add('content', TextareaType::class)
-            //->add('author') ===> must be the user authenticated
         ;
     }
 }

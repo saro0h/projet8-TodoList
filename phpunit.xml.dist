@@ -8,7 +8,7 @@
          bootstrap="vendor/autoload.php"
 >
     <php>
-        <!-- <env name="DATABASE_URL" value="mysql://root:@localhost:3306/API" /> -->
+        <env name="DATABASE_URL_TEST" value="mysql://root:@localhost:3306/P8_TEST" />
         <env name="MAILER_URL" value="null://localhost"/>
         <ini name="error_reporting" value="-1" />
         <env name="KERNEL_CLASS" value="App\Kernel" />
@@ -29,4 +29,8 @@
             <directory>src</directory>
         </whitelist>
     </filter>
+
+    <listeners>
+        <listener class="\DAMA\DoctrineTestBundle\PHPUnit\PHPUnitListener" />
+    </listeners>
 </phpunit>
