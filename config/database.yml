@@ -1,0 +1,5 @@
+test:
+    adapter: mysql2
+    database: P8_TEST
+    username: root
+    encoding: utf8
