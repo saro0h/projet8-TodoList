@@ -18,20 +18,28 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "symfony/symfony": "3.1.*",
+        "symfony/symfony": "3.4",
         "doctrine/orm": "^2.5",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
         "symfony/swiftmailer-bundle": "^2.3",
-        "symfony/monolog-bundle": "^2.8",
+        "symfony/monolog-bundle": "^3.1.0",
         "symfony/polyfill-apcu": "^1.0",
         "sensio/distribution-bundle": "^5.0",
-        "sensio/framework-extra-bundle": "^3.0.2",
-        "incenteev/composer-parameter-handler": "^2.0"
+        "sensio/framework-extra-bundle": "^5.0.0",
+        "incenteev/composer-parameter-handler": "^2.0",
+        "symfony/flex": "^1.5",
+        "twig/twig": "^1.0||^2.0",
+        "symfony/orm-pack": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0"
+        "symfony/phpunit-bridge": "^3.0",
+        "symfony/debug": "4.1.7",
+        "symfony/event-dispatcher": "4.1.7",
+        "symfony/http-kernel": "4.1.7",
+        "symfony/http-foundation": "4.1.7",
+        "symfony/routing": "4.1.7"
     },
     "scripts": {
         "symfony-scripts": [
