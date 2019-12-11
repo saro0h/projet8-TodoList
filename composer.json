@@ -2,29 +2,29 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.1.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "symfony/console": "4.4.*",
+        "symfony/dotenv": "4.4.*",
+        "symfony/flex": "^1.3.1",
+        "symfony/framework-bundle": "4.4.*",
+        "symfony/yaml": "4.4.*",
         "doctrine/doctrine-bundle": "^2.0",
         "sensio/framework-extra-bundle": "^5.5",
-        "symfony/asset": "5.0.*",
-        "symfony/console": "5.0.*",
-        "symfony/dotenv": "5.0.*",
-        "symfony/flex": "^1.3.1",
-        "symfony/form": "5.0.*",
-        "symfony/framework-bundle": "5.0.*",
+        "symfony/asset": "4.4.*",
+        "symfony/form": "4.4.*",
         "symfony/monolog-bundle": "^3.5",
         "symfony/orm-pack": "^1.0",
-        "symfony/security-bundle": "5.0.*",
+        "symfony/security-bundle": "4.4.*",
         "symfony/polyfill-apcu": "^1.13",
         "symfony/profiler-pack": "^1.0",
         "symfony/twig-pack": "^1.0",
-        "symfony/validator": "5.0.*",
-        "symfony/yaml": "5.0.*"
+        "symfony/validator": "4.4.*"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.14",
-        "symfony/phpunit-bridge": "^5.0"
+        "symfony/phpunit-bridge": "^4.4"
     },
     "config": {
         "preferred-install": {
@@ -46,7 +46,6 @@
         "paragonie/random_compat": "2.*",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*",
         "symfony/polyfill-php71": "*",
         "symfony/polyfill-php70": "*",
         "symfony/polyfill-php56": "*"
@@ -69,7 +68,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.0.*"
+            "require": "4.4.*"
         }
     }
 }
