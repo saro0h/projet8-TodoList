@@ -23,12 +23,12 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $manager = $this->getDoctrine()->getManager();
             $password = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
 
-            $em->persist($user);
-            $em->flush();
+            $manager->persist($user);
+            $manager->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
