@@ -16,7 +16,7 @@ class Task
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private $idTask;
 
     /**
      * @ORM\Column(type="datetime")
@@ -46,9 +46,9 @@ class Task
         $this->isDone = false;
     }
 
-    public function getId()
+    public function getIdTask()
     {
-        return $this->id;
+        return $this->idTask;
     }
 
     public function getCreatedAt()

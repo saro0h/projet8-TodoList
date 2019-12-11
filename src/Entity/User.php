@@ -19,7 +19,7 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private $idUser;
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
@@ -39,9 +39,9 @@ class User implements UserInterface
      */
     private $email;
 
-    public function getId()
+    public function getIdUser()
     {
-        return $this->id;
+        return $this->idUser;
     }
 
     public function getUsername()
