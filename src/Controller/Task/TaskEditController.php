@@ -18,6 +18,8 @@ class TaskEditController extends AbstractController
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
+        $task = $form->getData();
+        $user = $task->getUser();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
@@ -30,6 +32,7 @@ class TaskEditController extends AbstractController
         return $this->render('task/edit.html.twig', [
             'form' => $form->createView(),
             'task' => $task,
+            'user' => $user
         ]);
     }
 }

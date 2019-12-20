@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block header_title %}
+    <h1>Désolé, c'est moi, pas toi !</h1>
+{% endblock %}
+
+{% block body %}
+    <p>
+        <a href="#">Laissez-moi réessayer</a>
+         ou <a href="{{ path('homepage') }}">retour à la page d'accueil</a>.
+    </p>
+   
+{% endblock %}

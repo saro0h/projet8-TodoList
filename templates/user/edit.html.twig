@@ -5,10 +5,12 @@
 
 {% block body %}
     <div class="row">
-        {{ form_start(form, {'action' : path('user_edit', {'id' : user.idUser})}) }}
-        {{ form_widget(form) }}
+        <div class="register-form">
+            {{ form_start(form, {'action' : path('user_edit', {'id' : user.id})}) }}
+            {{ form_widget(form) }}
 
-        <button type="submit" class="btn btn-success pull-right">Modifier</button>
-        {{ form_end(form) }}
+            <button type="submit" class="btn btn-success pull-right">Modifier</button>
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}

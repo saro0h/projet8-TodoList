@@ -2,12 +2,17 @@
 
 {% block body %}
     <div class="row">
-        {{ form_start(form, {'action' : path('task_create')}) }}
-            {{ form_widget(form) }}
-
-            <button type="submit" class="btn btn-success pull-right">Ajouter</button>
-        {{ form_end(form) }}
-
-        <a href="{{ path('task_list') }}" class="btn btn-primary">Retour à la liste des tâches</a>
+        <div class="create-task">
+            {{ form_start(form, {'action' : path('task_create')}) }}
+                
+                {{ form_row(form.title) }}
+                {{ form_row(form.content) }}
+                <div class="create-btn">
+                    <button type="submit" class="btn btn-success pull-right">Ajouter</button>
+                    <a href="{{ path('task_list') }}" class="btn btn-primary">Retour à la liste des tâches</a>
+                </div>
+            {{ form_end(form) }}
+            
+        </div>
     </div>
 {% endblock %}

@@ -2,14 +2,9 @@
 
 {% block header_img %}{% endblock %}
 
-{% block header_title %}<h1>Liste des utilisateurs</h1>{% endblock %}
+{% block header_title %}<h1>Votre profil</h1>{% endblock %}
 
 {% block body %}
-    {% if users|length == 0 %}
-        <div class="alert alert-warning" role="alert">
-            Il n'y a pas encore d'utilisateur enregistré. <a href="{{ path('user_create') }}" class="btn btn-warning pull-right">Créer un utilisateur</a>
-        </div>
-    {% else %}
         <div class="row">
             <table class="table">
                 <thead>
@@ -21,20 +16,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for user in users %}
                     <tr>
-                        <th scope="row">{{ loop.index }}</th>
+                        <th scope="row">1</th>
                         <td>{{ user.username }}</td>
                         <td>{{ user.email }}</td>
                         <td>
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <a href="{{ path ('user_delete', {'id': user.id}) }}" class="btn btn-danger btn-sm" onclick="deleteUser();">Supprimer</a>
+                            {% if app.user == user %}
+                                <a href="{{ path('user_edit', {'id' : user.id}) }}" class="btn btn-success btn-sm">Edit</a>
                             {% endif %}
                         </td>
                     </tr>
-                {% endfor %}
                 </tbody>
             </table>
         </div>
-    {% endif %}
 {% endblock %}

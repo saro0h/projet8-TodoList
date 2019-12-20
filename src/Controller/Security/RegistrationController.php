@@ -20,9 +20,11 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
-        $form->handleRequest($request);
+        $form->handleRequest($request); 
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+
             $manager = $this->getDoctrine()->getManager();
             $password = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
@@ -32,7 +34,11 @@ class RegistrationController extends AbstractController
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
-            return $this->redirectToRoute('user_list');
+            $roles = $user->getRoles();
+            if ($user AND $roles === ["ROLE_ADMIN"]) {
+                return $this->redirectToRoute('user_list');
+            }
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('user/create.html.twig', ['form' => $form->createView()]);

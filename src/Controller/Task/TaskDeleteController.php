@@ -5,7 +5,6 @@ namespace App\Controller\Task;
 use App\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 
 class TaskDeleteController extends AbstractController
 {

@@ -6,8 +6,7 @@
     <a href="{{ path('task_create') }}" class="btn btn-info pull-right-list-btn">Créer une tâche</a>
     <div class="row">
         {% for task in tasks %}
-        <div class="col-sm-4 col-lg-4 col-md-4 list-block">
-            {% if app.user and user.isCreatedByUser(app.user) %}
+            <div class="col-sm-4 col-lg-4 col-md-4 list-block">
                 <div class="thumbnail-list">
                     <div class="caption">
                         <h4 class="pull-right">
@@ -16,6 +15,7 @@
                             {% else %}<span class="glyphicon glyphicon-edit"><a href="{{ path('task_edit', {'id' : task.id }) }}"><img src="{{ asset('img/edit.png') }}" alt="edit list"></a></span>
                             {% endif %}
                         </h4>
+                        <p><em>Créé par : {{ task.user.username }}</em></p>
                         <div class="content-list">
                             <p>{{ task.content }}</p>
                         </div>
@@ -31,12 +31,11 @@
                         </form>
                     </div>
                 </div>
-            {% endif %}
-        </div>
-        {% else %}
-            <div class="alert alert-warning" role="alert">
-                Il n'y a pas encore de tâche enregistrée. <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
             </div>
+            {% else %}
+                <div class="alert alert-warning" role="alert">
+                    Il n'y a pas encore de tâche enregistrée. <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
+                </div>
         {% endfor %}
     </div>
 {% endblock %}
