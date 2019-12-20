@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        {% if app.user and user.isCreatedByUser(app.user) %}
+            <div class="create-task">
+                {{ form_start(form, {'action' : path('task_edit', { 'id' : task.id })}) }}
+                    {{ form_widget(form) }}
+
+                    <button type="submit" class="btn btn-success edit-btn-list">Modifier</button>
+                {{ form_end(form) }}
+            </div>
+        {% else %}
+            <h1 class="red-access">Désolé, accès refusé !</h1>
+            <h3 class="red-access">Ce contenu est réservé aux utilisateurs connectés avec les autorisations appropriées.</h3>
+        {% endif %}
+    </div>
+{% endblock %}

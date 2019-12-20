@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block header_title %}
+    <h1>Page non trouvée !</h1>
+{% endblock %}
+
+{% block body %}
+    <p>
+        La page demandée est introuvable. Vérifier les fautes d'orthographe dans l'URL
+         ou <a href="{{ path('homepage') }}">retour à la page d'accueil</a>.
+    </p>
+   
+{% endblock %}
