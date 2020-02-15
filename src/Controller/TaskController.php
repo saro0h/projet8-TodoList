@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
 
 class TaskController extends AbstractController
 {
@@ -17,7 +18,7 @@ class TaskController extends AbstractController
      */
     public function listAction()
     {
-        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository('App:Task')->findAll()]);
+        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone'  => 0])]);
     }
 
     /**
@@ -33,7 +34,7 @@ class TaskController extends AbstractController
      * @param Request $request
      * @return RedirectResponse|Response
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, Security $security)
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
@@ -42,6 +43,8 @@ class TaskController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $task->setAuthor($security->getUser());
 
             $em->persist($task);
             $em->flush();
