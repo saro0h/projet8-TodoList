@@ -13,6 +13,7 @@
                         {% if task.isDone %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}
                     </h4>
                     <h4><a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a></h4>
+                    <p>by {{ task.author.username }}</p>
                     <p>{{ task.content }}</p>
                 </div>
                 <div>
@@ -21,9 +22,12 @@
                             {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
                         </button>
                     </form>
+                    {% if (is_granted('ROLE_ADMIN') and task.author.username == "anonyme")
+                        or (app.user.username == task.author.username) %}
                     <form action="{{ path('task_delete', {'id' : task.id }) }}">
                         <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
                     </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
