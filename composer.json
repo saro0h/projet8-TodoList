@@ -44,6 +44,7 @@
     },
     "require-dev": {
         "symfony/debug-pack": "*",
+        "symfony/phpunit-bridge": "^5.0",
         "symfony/profiler-pack": "*",
         "symfony/test-pack": "^1.0"
     },
