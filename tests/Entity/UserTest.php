@@ -58,7 +58,8 @@ class UserTest extends WebTestCase
         $this->assertSame(['ROLE_USER'], $this->user->getRoles());
     }
 
-    public function testTask(){
+    public function testTask()
+    {
         $this->user->addTask($this->task);
         $this->assertCount(1, $this->user->getTasks());
 
