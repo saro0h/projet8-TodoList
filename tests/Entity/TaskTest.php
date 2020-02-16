@@ -17,6 +17,11 @@ class TaskTest extends WebTestCase
         $this->task = new Task();
     }
 
+    public function testId(): void
+    {
+        $this->assertNull($this->task->getId());
+    }
+
     public function testTitle()
     {
         $this->task->setTitle('title');
@@ -32,7 +37,9 @@ class TaskTest extends WebTestCase
     public function testIsDone()
     {
         $this->task->setIsDone(true);
+        $this->task->toggle(true);
         $this->assertSame(true, $this->task->getIsDone());
+        $this->assertSame(true, $this->task->isDone());
     }
 
     public function testCreatedAt()
