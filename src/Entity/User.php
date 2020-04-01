@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("email")
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -45,6 +45,13 @@ class User implements UserInterface
      */
     private $tasks;
 
+    /**
+     * @var array
+     *
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -65,11 +72,6 @@ class User implements UserInterface
         $this->username = $username;
     }
 
-    public function getSalt()
-    {
-        return null;
-    }
-
     public function getPassword()
     {
         return $this->password;
@@ -88,15 +90,6 @@ class User implements UserInterface
     public function setEmail($email)
     {
         $this->email = $email;
-    }
-
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
-
-    public function eraseCredentials()
-    {
     }
 
     /**
@@ -128,5 +121,68 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Returns the roles or permissions granted to the user for security.
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+
+        // guarantees that a user always has at least one role for security
+        if (empty($roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * {@inheritdoc}
+     */
+    public function getSalt(): ?string
+    {
+        // We're using bcrypt in security.yaml to encode the password, so
+        // the salt value is built-in and and you don't have to generate one
+        // See https://en.wikipedia.org/wiki/Bcrypt
+
+        return null;
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * {@inheritdoc}
+     */
+    public function eraseCredentials(): void
+    {
+        // if you had a plainPassword property, you'd nullify it here
+        // $this->plainPassword = null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize(): string
+    {
+        // add $this->salt too if you don't use Bcrypt or Argon2i
+        return serialize([$this->id, $this->username, $this->password]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized): void
+    {
+        // add $this->salt too if you don't use Bcrypt or Argon2i
+        [$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
     }
 }
