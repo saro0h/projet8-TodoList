@@ -6,9 +6,22 @@
 {% block body %}
     <div class="row">
         {{ form_start(form, {'action' : path('user_edit', {'id' : user.id})}) }}
-        {{ form_widget(form) }}
+            {{ form_row(form.username) }}
+            {{ form_row(form.password) }}
+            {{ form_row(form.email) }}
 
-        <button type="submit" class="btn btn-success pull-right">Modifier</button>
+            <div class="form-group">
+                <label class="control-label required" for="{{ form.roles.vars.id }}">Roles</label>
+                <select id="{{ form.roles.vars.id }}" name="{{ form.roles.vars.full_name }}" class="form-control">
+                    {% for choice in form.children.roles.vars.choices %}
+                        <option value="{{ choice.value }}" {% if choice.value is same as (user.roles[0]) %}selected{% endif %}>{{ choice.label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            {% do form.roles.setRendered() %}
+
+            <button type="submit" class="btn btn-success pull-right">Modifier</button>
         {{ form_end(form) }}
     </div>
 {% endblock %}
