@@ -25,6 +25,7 @@ class UserFixtures extends Fixture
         $admin->setRoles(['ROLE_ADMIN']);
 
         $manager->persist($admin);
+        $this->addReference('admin', $admin);
 
         $user = new User();
         $user->setUsername('user');
@@ -33,6 +34,7 @@ class UserFixtures extends Fixture
         $user->setRoles(['ROLE_USER']);
 
         $manager->persist($user);
+        $this->addReference('user', $user);
 
         $manager->flush();
     }

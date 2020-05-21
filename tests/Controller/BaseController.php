@@ -25,6 +25,15 @@ class BaseController extends WebTestCase
             ;
     }
 
+    protected function getTasksForUser($username)
+    {
+        return $this
+            ->getService('doctrine.orm.default_entity_manager')
+            ->getRepository(Task::class)
+            ->getTaskForUser($username)
+            ;
+    }
+
     protected function login($username, $password)
     {
         return static::createClient([], [
