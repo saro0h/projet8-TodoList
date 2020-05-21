@@ -3,36 +3,10 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Task;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class DefaultControllerTest extends WebTestCase
+class DefaultControllerTest extends BaseController
 {
-    private function getService($serviceName)
-    {
-        self::bootKernel();
-        $service = self::$container
-            ->get($serviceName);
-        self::ensureKernelShutdown();
-        return $service;
-    }
-
-    private function getTasks()
-    {
-        return $this
-            ->getService('doctrine.orm.default_entity_manager')
-            ->getRepository(Task::class)
-            ->findAll()
-        ;
-    }
-
-    private function login($username, $password)
-    {
-        return static::createClient([], [
-            'PHP_AUTH_USER' => $username,
-            'PHP_AUTH_PW'   => $password,
-        ]);
-    }
 
     public function testTasksPage()
     {
