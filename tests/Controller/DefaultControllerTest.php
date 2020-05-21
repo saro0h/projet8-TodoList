@@ -36,7 +36,7 @@ class DefaultControllerTest extends WebTestCase
 
     public function testTasksPage()
     {
-        $client = $this->login('toto', 'toto');
+        $client = $this->login('user', 'pass');
         $client->request('GET', '/tasks');
 
         $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
@@ -49,7 +49,7 @@ class DefaultControllerTest extends WebTestCase
          * @var Task $task
          */
         foreach ($tasks as $task) {
-            $client = $this->login('toto', 'toto');
+            $client = $this->login('user', 'pass');
             $client->request('GET', '/tasks/'.$task->getId().'/edit');
 
             $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
@@ -67,7 +67,7 @@ class DefaultControllerTest extends WebTestCase
 
     public function testHomepageWithLoggedUser()
     {
-        $client = $this->login('toto', 'toto');
+        $client = $this->login('user', 'pass');
         $client->request('GET', '/');
 
         $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
