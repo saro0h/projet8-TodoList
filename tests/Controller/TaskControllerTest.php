@@ -93,4 +93,15 @@ class TaskControllerTest extends BaseController
 
         $this->assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
+
+    public function testDeleteTaskOtherUser()
+    {
+        $tasks = $this->getTasksForUser('user');
+        /** @var Task $task */
+        $task = $tasks[0];
+        $client = $this->login('admin', 'pass');
+        $client->request('GET', '/tasks/'.$task->getId().'/delete');
+
+        $this->assertSame(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
+    }
 }
