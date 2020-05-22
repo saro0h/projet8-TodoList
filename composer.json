@@ -1,4 +1,6 @@
 {
+    "name": "abdounikarim/todolist",
+    "description": "a todolist application",
     "type": "project",
     "license": "proprietary",
     "require": {

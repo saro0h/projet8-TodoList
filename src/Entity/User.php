@@ -170,7 +170,6 @@ class User implements UserInterface, \Serializable
     public function eraseCredentials(): void
     {
         // if you had a plainPassword property, you'd nullify it here
-        // $this->plainPassword = null;
     }
 
     /**
