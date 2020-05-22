@@ -37,6 +37,9 @@
         "symfony/test-pack": "^1.0"
     },
     "config": {
+        "platform": {
+            "php": "7.4"
+        },
         "preferred-install": {
             "*": "dist"
         },
