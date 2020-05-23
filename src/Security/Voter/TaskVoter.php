@@ -30,7 +30,7 @@ class TaskVoter extends Voter
             case 'TASK_DELETE':
                 // logic to determine if the user can VIEW
                 /** @var Task $subject */
-                if($subject->getUser() === $user) {
+                if ($subject->getUser() === $user) {
                     return true;
                 }
         }
