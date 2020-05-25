@@ -1,4 +1,4 @@
-[![SymfonyInsight](https://insight.symfony.com/projects/2909b2be-1b8f-49e8-bcff-ad189bb1aa5a/small.svg)](https://insight.symfony.com/projects/2909b2be-1b8f-49e8-bcff-ad189bb1aa5a)
+[![SymfonyInsight](https://insight.symfony.com/projects/1edbb9a2-2439-473c-9682-6ab8701b430f/small.svg)](https://insight.symfony.com/projects/1edbb9a2-2439-473c-9682-6ab8701b430f)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/9f32e6312a31ca40dc78/maintainability)](https://codeclimate.com/github/abdounikarim/projet8-TodoList/maintainability)
 
