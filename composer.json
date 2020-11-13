@@ -1,7 +1,8 @@
 {
-    "name": "saro0h/to-do-list",
-    "license": "proprietary",
+    "name": "dokanc/projet8",
+    "version": "0.1.0",
     "type": "project",
+    "description": "Improve an existing application of ToDo & Co.",
     "autoload": {
         "psr-4": {
             "": "src/"
