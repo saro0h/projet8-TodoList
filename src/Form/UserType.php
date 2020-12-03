@@ -32,7 +32,6 @@ class UserType extends AbstractType
                 'choices' => [
                     'USER' => self::USER,
                     'ADMIN' => self::ADMIN,
-
                 ],
                 'expanded'  => true,
                 'multiple'  => true,

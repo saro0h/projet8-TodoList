@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,13 @@ class UserController extends Controller
      */
     public function listAction()
     {
-        return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository(User::class)->findAll()]);
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->render('user/list.html.twig', [
+                'users' => $this->getDoctrine()->getRepository(User::class)->findAll()
+            ]);
+        } else {
+            return $this->render('error/error.html.twig');
+        }
     }
 
     /**
@@ -41,7 +48,10 @@ class UserController extends Controller
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('user/create.html.twig', ['form' => $form->createView()]);
+        return $this->render('user/create.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user
+        ]);
     }
 
     /**
@@ -64,6 +74,12 @@ class UserController extends Controller
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->render('user/edit.html.twig', [
+                'form' => $form->createView(), 'user' => $user
+            ]);
+        } else {
+            return $this->render('error/error.html.twig');
+        }
     }
 }
