@@ -29,10 +29,12 @@
                         {% endif %}
                     {% endif %}
 
-                    {% if app.user == task.user %}
-                        <form action="{{ path('task_delete', {'id' : task.id }) }}">
-                            <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
-                        </form>
+                    {% if is_granted('ROLE_USER') %}
+                        {% if app.user == task.user %}
+                            <form action="{{ path('task_delete', {'id' : task.id }) }}">
+                                <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
+                            </form>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
