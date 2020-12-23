@@ -33,7 +33,9 @@
         "symfony/asset": "5.1.*",
         "symfony/security-bundle": "5.1.*",
         "symfony/validator": "5.1.*",
-        "doctrine/annotations": "^1.11"
+        "doctrine/annotations": "^1.11",
+        "symfony/form": "5.1.*",
+        "doctrine/doctrine-migrations-bundle": "^3.0"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.0",
