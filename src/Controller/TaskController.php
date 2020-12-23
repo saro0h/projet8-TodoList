@@ -15,7 +15,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks", name="task_list")
      */
-    public function listAction()
+    public function listAction(): Response
     {
         return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository(Task::class)->findAll()]);
     }
@@ -32,7 +32,7 @@ class TaskController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
             $em->persist($task);
@@ -58,7 +58,7 @@ class TaskController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
@@ -77,7 +77,7 @@ class TaskController extends AbstractController
      * @param Task $task
      * @return RedirectResponse
      */
-    public function toggleTaskAction(Task $task)
+    public function toggleTaskAction(Task $task): RedirectResponse
     {
         $task->toggle(!$task->isDone());
         $this->getDoctrine()->getManager()->flush();
@@ -92,7 +92,7 @@ class TaskController extends AbstractController
      * @param Task $task
      * @return RedirectResponse
      */
-    public function deleteTaskAction(Task $task)
+    public function deleteTaskAction(Task $task): RedirectResponse
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
