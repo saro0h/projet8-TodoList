@@ -31,4 +31,5 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-/migrations/
+/migrations/*
+!/migrations/.gitkeep
