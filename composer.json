@@ -1,16 +1,11 @@
 {
-    "name": "saro0h/to-do-list",
+    "name": "osevohe/p8-oc-todolist",
     "license": "proprietary",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "AppBundle\\": "src/AppBundle",
             "App\\": "src/"
-        },
-        "classmap": [
-            "app/AppKernel.php",
-            "app/AppCache.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
@@ -28,11 +23,20 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "symfony/flex": "^1.11",
         "composer/package-versions-deprecated": "1.11.99.1",
-        "symfony/dotenv": "^5.1"
+        "symfony/dotenv": "^5.1",
+        "symfony/twig-bundle": "5.1.*",
+        "symfony/asset": "5.1.*",
+        "symfony/security-bundle": "5.1.*",
+        "symfony/validator": "5.1.*",
+        "doctrine/annotations": "^1.11",
+        "symfony/form": "5.1.*",
+        "doctrine/doctrine-migrations-bundle": "^3.0"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.0",
-        "symfony/phpunit-bridge": "^5.1"
+        "symfony/phpunit-bridge": "^5.1",
+        "symfony/stopwatch": "^5.1",
+        "symfony/web-profiler-bundle": "^5.1"
     },
     "replace": {
         "paragonie/random_compat": "2.*",
