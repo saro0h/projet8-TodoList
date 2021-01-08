@@ -50,4 +50,22 @@ class ManageUsers
         $this->em->persist($anonymous);
         $this->em->flush();
     }
+
+    /**
+     * Check if specified user has admin role
+     * @param User $user
+     * @return bool
+     */
+    public function isAdmin(User $user){
+        return false !== array_search(User::ROLE_ADMIN, $user->getRoles());
+    }
+
+    /**
+     * Check if specified user is the anonymous account
+     * @param User $user
+     * @return bool
+     */
+    public function isAnonymous(User $user){
+        return $this->getAnonymousUser() === $user;
+    }
 }
