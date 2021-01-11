@@ -50,4 +50,35 @@ class ManageUsers
         $this->em->persist($anonymous);
         $this->em->flush();
     }
+
+    public function deleteUser(User $user){
+        // attach all user's tasks to anonymous before delete
+        if ($user->getTasks()->count() > 0){
+            $anonymous = $this->getAnonymousUser();
+            foreach ($user->getTasks() as $task){
+                $task->setUser($anonymous);
+                $this->em->persist($task);
+            }
+        }
+        $this->em->remove($user);
+        $this->em->flush();
+    }
+
+    /**
+     * Check if specified user has admin role
+     * @param User $user
+     * @return bool
+     */
+    public function isAdmin(User $user){
+        return false !== array_search(User::ROLE_ADMIN, $user->getRoles());
+    }
+
+    /**
+     * Check if specified user is the anonymous account
+     * @param User $user
+     * @return bool
+     */
+    public function isAnonymous(User $user){
+        return $this->getAnonymousUser() === $user;
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,6 +93,7 @@ class TaskController extends AbstractController
      * @Route("/tasks/{id}/delete", name="task_delete")
      * @param Task $task
      * @return RedirectResponse
+     * @IsGranted("TASK_DELETE", subject="task")
      */
     public function deleteTaskAction(Task $task): RedirectResponse
     {
