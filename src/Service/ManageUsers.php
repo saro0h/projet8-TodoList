@@ -51,6 +51,19 @@ class ManageUsers
         $this->em->flush();
     }
 
+    public function deleteUser(User $user){
+        // attach all user's tasks to anonymous before delete
+        if ($user->getTasks()->count() > 0){
+            $anonymous = $this->getAnonymousUser();
+            foreach ($user->getTasks() as $task){
+                $task->setUser($anonymous);
+                $this->em->persist($task);
+            }
+        }
+        $this->em->remove($user);
+        $this->em->flush();
+    }
+
     /**
      * Check if specified user has admin role
      * @param User $user
