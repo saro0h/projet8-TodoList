@@ -34,7 +34,7 @@
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.0",
-        "symfony/phpunit-bridge": "^5.1",
+        "symfony/phpunit-bridge": "^5.2",
         "symfony/stopwatch": "^5.1",
         "symfony/web-profiler-bundle": "^5.1"
     },
