@@ -22,7 +22,7 @@
     <!--  -->
     <!-- DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db" -->
     <!-- DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7" -->
-    <env name="DATABASE_URL" value="postgresql://db_user:db_password@127.0.0.1:5432/db_name?serverVersion=13&amp;charset=utf8"/>
+    <env name="DATABASE_URL" value="mysql://root:root@127.0.0.1:3306/dokan_p8"/>
     <!-- ###- doctrine/doctrine-bundle ### -->
   </php>
   <testsuites>
