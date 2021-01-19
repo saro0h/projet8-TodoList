@@ -3,30 +3,35 @@
 namespace Tests\Command;
 
 use App\Command\MigrateTasksCommand;
+use App\Entity\User;
 use App\Service\ManageUsers;
 use Doctrine\ORM\EntityManagerInterface;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class MigrateTasksCommandTest extends TestCase
+class MigrateTasksCommandTest extends KernelTestCase
 {
 
     /**
      * @var MigrateTasksCommand
      */
     private $migrateTasksCommand;
+    /**
+     * @var ManageUsers|MockObject
+     */
+    private $manageUser;
 
-    public function __construct($name = null, array $data = [], $dataName = '')
+    public function setUp(): void
     {
         $em = $this->createMock(EntityManagerInterface::class);
         $encoder = $this->createMock(UserPasswordEncoderInterface::class);
-        $manageUser = new ManageUsers($em, $encoder);
-        $this->migrateTasksCommand = new MigrateTasksCommand($em, $encoder, $manageUser);
-        parent::__construct($name, $data, $dataName);
+        $this->manageUser = $this->createMock(ManageUsers::class);
+        $this->migrateTasksCommand = new MigrateTasksCommand($em, $encoder, $this->manageUser);
     }
 
-    public function testConfigure(){
-        $this->migrateTasksCommand->setDescription();
-        $this->assertEquals('Attach old tasks to anonymous user.',$this->migrateTasksCommand->getDescription());
+    public function testConfigure()
+    {
+        $this->assertEquals('Attach old tasks to anonymous user.', $this->migrateTasksCommand->getDescription());
     }
 }

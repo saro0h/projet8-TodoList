@@ -17,15 +17,23 @@ class ManageUsersTest extends KernelTestCase
      * @var EntityRepository|MockObject
      */
     private $userRep;
+    /**
+     * @var MockObject|UserPasswordEncoderInterface
+     */
+    private $encoder;
+    /**
+     * @var EntityManagerInterface|MockObject
+     */
+    private $em;
 
-    protected function setUp():void
+    protected function setUp(): void
     {
         $this->userRep = $this->createMock(EntityRepository::class);
-        $em = $this->createMock(EntityManagerInterface::class);
-        $em->method('getRepository')->willReturn($this->userRep);
-        $encoder = $this->createMock(UserPasswordEncoderInterface::class);
+        $this->em = $this->createMock(EntityManagerInterface::class);
+        $this->em->method('getRepository')->willReturn($this->userRep);
+        $this->encoder = $this->createMock(UserPasswordEncoderInterface::class);
 
-        $this->manageUser = new ManageUsers($em, $encoder);
+        $this->manageUser = new ManageUsers($this->em, $this->encoder);
 
         parent::setUp();
     }
@@ -42,7 +50,28 @@ class ManageUsersTest extends KernelTestCase
         $this->assertEquals($user, $this->manageUser->findUser(10));
     }
 
+    public function testGetAnonymousUser()
+    {
+        $user = new User();
+        $user->setUsername('anonymous');
 
+        $this->userRep->method('findOneBy')
+            ->with(['username' => 'anonymous'])
+            ->willReturn($user);
+
+        $this->assertEquals($user, $this->manageUser->getAnonymousUser());
+    }
+
+    public function testCreateAnonymousUser()
+    {
+        $anonymous = new User();
+        $anonymous->setUsername('anonymous');
+        $anonymous->setPassword($this->encoder->encodePassword($anonymous, 'anonymous_password'));
+        $anonymous->setEmail('no-reply@todolist.fr');
+
+        $this->em->expects($this->once())->method('persist');
+        $this->manageUser->createAnonymousUser();
+    }
 
 
 }
