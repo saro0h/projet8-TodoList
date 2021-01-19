@@ -71,7 +71,6 @@ class ManageUsersTest extends KernelTestCase
 
         $this->em->expects($this->once())->method('persist');
         $this->manageUser->createAnonymousUser();
-
     }
 
 
