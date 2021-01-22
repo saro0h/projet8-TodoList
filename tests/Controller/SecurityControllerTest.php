@@ -17,7 +17,7 @@ class SecurityControllerTest extends WebTestCase
         $form = $crawler->selectButton('Se connecter')->form([
             '_username' => 'testa',
             '_password' => 'test',
-        ]);;
+        ]);
         $client->submit($form);
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
@@ -25,8 +25,8 @@ class SecurityControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $this->assertStringContainsString(
-            "Se déconnecter",
-            $crawler->filter('.btn-danger')->text()
+            "Bienvenue sur Todo List, l'application vous permettant de gérer l'ensemble de vos tâches sans effort !",
+            $crawler->filter('.container h1')->text()
         );
     }
 
@@ -48,7 +48,7 @@ class SecurityControllerTest extends WebTestCase
         $client->request('GET', '/');
 
         // Click to Logout button
-        $crawler = $client->clickLink('Se déconnecter');
+        $client->clickLink('Se déconnecter');
 
         // Get Status 302
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
