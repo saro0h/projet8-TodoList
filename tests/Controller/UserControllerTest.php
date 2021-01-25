@@ -11,6 +11,11 @@ class UserControllerTest extends WebTestCase
     protected $em;
     protected $client;
 
+    const USERS_URL = '/users';
+    const USERS_BASE_URL = '/users/';
+    const USER_CREATE_URL = '/users/create';
+    const USER_EDIT_SUFFIX_URL = '/edit';
+
     protected function setUp()
     {
         parent::setUp();
@@ -42,20 +47,20 @@ class UserControllerTest extends WebTestCase
         $rep = $this->em->getRepository(User::class);
 
         /* No user connected */
-        $this->client->request('GET', '/users');
+        $this->client->request('GET', self::USERS_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         /* Normal user connected */
         /** @var User $testUser */
         $testUser = $rep->findOneBy(['username' => 'Evohe']);
         $this->client->loginUser($testUser);
-        $this->client->request('GET', '/users');
+        $this->client->request('GET', self::USERS_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         /* With Admin Role */
         $testUser = $rep->findOneBy(['username' => 'Admin']);
         $this->client->loginUser($testUser);
-        $this->client->request('GET', '/users');
+        $this->client->request('GET', self::USERS_URL);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
 
@@ -64,20 +69,20 @@ class UserControllerTest extends WebTestCase
         $rep = $this->em->getRepository(User::class);
 
         /* No user connected */
-        $this->client->request('GET', '/users/create');
+        $this->client->request('GET', self::USER_CREATE_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         /* Normal user connected */
         /** @var User $testUser */
         $testUser = $rep->findOneBy(['username' => 'Evohe']);
         $this->client->loginUser($testUser);
-        $this->client->request('GET', '/users/create');
+        $this->client->request('GET', self::USER_CREATE_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         /* With Admin Role */
         $testUser = $rep->findOneBy(['username' => 'Admin']);
         $this->client->loginUser($testUser);
-        $crawler = $this->client->request('GET', '/users/create');
+        $crawler = $this->client->request('GET', self::USER_CREATE_URL);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         /* User form */
@@ -115,18 +120,18 @@ class UserControllerTest extends WebTestCase
         $id = $testUser->getId();
 
         /* No user connected */
-        $this->client->request('GET', '/users/'.$id.'/edit');
+        $this->client->request('GET', self::USERS_BASE_URL.$id.self::USER_EDIT_SUFFIX_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         /* Normal user connected */
         $this->client->loginUser($testUser);
-        $this->client->request('GET', '/users/'.$id.'/edit');
+        $this->client->request('GET', self::USERS_BASE_URL.$id.self::USER_EDIT_SUFFIX_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         /* With Admin Role */
         $testUser = $rep->findOneBy(['username' => 'Admin']);
         $this->client->loginUser($testUser);
-        $crawler = $this->client->request('GET', '/users/'.$id.'/edit');
+        $crawler = $this->client->request('GET', self::USERS_BASE_URL.$id.self::USER_EDIT_SUFFIX_URL);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         /* User form */

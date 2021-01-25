@@ -15,7 +15,7 @@ class SecurityControllerTest extends WebTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->client = $client = static::createClient();
+        $this->client = static::createClient();
         $this->em = static::$container->get(EntityManagerInterface::class);
     }
 

@@ -12,12 +12,20 @@ class TaskControllerTest extends WebTestCase
 
     protected $em;
     protected $client;
+    
+    const TASKS_URL = '/tasks';
+    const TASKS_BASE_URL = '/tasks/';
+    const TASK_CREATE_URL = '/task/create';
+    const TASK_DELETE_SUFFIX_URL = '/delete';
+    const TASK_EDIT_SUFFIX_URL = '/edit';
+    const TASK_TOGGLE_SUFFIX_URL = '/toggle';
+    
 
     protected function setUp()
     {
         parent::setUp();
 
-        $this->client = $client = static::createClient();
+        $this->client = static::createClient();
         $this->client->disableReboot();
         $this->em = static::$container->get(EntityManagerInterface::class);
         $this->em->beginTransaction();
@@ -43,20 +51,20 @@ class TaskControllerTest extends WebTestCase
         $rep = $this->em->getRepository(User::class);
 
         /* No user connected */
-        $this->client->request('GET', '/tasks');
+        $this->client->request('GET', self::TASKS_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         /* Normal user connected */
         /** @var User $testUser */
         $testUser = $rep->findOneBy(['username' => 'Evohe']);
         $this->client->loginUser($testUser);
-        $this->client->request('GET', '/tasks');
+        $this->client->request('GET', self::TASKS_URL);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         /* With Admin Role */
         $testUser = $rep->findOneBy(['username' => 'Admin']);
         $this->client->loginUser($testUser);
-        $this->client->request('GET', '/tasks');
+        $this->client->request('GET', self::TASKS_URL);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
 
@@ -65,20 +73,20 @@ class TaskControllerTest extends WebTestCase
         $rep = $this->em->getRepository(User::class);
 
         /* No user connected */
-        $this->client->request('GET', '/tasks/create');
+        $this->client->request('GET', self::TASK_CREATE_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         /* Normal user connected */
         /** @var User $testUser */
         $testUser = $rep->findOneBy(['username' => 'Evohe']);
         $this->client->loginUser($testUser);
-        $this->client->request('GET', '/tasks/create');
+        $this->client->request('GET', self::TASK_CREATE_URL);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         /* With Admin Role */
         $testUser = $rep->findOneBy(['username' => 'Admin']);
         $this->client->loginUser($testUser);
-        $crawler = $this->client->request('GET', '/tasks/create');
+        $crawler = $this->client->request('GET', self::TASK_CREATE_URL);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         /* Task form */
@@ -108,20 +116,20 @@ class TaskControllerTest extends WebTestCase
         $id = $testTask->getId();
 
         /* No user connected */
-        $this->client->request('GET', '/tasks/' . $id . '/edit');
+        $this->client->request('GET', self::TASKS_BASE_URL . $id . self::TASK_EDIT_SUFFIX_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         /* Normal user connected */
         /** @var User $testUser */
         $testUser = $rep->findOneBy(['username' => 'Evohe']);
         $this->client->loginUser($testUser);
-        $this->client->request('GET', '/tasks/' . $id . '/edit');
+        $this->client->request('GET', self::TASKS_BASE_URL . $id . self::TASK_EDIT_SUFFIX_URL);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         /* With Admin Role */
         $testUser = $rep->findOneBy(['username' => 'Admin']);
         $this->client->loginUser($testUser);
-        $crawler = $this->client->request('GET', '/tasks/' . $id . '/edit');
+        $crawler = $this->client->request('GET', self::TASKS_BASE_URL . $id . self::TASK_EDIT_SUFFIX_URL);
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
         /* Task form */
@@ -149,14 +157,14 @@ class TaskControllerTest extends WebTestCase
         $id = $testTask->getId();
 
         /* No user connected */
-        $this->client->request('GET', '/tasks/' . $id . '/toggle');
+        $this->client->request('GET', self::TASKS_BASE_URL . $id . self::TASK_TOGGLE_SUFFIX_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         /* Normal user connected */
         /** @var User $testUser */
         $testUser = $rep->findOneBy(['username' => 'Evohe']);
         $this->client->loginUser($testUser);
-        $this->client->request('GET', '/tasks/' . $id . '/toggle');
+        $this->client->request('GET', self::TASKS_BASE_URL . $id . self::TASK_TOGGLE_SUFFIX_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
         $this->client->followRedirect();
         $this->assertStringContainsString('a bien été marquée comme faite', $this->client->getResponse()->getContent());
@@ -164,7 +172,7 @@ class TaskControllerTest extends WebTestCase
         /* With Admin Role */
         $testUser = $rep->findOneBy(['username' => 'Admin']);
         $this->client->loginUser($testUser);
-        $this->client->request('GET', '/tasks/' . $id . '/toggle');
+        $this->client->request('GET', self::TASKS_BASE_URL . $id . self::TASK_TOGGLE_SUFFIX_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
         $this->client->followRedirect();
         $this->assertStringContainsString('a bien été marquée comme faite', $this->client->getResponse()->getContent());
@@ -178,13 +186,13 @@ class TaskControllerTest extends WebTestCase
         $id = $testTask->getId();
 
         /* No user connected */
-        $this->client->request('GET', '/tasks/' . $id . '/delete');
+        $this->client->request('GET', self::TASKS_BASE_URL . $id . self::TASK_DELETE_SUFFIX_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
 
         /* With Admin Role */
         $testUser = $rep->findOneBy(['username' => 'Admin']);
         $this->client->loginUser($testUser);
-        $this->client->request('GET', '/tasks/' . $id . '/delete');
+        $this->client->request('GET', self::TASKS_BASE_URL . $id . self::TASK_DELETE_SUFFIX_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
         $this->client->followRedirect();
         $this->assertStringContainsString('Tâche non supprimée, une tâche ne peut etre supprimée que par son auteur.', $this->client->getResponse()->getContent());
@@ -193,7 +201,7 @@ class TaskControllerTest extends WebTestCase
         /** @var User $testUser */
         $testUser = $rep->findOneBy(['username' => 'Evohe']);
         $this->client->loginUser($testUser);
-        $this->client->request('GET', '/tasks/' . $id . '/delete');
+        $this->client->request('GET', self::TASKS_BASE_URL . $id . self::TASK_DELETE_SUFFIX_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
         $this->client->followRedirect();
         $this->assertStringContainsString('La tâche a bien été supprimée.', $this->client->getResponse()->getContent());
@@ -211,7 +219,7 @@ class TaskControllerTest extends WebTestCase
 
         $testUser = $rep->findOneBy(['username' => 'Admin']);
         $this->client->loginUser($testUser);
-        $this->client->request('GET', '/tasks/' . $task->getId() . '/delete');
+        $this->client->request('GET', self::TASKS_BASE_URL . $task->getId() . self::TASK_DELETE_SUFFIX_URL);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
         $this->client->followRedirect();
         $this->assertStringContainsString('La tâche a bien été supprimée.', $this->client->getResponse()->getContent());
