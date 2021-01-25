@@ -42,13 +42,16 @@ class ManageUsers
     }
 
     public function createAnonymousUser(){
-        $anonymous = new User();
-        $anonymous->setUsername('anonymous');
-        $anonymous->setPassword($this->encoder->encodePassword($anonymous, 'anonymous_password'));
-        $anonymous->setEmail('no-reply@todolist.fr');
+        if (!$this->getAnonymousUser())
+        {
+            $anonymous = new User();
+            $anonymous->setUsername('anonymous');
+            $anonymous->setPassword($this->encoder->encodePassword($anonymous, 'anonymous_password'));
+            $anonymous->setEmail('no-reply@todolist.fr');
 
-        $this->em->persist($anonymous);
-        $this->em->flush();
+            $this->em->persist($anonymous);
+            $this->em->flush();
+        }
     }
 
     public function deleteUser(User $user){
