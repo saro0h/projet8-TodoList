@@ -34,9 +34,11 @@
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.0",
-        "symfony/phpunit-bridge": "^5.1",
+        "symfony/phpunit-bridge": "^5.2",
         "symfony/stopwatch": "^5.1",
-        "symfony/web-profiler-bundle": "^5.1"
+        "symfony/web-profiler-bundle": "^5.1",
+        "symfony/browser-kit": "5.1.*",
+        "symfony/css-selector": "5.1.*"
     },
     "replace": {
         "paragonie/random_compat": "2.*",
