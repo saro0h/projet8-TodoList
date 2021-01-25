@@ -15,7 +15,7 @@ class TaskControllerTest extends WebTestCase
     
     const TASKS_URL = '/tasks';
     const TASKS_BASE_URL = '/tasks/';
-    const TASK_CREATE_URL = '/task/create';
+    const TASK_CREATE_URL = '/tasks/create';
     const TASK_DELETE_SUFFIX_URL = '/delete';
     const TASK_EDIT_SUFFIX_URL = '/edit';
     const TASK_TOGGLE_SUFFIX_URL = '/toggle';
