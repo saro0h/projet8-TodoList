@@ -16,11 +16,11 @@ class UserControllerTest extends WebTestCase
     const USER_CREATE_URL = '/users/create';
     const USER_EDIT_SUFFIX_URL = '/edit';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $this->client = $client = static::createClient();
+        $this->client = static::createClient();
         $this->client->disableReboot();
         $this->em = static::$container->get(EntityManagerInterface::class);
         $this->em->beginTransaction();
