@@ -3,6 +3,13 @@
 {% block header_img %}<img class="slide-image" src="{{ asset('img/todolist_content.jpg') }}" alt="todo list">{% endblock %}
 
 {% block body %}
+    <h2>
+        {% if filter_finished %}
+            Liste des tâches terminées.
+        {% else %}
+            Liste des tâches.
+        {% endif %}
+    </h2>
     <a href="{{ path('task_create') }}" class="btn btn-info pull-right">Créer une tâche</a>
     <div class="row">
         {% for task in tasks %}
@@ -34,7 +41,7 @@
                 {% if filter_finished > 0 %}
                     Il n'y a pas encore de tâche terminée. <a href="{{ path('task_list') }}" class="btn btn-warning pull-right">Voir la liste des tâches</a>
                 {% else %}
-                    Il n'y a pas encore de tâche enregistrée. <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
+                    Il n'y a pas encore de tâche enregistrée.
                 {% endif %}
             </div>
         {% endfor %}
