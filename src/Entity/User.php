@@ -102,10 +102,10 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
+        $arr = $this->roles;
+        $arr[] = 'ROLE_USER';
 
-        return array_unique($roles);
+        return array_unique($arr);
     }
 
     public function setRoles(array $roles): self
@@ -115,8 +115,10 @@ class User implements UserInterface
         return $this;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials():void
     {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     /**
@@ -139,13 +141,10 @@ class User implements UserInterface
 
     public function removeTask(Task $task): self
     {
-        if ($this->tasks->removeElement($task)) {
-            // set the owning side to null (unless already changed)
-            if ($task->getUser() === $this) {
+        // set the owning side to null (unless already changed)
+        if ($this->tasks->removeElement($task) && $task->getUser() === $this) {
                 $task->setUser(null);
-            }
         }
-
         return $this;
     }
 }

@@ -39,15 +39,9 @@ class TaskVoter extends Voter
         /** @var User $user */
         $user = $token->getUser();
 
-        switch ($attribute) {
-            case 'TASK_DELETE':
-                // only the task owner can delete it, or admin if task owner is "anonymous"
-                if ($subject->getUser() === $user || ($this->manageUsers->isAdmin($user) && $this->manageUsers->isAnonymous($subject->getUser()))) {
-                    return true;
-                }
-                break;
+        if ($attribute === 'TASK_DELETE' && ($subject->getUser() === $user || ($this->manageUsers->isAdmin($user) && $this->manageUsers->isAnonymous($subject->getUser())))) {
+            return true;
         }
-
         return false;
     }
 }
