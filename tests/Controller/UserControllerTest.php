@@ -44,10 +44,10 @@ class UserControllerTest extends WebTestCase
 
         // Add data in Form of the new User
         $form = $crawler->selectButton('Ajouter')->form([
-            'user[username]' => 'usertesting',
-            'user[password][first]' => 'userpasstest',
-            'user[password][second]' => 'userpasstest',
-            'user[email]' => 'usertesting@test.fr',
+            'user[username]' => 'newUser',
+            'user[password][first]' => 'pass1',
+            'user[password][second]' => 'pass1',
+            'user[email]' => 'newUser@email.fr',
         ]);
         $client->submit($form);
 
@@ -65,6 +65,36 @@ class UserControllerTest extends WebTestCase
 
     public function testEditUser()
     {
+        $client = static::createClient();
 
+        $crawler = $client->request('GET', '/login');
+
+        $form = $crawler->selectButton('Se connecter')->form([
+            '_username' => 'testa',
+            '_password' => 'test',
+        ]);;
+        $client->submit($form);
+
+        $crawler = $client->request('GET', '/users/1/edit');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $form = $crawler->selectButton('Modifier')->form([
+            'user[username]' => 'userEdit',
+            'user[password][first]' => 'pass1',
+            'user[password][second]' => 'pass1',
+            'user[email]' => 'userEdit@email.fr',
+        ]);
+        $client->submit($form);
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+
+        $crawler = $client->followRedirect();
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertStringContainsString(
+            "Superbe ! L'utilisateur a bien été modifié",
+            $crawler->filter('.alert-success')->text()
+        );
     }
 }
