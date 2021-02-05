@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Repository\UserRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserController extends Controller
+class UserController extends AbstractController
 {
     /**
      * @Route("/users", name="user_list")
@@ -55,17 +56,21 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/users/{id}/edit", name="user_edit")
+     * @Route("/users/{id}/edit", name="user_edit", requirements={"id" = "[a-z0-9\-]*"})
      */
-    public function editAction(User $user, Request $request)
+    public function editAction(UserRepository $userRepository, $id, Request $request, UserPasswordEncoderInterface $userPasswordEncoder)
     {
+        $user = $userRepository->find($id);
+
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
+            $password = $userPasswordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
+            //$password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
+            //$user->setPassword($password);
 
             $this->getDoctrine()->getManager()->flush();
 

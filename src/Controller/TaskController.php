@@ -5,12 +5,24 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Entity\User;
 use App\Form\TaskType;
+use App\Repository\TaskRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class TaskController extends Controller
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
     /**
      * @Route("/tasks", name="task_list")
      */
@@ -37,9 +49,8 @@ class TaskController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($task);
-            $em->flush();
+            $this->em->persist($task);
+            $this->em->flush();
 
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
@@ -50,10 +61,12 @@ class TaskController extends Controller
     }
 
     /**
-     * @Route("/tasks/{id}/edit", name="task_edit")
+     * @Route("/tasks/{id}/edit", name="task_edit", requirements={"id" = "[a-z0-9\-]*"})
      */
-    public function editAction(Task $task, Request $request)
+    public function editAction(TaskRepository $taskRepository, $id, Request $request)
     {
+        $task = $taskRepository->find($id);
+
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -75,10 +88,12 @@ class TaskController extends Controller
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle")
      */
-    public function toggleTaskAction(Task $task)
+    public function toggleTaskAction(TaskRepository $taskRepository, $id)
     {
+        $task = $taskRepository->find($id);
+
         $task->toggle(!$task->isDone());
-        $this->getDoctrine()->getManager()->flush();
+        $this->em->flush();
 
         $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
 
@@ -88,13 +103,16 @@ class TaskController extends Controller
     /**
      * @Route("/tasks/{id}/delete", name="task_delete")
      */
-    public function deleteTaskAction(Task $task)
+    public function deleteTaskAction(TaskRepository $taskRepository, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($task);
-        $em->flush();
+        $task = $taskRepository->find($id);
+
+        $this->em->remove($task);
+        $this->em->flush();
 
         $this->addFlash('success', 'La tâche a bien été supprimée.');
+
+
 
         return $this->redirectToRoute('task_list');
     }
