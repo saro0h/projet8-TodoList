@@ -17,8 +17,8 @@ class UserControllerTest extends WebTestCase
 
         // Login to Admin User
         $form = $crawler->selectButton('Se connecter')->form([
-            '_username' => 'testa',
-            '_password' => 'test',
+            '_username' => 'admin',
+            '_password' => 'pass',
         ]);;
         $client->submit($form);
 
@@ -44,10 +44,10 @@ class UserControllerTest extends WebTestCase
 
         // Add data in Form of the new User
         $form = $crawler->selectButton('Ajouter')->form([
-            'user[username]' => 'newUser',
-            'user[password][first]' => 'pass1',
-            'user[password][second]' => 'pass1',
-            'user[email]' => 'newUser@email.fr',
+            'user[username]' => 'usertest',
+            'user[password][first]' => 'pass',
+            'user[password][second]' => 'pass',
+            'user[email]' => 'usertest@email.com',
         ]);
         $client->submit($form);
 
@@ -70,20 +70,20 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/login');
 
         $form = $crawler->selectButton('Se connecter')->form([
-            '_username' => 'testa',
-            '_password' => 'test',
+            '_username' => 'admin',
+            '_password' => 'pass',
         ]);;
         $client->submit($form);
 
-        $crawler = $client->request('GET', '/users/1/edit');
+        $crawler = $client->request('GET', '/users/4/edit');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $form = $crawler->selectButton('Modifier')->form([
-            'user[username]' => 'userEdit',
-            'user[password][first]' => 'pass1',
-            'user[password][second]' => 'pass1',
-            'user[email]' => 'userEdit@email.fr',
+            'user[username]' => 'usertestedit',
+            'user[password][first]' => 'passedit',
+            'user[password][second]' => 'passedit',
+            'user[email]' => 'usertestedit@email.com',
         ]);
         $client->submit($form);
 
