@@ -22,7 +22,8 @@
     <!--  -->
     <!-- DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db" -->
     <!-- DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7" -->
-    <env name="DATABASE_URL" value="mysql://root:root@127.0.0.1:3306/dokan_p8"/>
+
+    <env name="DATABASE_URL" value="mysql://root:root@127.0.0.1:3306/dokan_p8_test"/>
     <!-- ###- doctrine/doctrine-bundle ### -->
   </php>
   <testsuites>
