@@ -75,7 +75,10 @@ class UserControllerTest extends WebTestCase
         ]);
         $client->submit($form);
 
-        $crawler = $client->request('GET', '/users/4/edit');
+        $crawler = $client->request('GET', '/users');
+
+        $link = $crawler->selectLink('Edit')->link();
+        $crawler = $client->click($link);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
@@ -88,13 +91,10 @@ class UserControllerTest extends WebTestCase
         $client->submit($form);
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-
         $crawler = $client->followRedirect();
-
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertStringContainsString(
-            "Superbe ! L'utilisateur a bien été modifié",
-            $crawler->filter('.alert-success')->text()
-        );
+
+        $this->assertSame(1, $crawler->filter('div.alert.alert-success')->count());
+
     }
 }

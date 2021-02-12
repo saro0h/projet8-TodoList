@@ -45,7 +45,10 @@ class TaskControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/tasks/1/edit');
+        $crawler = $client->request('GET', '/tasks');
+
+        $link = $crawler->selectLink('Ma Tâche8')->link();
+        $crawler = $client->click($link);
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
@@ -56,30 +59,10 @@ class TaskControllerTest extends WebTestCase
         $client->submit($form);
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
-
-        $crawler = $client->followRedirect();
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertStringContainsString(
-            "Superbe ! La tâche a bien été modifiée",
-            $crawler->filter('.alert-success')->text()
-        );
-    }
-
-    public function testToggleTask()
-    {
-        $client = static::createClient();
-
-        $crawler = $client->request('GET', '/tasks/1/toggle');
-
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $this->assertStringContainsString(
-            "Superbe ! La tâche Mon edtition de la tache a bien été marquée comme faite.",
-            $crawler->filter('.alert-success')->text()
-        );
+        $this->assertSame(1, $crawler->filter('div.alert.alert-success')->count());
     }
 
     public function testDeleteTask()
@@ -94,15 +77,34 @@ class TaskControllerTest extends WebTestCase
         ]);;
         $client->submit($form);
 
-        $crawler = $client->request('GET', '/tasks/2/delete');
+        $crawler = $client->request('GET', '/tasks');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $form = $crawler->selectButton('Supprimer')->form();
+        $client->submit($form);
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
         $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        $this->assertStringContainsString(
-            "Superbe ! La tâche a bien été supprimée.",
-            $crawler->filter('.alert-success')->text()
-        );
+        $this->assertSame(1, $crawler->filter('div.alert.alert-success')->count());
+    }
+
+    public function testToggleTask()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/tasks');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $form = $crawler->selectButton('Marquer comme faite')->form();
+        $client->submit($form);
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $crawler = $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $this->assertSame(1, $crawler->filter('div.alert.alert-success')->count());
     }
 }
