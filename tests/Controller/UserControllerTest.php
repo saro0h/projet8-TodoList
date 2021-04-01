@@ -17,8 +17,8 @@ class UserControllerTest extends WebTestCase
 
         // Login to Admin User
         $form = $crawler->selectButton('Se connecter')->form([
-            '_username' => 'admin',
-            '_password' => 'pass',
+            'username' => 'admin',
+            'password' => 'pass',
         ]);;
         $client->submit($form);
 
@@ -70,8 +70,8 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/login');
 
         $form = $crawler->selectButton('Se connecter')->form([
-            '_username' => 'admin',
-            '_password' => 'pass',
+            'username' => 'admin',
+            'password' => 'pass',
         ]);
         $client->submit($form);
 
@@ -95,6 +95,5 @@ class UserControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $this->assertSame(1, $crawler->filter('div.alert.alert-success')->count());
-
     }
 }

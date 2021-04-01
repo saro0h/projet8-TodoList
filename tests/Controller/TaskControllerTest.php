@@ -15,8 +15,10 @@ class TaskControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/tasks');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertStringContainsString('Créer une tâche',
-            $crawler->filter('.container .btn-info')->text());
+        $this->assertStringContainsString(
+            'Créer une tâche',
+            $crawler->filter('.container .btn-info')->text()
+        );
     }
 
     public function testCreateTask()
@@ -72,8 +74,8 @@ class TaskControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/login');
 
         $form = $crawler->selectButton('Se connecter')->form([
-            '_username' => 'admin',
-            '_password' => 'pass',
+            'username' => 'admin',
+            'password' => 'pass',
         ]);;
         $client->submit($form);
 
