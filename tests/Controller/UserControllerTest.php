@@ -39,6 +39,16 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
+        // Request the Login Page
+        $crawler = $client->request('GET', '/login');
+
+        // Login to Admin User
+        $form = $crawler->selectButton('Se connecter')->form([
+            'username' => 'admin',
+            'password' => 'pass',
+        ]);;
+        $client->submit($form);
+
         // Get the Create User Page
         $crawler = $client->request('GET', '/users/create');
 
