@@ -1,29 +1,32 @@
 security:
-    encoders:
-        App\Entity\User: bcrypt
+  encoders:
+    App\Entity\User: bcrypt
 
-    providers:
-        doctrine:
-            entity:
-                class: App:User
-                property: username
+  providers:
+    doctrine:
+      entity:
+        class: App:User
+        property: username
 
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
 
-        main:
-            anonymous: ~
-            pattern: ^/
-            form_login:
-                login_path: login
-                check_path: login_check
-                always_use_default_target_path:  true
-                default_target_path:  /
-            logout: ~
+    main:
+      anonymous: ~
+      pattern: ^/
+      form_login:
+        login_path: login
+        always_use_default_target_path: true
+        default_target_path: /
+      guard:
+        authenticators:
+          - App\Security\LoginFormAuthenticator
+      logout:
+        path: logout
 
-    access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/users, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+  access_control:
+    - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/users, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
