@@ -52,10 +52,14 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('user/create.html.twig', [
-            'form' => $form->createView(),
-            'user' => $user
-        ]);
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->render('user/create.html.twig', [
+                'form' => $form->createView(),
+                'user' => $user
+            ]);
+        } else {
+            return $this->render('error/error.html.twig');
+        }
     }
 
     /**
@@ -72,8 +76,6 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $userPasswordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
-            //$password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
-            //$user->setPassword($password);
 
             $this->getDoctrine()->getManager()->flush();
 
