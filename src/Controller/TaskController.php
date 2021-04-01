@@ -7,11 +7,11 @@ use App\Entity\User;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class TaskController extends Controller
+class TaskController extends AbstractController
 {
     /**
      * @var EntityManagerInterface
@@ -33,6 +33,16 @@ class TaskController extends Controller
         return $this->render('task/list.html.twig', [
             'tasks' => $this->getDoctrine()->getRepository(Task::class)->findAll(),
             'user' => $user
+        ]);
+    }
+
+    /**
+     * @Route("/tasks/finish", name="task_finish")
+     */
+    public function listFinishAction(TaskRepository $taskRepository)
+    {
+        return $this->render('task/finish.html.twig', [
+            'tasks' => $taskRepository->findByFinish(),
         ]);
     }
 

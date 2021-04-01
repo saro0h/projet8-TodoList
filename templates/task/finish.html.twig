@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block header_img %}<img class="slide-image" src="{{ asset('img/todolist_content.jpg') }}"
+    alt="todo list">{% endblock %}
+
+{% block body %}
+<div class="row">
+    {% for task in tasks %}
+    <div class="col-sm-4 col-lg-4 col-md-4">
+        <div class="thumbnail">
+            <div class="caption">
+                <h4 class="pull-right">
+                    {% if task.isDone %}<span class="glyphicon glyphicon-ok"></span>{% endif %}
+                </h4>
+                <h4 style="color: blue">{{ task.title }}</h4>
+                <p>{{ task.content }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
