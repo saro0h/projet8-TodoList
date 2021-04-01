@@ -23,6 +23,7 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "phpunit/phpunit": "^9.5",
         "roave/better-reflection": "^4.11",
+        "sensio/framework-extra-bundle": "^6.1",
         "symfony/asset": "^4.0",
         "symfony/console": "^4.0",
         "symfony/dom-crawler": "^4.0",
