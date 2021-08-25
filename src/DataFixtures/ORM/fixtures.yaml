@@ -1,0 +1,16 @@
+App\Entity\User:
+  user_1:
+    username: anonymous
+    password: coucou
+    email: <email()>
+    roles: ['ROLE_USER']
+
+App\Entity\Task:
+  task_{1..20}:
+    title: <words(5, true)>
+    content: <paragraph(2)>
+    author: '@user_1'
+    isDone: <boolean()>
+
+
+

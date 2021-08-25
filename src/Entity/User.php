@@ -3,43 +3,65 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Deprecated;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity('username')]
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id, ORM\GeneratedValue, ORM\Column]
-    private int $id;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
-    #[ORM\Column(length: 180)]
+    /**
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
+    private $username;
 
-    private string $username;
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
 
-    #[ORM\Column(type: 'json')]
-    private array $roles = [];
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
 
-    #[ORM\Column(length: 255)]
-    private string $password;
+    /**
+     * @ORM\Column(type="string", length=60)
+     */
+    private $email;
 
-    #[ORM\Column(length: 60)]
-    private ?string $email;
+    /**
+     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="author", orphanRemoval=true)
+     */
+    private $tasks;
+
+    public function __construct()
+    {
+        $this->tasks = new ArrayCollection();
+    }
 
     public function getId(): int
     {
         return $this->id;
     }
 
-    #[Deprecated(
-        reason: 'since Symfony 5.3, use getUserIdentifier instead',
-    )]
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
     public function getUsername(): string
     {
         return (string) $this->username;
@@ -122,6 +144,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Task[]
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Task $task): self
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks[] = $task;
+            $task->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): self
+    {
+        if ($this->tasks->removeElement($task)) {
+            // set the owning side to null (unless already changed)
+            if ($task->getAuthor() === $this) {
+                $task->setAuthor(null);
+            }
+        }
 
         return $this;
     }
