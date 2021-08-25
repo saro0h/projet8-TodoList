@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class TaskController extends AbstractController
 {
@@ -22,16 +24,21 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/create', name: 'task_create')]
-    public function createAction(Request $request): Response
+    public function createAction(
+        Request $request,
+        AuthenticationUtils $authenticationUtils,
+        UserRepository $userRepository
+    ): Response
     {
         $task = new Task();
+        $user = $userRepository->findOneBy(['username' => $authenticationUtils->getLastUsername()]);
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
+            $task->setAuthor($user);
             $em->persist($task);
             $em->flush();
 
