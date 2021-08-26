@@ -30,7 +30,7 @@ class SecurityController extends AbstractController
     #[Route('/logout', name: 'logout')]
     public function logoutCheck()
     {
-        // This code is never executed.
+        return $this->render('default/index.html.twig');
     }
 }
 

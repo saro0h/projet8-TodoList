@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class TaskController extends AbstractController
@@ -90,11 +91,24 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
     public function deleteTaskAction(Task $task): RedirectResponse
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($task);
-        $em->flush();
+       if ((
+           $task->getAuthor()== 'anonymous'
+           && (
+               in_array(
+                   'ROLE_ADMIN',
+                   $this->getUser()->getRoles()
+               ))) ||
+           ($task->getAuthor() == $this->getUser()
+           )) {
+           $em = $this->getDoctrine()->getManager();
+           $em->remove($task);
+           $em->flush();
 
-        $this->addFlash('success', 'La tâche a bien été supprimée.');
+           $this->addFlash('success', 'La tâche a bien été supprimée.');
+
+           return $this->redirectToRoute('task_list');
+        }
+        $this->addFlash('delete', 'Vous ne pouvez pas supprimer cette tâche');
 
         return $this->redirectToRoute('task_list');
     }
