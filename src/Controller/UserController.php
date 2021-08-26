@@ -4,18 +4,29 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class UserController extends AbstractController
 {
     #[Route('/users', name: 'user_list')]
-    public function listAction(): Response
+    public function listAction(
+        AuthorizationCheckerInterface $authorizationCheckerInterface
+    ): Response
     {
+        if (!$authorizationCheckerInterface->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('accessdenied', "Vous n'avez pas accès à cette page.");
+
+            return $this->render('default/index.html.twig');
+        }
+
         return $this->render(
             'user/list.html.twig',
             ['users' => $this->getDoctrine()->getRepository(User::class)->findAll()]
@@ -25,9 +36,16 @@ class UserController extends AbstractController
     #[Route('/users/create', name: 'user_create')]
     public function createAction(
         Request $request,
-        UserPasswordHasherInterface $passwordHasher
+        UserPasswordHasherInterface $passwordHasher,
+        AuthorizationCheckerInterface $authorizationCheckerInterface
     ): RedirectResponse|Response
     {
+        if (!$authorizationCheckerInterface->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('accessdenied', "Vous n'avez pas accès à cette page.");
+
+            return $this->render('default/index.html.twig');
+        }
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
@@ -52,9 +70,16 @@ class UserController extends AbstractController
     #[Route('/users/{id}/edit', name: 'user_edit')]
     public function editAction(
         User $user, Request $request,
-        UserPasswordHasherInterface $passwordHasher
+        UserPasswordHasherInterface $passwordHasher,
+        AuthorizationCheckerInterface $authorizationCheckerInterface
     ): RedirectResponse|Response
     {
+        if (!$authorizationCheckerInterface->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('accessdenied', "Vous n'avez pas accès à cette page.");
+
+            return $this->render('default/index.html.twig');
+        }
+
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
