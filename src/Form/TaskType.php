@@ -14,11 +14,11 @@ class TaskType extends AbstractType
         $builder
             ->add('title')
             ->add('content', TextareaType::class)
-            ->add('author', TextareaType::class, [
-                'attr' => [
-                    'readonly' => true
-                ]
-            ])
+            //->add('author', TextareaType::class, [
+            //    'attr' => [
+            //        'readonly' => true
+            //    ]
+            //])
         ;
     }
 }

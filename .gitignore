@@ -341,3 +341,16 @@ fabric.properties
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+/.idea/.gitignore
+/.idea/commandlinetools/schemas/frameworkDescriptionVersion1.1.4.xsd
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/P8_todolist.iml
+/.idea/php.xml
+/.idea/phpunit.xml
+/.idea/commandlinetools/Symfony_19_08_21__10_00.xml
+/.idea/vcs.xml
+
+###> friends-of-behat/symfony-extension ###
+/behat.yml
+###< friends-of-behat/symfony-extension ###

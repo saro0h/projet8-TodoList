@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\AddFlashTrait;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\UserRepository;
@@ -11,10 +12,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class TaskController extends AbstractController
 {
+
     #[Route('/tasks', name: 'task_list')]
     public function listAction(): Response
     {
@@ -32,14 +35,14 @@ class TaskController extends AbstractController
     ): Response
     {
         $task = new Task();
-        $user = $userRepository->findOneBy(['username' => $authenticationUtils->getLastUsername()]);
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $this->getUser()) {
+
             $em = $this->getDoctrine()->getManager();
-            $task->setAuthor($user);
+            $task->setAuthor($this->getUser());
             $em->persist($task);
             $em->flush();
 
@@ -47,7 +50,9 @@ class TaskController extends AbstractController
 
             return $this->redirectToRoute('task_list');
         }
-
+        if (!$this->getUser()) {
+            $this->addFlash('authenticated', 'Vous devez vous connecter pour créer une tâche');
+        }
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
     }
 
@@ -91,26 +96,21 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
     public function deleteTaskAction(Task $task): RedirectResponse
     {
-       if ((
-           $task->getAuthor()== 'anonymous'
-           && (
-               in_array(
-                   'ROLE_ADMIN',
-                   $this->getUser()->getRoles()
-               ))) ||
-           ($task->getAuthor() == $this->getUser()
-           )) {
-           $em = $this->getDoctrine()->getManager();
-           $em->remove($task);
-           $em->flush();
+        try {
+            $this->denyAccessUnlessGranted('delete_task', $task);
+        } catch (AccessDeniedException $exception) {
+            $this->addFlash('error', 'Vous ne pouvez pas supprimer cette tâche');
 
-           $this->addFlash('success', 'La tâche a bien été supprimée.');
-
-           return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('task_list');
         }
-        $this->addFlash('delete', 'Vous ne pouvez pas supprimer cette tâche');
 
-        return $this->redirectToRoute('task_list');
-    }
+       $em = $this->getDoctrine()->getManager();
+       $em->remove($task);
+       $em->flush();
+
+       $this->addFlash('success', 'La tâche a bien été supprimée.');
+
+       return $this->redirectToRoute('task_list');
+       }
 }
 

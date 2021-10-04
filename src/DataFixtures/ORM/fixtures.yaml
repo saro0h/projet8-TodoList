@@ -1,15 +1,33 @@
 App\Entity\User:
   user_1:
+    username: user1
+    password: '\$2y\$13\$RQTjSzfWx8yONb9DKjUZI.b6eJ18a3wcsuuCwghy5zF7e2mN8HIqi'
+    email: 'user1@gmail.com'
+    roles: ['ROLE_ADMIN']
+
+  user_2:
+    username: user2
+    password: '\$2y\$13\$RQTjSzfWx8yONb9DKjUZI.b6eJ18a3wcsuuCwghy5zF7e2mN8HIqi'
+    email: 'user2@gmail.com'
+    roles: [ 'ROLE_USER' ]
+
+  user_3:
     username: anonymous
-    password: coucou
-    email: <email()>
-    roles: ['ROLE_USER']
+    password: '\$2y\$13\$RQTjSzfWx8yONb9DKjUZI.b6eJ18a3wcsuuCwghy5zF7e2mN8HIqi'
+    email: 'anonymous@gmail.com'
+    roles: [ 'ROLE_USER' ]
 
 App\Entity\Task:
-  task_{1..20}:
+  task_1:
     title: <words(5, true)>
     content: <paragraph(2)>
-    author: '@user_1'
+    author: '@user_3'
+    isDone: <boolean()>
+
+  task_2:
+    title: Titre test
+    content: <paragraph(2)>
+    author: '@user_2'
     isDone: <boolean()>
 
 

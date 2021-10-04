@@ -5,6 +5,12 @@
     "behat/gherkin": {
         "version": "v4.8.0"
     },
+    "behat/mink": {
+        "version": "v1.8.1"
+    },
+    "behat/mink-selenium2-driver": {
+        "version": "v1.4.0"
+    },
     "behat/transliterator": {
         "version": "v1.3.0"
     },
@@ -112,6 +118,30 @@
     "fakerphp/faker": {
         "version": "v1.15.0"
     },
+    "friends-of-behat/mink-browserkit-driver": {
+        "version": "v1.5.0"
+    },
+    "friends-of-behat/mink-extension": {
+        "version": "v2.5.0"
+    },
+    "friends-of-behat/page-object-extension": {
+        "version": "v0.3.2"
+    },
+    "friends-of-behat/symfony-extension": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "1e012e04f573524ca83795cd19df9ea690adb604"
+        },
+        "files": [
+            "./behat.yml.dist",
+            "./config/services_test.yaml",
+            "./features/demo.feature",
+            "./tests/Behat/DemoContext.php"
+        ]
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
@@ -128,6 +158,9 @@
             "./config/packages/test/hautelook_alice.yaml",
             "./fixtures/.gitignore"
         ]
+    },
+    "instaclick/php-webdriver": {
+        "version": "1.4.9"
     },
     "laminas/laminas-code": {
         "version": "4.4.2"
