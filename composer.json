@@ -27,11 +27,14 @@
         "symfony/polyfill-apcu": "^1.0",
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
-        "incenteev/composer-parameter-handler": "^2.0"
+        "incenteev/composer-parameter-handler": "^2.0",
+        "phpmetrics/phpmetrics": "^2.7"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0"
+        "symfony/phpunit-bridge": "^3.0",
+        "phpstan/phpstan": "^0.12.99",
+        "phpmd/phpmd": "@stable"
     },
     "scripts": {
         "symfony-scripts": [
