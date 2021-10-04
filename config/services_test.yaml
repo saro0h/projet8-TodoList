@@ -1,0 +1,47 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Doctrine\Persistence\ObjectManager: '@doctrine.orm.default_entity_manager'
+
+    App\Security\CodeGeneratorInterface: '@App\Tests\Service\DefinedCodeGenerator'
+
+ #   App\DataFixtures\Processor\HashPasswordProvider:
+ #       tags: [ { name: nelmio_alice.faker.provider } ]
+
+#    App\Tests\Service\:
+      #        resource: '../tests/Service/*'
+
+
+    App\Tests\Controller\:
+        resource: '../tests/Controller/*'
+
+ #   App\Tests\Functional\Page\:
+ #       resource: '../tests/Functional/Page/*'
+ #       parent: 'FriendsOfBehat\PageObjectExtension\Page\SymfonyPage'
+ #       autoconfigure: false
+ #       public: false
+ #       autowire: true
+ #
+ #   App\Tests\Functional\:
+ #       resource: '../tests/Functional/*'
+ #       exclude: '../tests/Functional/{Page}'
+ #
+ #   FriendsOfBehat\PageObjectExtension\Page\Page:
+ #       abstract: true
+ #       autoconfigure: false
+ #       public: false
+ #       autowire: true
+ #       arguments:
+ #           - '@behat.mink.default_session'
+ #           - '@behat.mink.parameters'
+ #
+ #   FriendsOfBehat\PageObjectExtension\Page\SymfonyPage:
+ #       abstract: true
+ #       autoconfigure: false
+ #       public: false
+ #       autowire: true
+ #       parent: 'FriendsOfBehat\PageObjectExtension\Page\Page'
+ #       arguments:
+ #           - '@router'
