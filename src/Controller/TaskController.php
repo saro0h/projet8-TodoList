@@ -48,6 +48,7 @@ class TaskController extends AbstractController
         if (!$this->getUser()) {
             $this->addFlash('authenticated', 'Vous devez vous connecter pour créer une tâche');
         }
+
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
     }
 
