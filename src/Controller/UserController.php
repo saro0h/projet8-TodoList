@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,10 +17,10 @@ class UserController extends AbstractController
 {
     #[Route('/users', name: 'user_list')]
     public function listAction(
-        AuthorizationCheckerInterface $authorizationCheckerInterface
+        AuthorizationCheckerInterface $authorizationChecker
     ): Response
     {
-        if (!$authorizationCheckerInterface->isGranted('ROLE_ADMIN')) {
+        if (!$authorizationChecker->isGranted('ROLE_ADMIN')) {
             $this->addFlash('accessdenied', "Vous n'avez pas accès à cette page.");
 
             return $this->render('default/index.html.twig');
@@ -35,10 +36,11 @@ class UserController extends AbstractController
     public function createAction(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
-        AuthorizationCheckerInterface $authorizationCheckerInterface
+        AuthorizationCheckerInterface $authorizationChecker
+
     ): RedirectResponse|Response
     {
-        if (!$authorizationCheckerInterface->isGranted('ROLE_ADMIN')) {
+        if (!$authorizationChecker->isGranted('ROLE_ADMIN')) {
             $this->addFlash('accessdenied', "Vous n'avez pas accès à cette page.");
 
             return $this->render('default/index.html.twig');
@@ -50,12 +52,12 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager();
             $password = $passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
 
-            $em->persist($user);
-            $em->flush();
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
@@ -69,10 +71,10 @@ class UserController extends AbstractController
     public function editAction(
         User $user, Request $request,
         UserPasswordHasherInterface $passwordHasher,
-        AuthorizationCheckerInterface $authorizationCheckerInterface
+        AuthorizationCheckerInterface $authorizationChecker
     ): RedirectResponse|Response
     {
-        if (!$authorizationCheckerInterface->isGranted('ROLE_ADMIN')) {
+        if (!$authorizationChecker->isGranted('ROLE_ADMIN')) {
             $this->addFlash('accessdenied', "Vous n'avez pas accès à cette page.");
 
             return $this->render('default/index.html.twig');

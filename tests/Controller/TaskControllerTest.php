@@ -209,7 +209,7 @@ class TaskControllerTest extends WebTestCase
         $this->client->followRedirect();
         $this->assertResponseIsSuccessful();
 
-        $this->assertSelectorTextContains((string)$this->domId->getElementById('error'), 'Vous ne pouvez pas supprimer cette tâche');
+        $this->assertSelectorTextContains((string)$this->domId->getElementById('bundles'), 'Vous ne pouvez pas supprimer cette tâche');
     }
 
     public function testDeleteTaskWhenNotAuthor(): void
@@ -222,7 +222,7 @@ class TaskControllerTest extends WebTestCase
         $this->client->followRedirect();
         $this->assertResponseIsSuccessful();
 
-        $this->assertSelectorTextContains((string)$this->domId->getElementById('error'), 'Vous ne pouvez pas supprimer cette tâche');
+        $this->assertSelectorTextContains((string)$this->domId->getElementById('bundles'), 'Vous ne pouvez pas supprimer cette tâche');
     }
 
     public function testDeleteTaskWhenAuthor(): void
@@ -248,7 +248,7 @@ class TaskControllerTest extends WebTestCase
         $this->client->followRedirect();
         $this->assertResponseIsSuccessful();
 
-        $this->assertSelectorTextContains((string)$this->domId->getElementById('error'), 'Vous ne pouvez pas supprimer cette tâche');
+        $this->assertSelectorTextContains((string)$this->domId->getElementById('bundles'), 'Vous ne pouvez pas supprimer cette tâche');
     }
 
     public function testDeleteTaskAnonymousWhenAdmin(): void

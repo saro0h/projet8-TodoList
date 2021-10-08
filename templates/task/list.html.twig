@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    {% for flash_message in app.flashes('delete') %}
+    {% for flash_message in app.flashes('bundles') %}
         <div class="alert alert-danger" role="alert">
             <strong>Oops !</strong> {{ flash_message }}
         </div>

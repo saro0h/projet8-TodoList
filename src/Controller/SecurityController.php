@@ -17,15 +17,15 @@ class SecurityController extends AbstractController
 
         return $this->render('security/login.html.twig', array(
             'last_username' => $lastUsername,
-            'error'         => $error,
+            'bundles'         => $error,
         ));
     }
 
-    #[Route('/login_check', name: 'login_check')]
+    /*#[Route('/login_check', name: 'login_check')]
     public function loginCheck()
     {
-        // This code is never executed.
-    }
+        // This code is not executed. Please uncomment it you want to apply a user email check
+    }*/
 
     #[Route('/logout', name: 'logout')]
     public function logoutCheck()
