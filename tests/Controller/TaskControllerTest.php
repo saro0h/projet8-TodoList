@@ -9,7 +9,7 @@ class TaskControllerTest extends BaseController
 {
     public function testTasksPage()
     {
-        $client = $this->login('user');
+        $client = $this->login(BaseController::USER_EMAIL);
         $client->request('GET', '/tasks');
 
         $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
@@ -17,22 +17,15 @@ class TaskControllerTest extends BaseController
 
     public function testTaskPage()
     {
-        $tasks = $this->getTasks();
-        /**
-         * @var Task $task
-         */
-        foreach ($tasks as $task) {
-            $client = $this->login('user');
-            $client->request('GET', '/tasks/'.$task->getId().'/edit');
+        $client = $this->login(BaseController::USER_EMAIL);
+        $client->request('GET', '/tasks/1/edit');
 
-            $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
-            self::ensureKernelShutdown();
-        }
+        $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 
     public function testCreateTaskPageWithFakeData()
     {
-        $client = $this->login('user');
+        $client = $this->login(BaseController::USER_EMAIL);
         $client->request('GET', '/tasks/create');
 
         $client->submitForm('Ajouter', [
@@ -45,7 +38,7 @@ class TaskControllerTest extends BaseController
 
     public function testCreateTaskPageWithGoodData()
     {
-        $client = $this->login('user');
+        $client = $this->login(BaseController::USER_EMAIL);
         $client->request('GET', '/tasks/create');
 
         $client->submitForm('Ajouter', [
@@ -58,11 +51,8 @@ class TaskControllerTest extends BaseController
 
     public function testEditTaskPageWithGoodData()
     {
-        $tasks = $this->getTasks();
-        /** @var Task $task */
-        $task = $tasks[0];
-        $client = $this->login('user');
-        $client->request('GET', '/tasks/'.$task->getId().'/edit');
+        $client = $this->login(BaseController::USER_EMAIL);
+        $client->request('GET', '/tasks/1/edit');
 
         $client->submitForm('Modifier', [
             'task[title]' => 'task updated',
@@ -74,34 +64,25 @@ class TaskControllerTest extends BaseController
 
     public function testToggleTask()
     {
-        $tasks = $this->getTasks();
-        /** @var Task $task */
-        $task = $tasks[0];
-        $client = $this->login('user');
-        $client->request('GET', '/tasks/'.$task->getId().'/toggle');
+        $client = $this->login(BaseController::USER_EMAIL);
+        $client->request('GET', '/tasks/1/toggle');
 
         $this->assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 
     public function testDeleteTask()
     {
-        $tasks = $this->getTasksForUser('user');
-        /** @var Task $task */
-        $task = $tasks[0];
-        $client = $this->login('user');
-        $client->request('GET', '/tasks/'.$task->getId().'/delete');
+        $client = $this->login(BaseController::USER_EMAIL);
+        $client->request('GET', '/tasks/1/delete');
 
-        $this->assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
     }
 
     public function testDeleteTaskOtherUser()
     {
-        $tasks = $this->getTasksForUser('user');
-        /** @var Task $task */
-        $task = $tasks[0];
-        $client = $this->login('admin');
-        $client->request('GET', '/tasks/'.$task->getId().'/delete');
+        $client = $this->login(BaseController::ADMIN_EMAIL);
+        $client->request('GET', '/tasks/1/delete');
 
-        $this->assertSame(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 }
