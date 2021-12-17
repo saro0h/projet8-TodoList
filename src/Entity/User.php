@@ -2,18 +2,21 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity("email")
+ * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Table(name="todolist_user")
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -21,6 +24,13 @@ class User implements UserInterface, \Serializable
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+    * @ORM\Column(type="string", length=60, unique=true)
+    * @Assert\NotBlank(message="Vous devez saisir une adresse email.")
+    * @Assert\Email(message="Le format de l'adresse n'est pas correcte.")
+    */
+    private $email;
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
@@ -32,13 +42,6 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=255)
      */
     private $password;
-
-    /**
-     * @ORM\Column(type="string", length=60, unique=true)
-     * @Assert\NotBlank(message="Vous devez saisir une adresse email.")
-     * @Assert\Email(message="Le format de l'adresse n'est pas correcte.")
-     */
-    private $email;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Task", mappedBy="user")
@@ -57,44 +60,58 @@ class User implements UserInterface, \Serializable
         $this->tasks = new ArrayCollection();
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getUsername()
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    public function setUsername($username)
+    public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
     }
 
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }
-
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function setEmail($email)
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
     }
 
     /**
@@ -129,64 +146,38 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Returns the roles or permissions granted to the user for security.
+     * @see UserInterface
      */
     public function getRoles(): array
     {
         $roles = $this->roles;
-
-        // guarantees that a user always has at least one role for security
-        if (empty($roles)) {
-            $roles[] = 'ROLE_USER';
-        }
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): void
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
     }
 
     /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * {@inheritdoc}
+     * @see UserInterface
      */
     public function getSalt(): ?string
     {
-        // We're using bcrypt in security.yaml to encode the password, so
-        // the salt value is built-in and and you don't have to generate one
-        // See https://en.wikipedia.org/wiki/Bcrypt
-
         return null;
     }
 
     /**
-     * Removes sensitive data from the user.
-     *
-     * {@inheritdoc}
+     * @see UserInterface
      */
-    public function eraseCredentials(): void
+    public function eraseCredentials()
     {
-        // if you had a plainPassword property, you'd nullify it here
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function serialize(): string
-    {
-        // add $this->salt too if you don't use Bcrypt or Argon2i
-        return serialize([$this->id, $this->username, $this->password]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function unserialize($serialized): void
-    {
-        // add $this->salt too if you don't use Bcrypt or Argon2i
-        [$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }

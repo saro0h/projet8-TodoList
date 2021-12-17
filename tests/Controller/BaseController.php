@@ -2,43 +2,25 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Task;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BaseController extends WebTestCase
 {
-    private function getService($serviceName)
-    {
-        self::bootKernel();
-        $service = self::$container
-            ->get($serviceName);
-        self::ensureKernelShutdown();
-        return $service;
-    }
+    public const ADMIN_EMAIL = 'admin@todolist.com';
+    public const USER_EMAIL = 'user@todolist.com';
 
-    protected function getTasks()
+    protected function login($email)
     {
-        return $this
-            ->getService('doctrine.orm.default_entity_manager')
-            ->getRepository(Task::class)
-            ->findAll()
-            ;
-    }
+        $client = static::createClient();
 
-    protected function getTasksForUser($username)
-    {
-        return $this
-            ->getService('doctrine.orm.default_entity_manager')
-            ->getRepository(Task::class)
-            ->getTaskForUser($username)
-            ;
-    }
+        // get or create the user somehow (e.g. creating some users only
+        // for tests while loading the test fixtures)
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneByEmail($email);
 
-    protected function login($username, $password)
-    {
-        return static::createClient([], [
-            'PHP_AUTH_USER' => $username,
-            'PHP_AUTH_PW'   => $password,
-        ]);
+        $client->loginUser($testUser);
+
+        return $client;
     }
 }

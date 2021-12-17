@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Task|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,16 +17,5 @@ class TaskRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Task::class);
-    }
-
-    public function getTaskForUser($username)
-    {
-        return $this->createQueryBuilder('t')
-            ->join('t.user', 'u')
-            ->where('u.username = :username')
-            ->setParameter('username', $username)
-            ->getQuery()
-            ->getResult()
-        ;
     }
 }

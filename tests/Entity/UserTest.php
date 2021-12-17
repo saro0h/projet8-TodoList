@@ -8,13 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
-    public function testIdIsValid()
-    {
-        $user = new User();
-        $user->setId(1);
-        $this->assertEquals(1, $user->getId());
-    }
-
     public function testTaskIsValid()
     {
         $task = new Task();
