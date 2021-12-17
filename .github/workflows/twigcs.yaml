@@ -1,0 +1,56 @@
+name: TwigCS
+on: [push]
+
+env:
+    DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/todolist?serverVersion=13&charset=utf8
+
+jobs:
+    tests:
+        name: TwigCS
+        # https://hub.docker.com/_/ubuntu/
+        runs-on: ubuntu-18.04
+        services:
+            # https://hub.docker.com/_/postgres/
+            postgresql:
+                image: postgres:13
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_PORT: 5432
+                    POSTGRES_DB: todolist
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+        strategy:
+            fail-fast: true
+            matrix:
+                php-versions: ['8.0']
+        steps:
+            # —— Setup Github actions 🐙 —————————————————————————————————————————————
+            # https://github.com/actions/checkout (official)
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            # https://github.com/shivammathur/setup-php (community)
+            - name: Setup PHP, extensions and composer with shivammathur/setup-php
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-versions }}
+                  extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo, xdebug
+                  tools: composer:v2
+              env:
+                  update: true
+
+            # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
+            - name: Validate composer.json and composer.lock
+              run: composer validate
+
+            - name: Install Composer dependencies
+              run: composer install
+
+            - name: Run twigcs
+              run: vendor/bin/twigcs templates

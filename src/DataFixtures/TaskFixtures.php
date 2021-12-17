@@ -33,7 +33,7 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            UserFixtures::class
+            UserFixtures::class,
         ];
     }
 }

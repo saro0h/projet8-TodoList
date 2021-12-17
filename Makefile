@@ -70,6 +70,23 @@ sf-cc:					## Clear Symfony cache
 sf-cw:					## Warmup Symfony cache
 						$(CONSOLE) cache:warmup --env=$(ENV)
 
+# Checks
+.PHONY: php-cs-fixer phpstan twig-cs yaml-lint rector
+php-cs-fixer:			## Run php-cs-fixer
+						vendor/bin/php-cs-fixer fix --diff --dry-run --verbose
+
+phpstan:				## Run phpstan
+						vendor/bin/phpstan analyse --memory-limit=1G
+
+twigcs:					## Run twig-cs
+						vendor/bin/twigcs templates
+
+yaml-lint:	            ## Run yaml-lint
+						bin/console lint:yaml config translations
+
+rector:					## Run rector
+						vendor/bin/rector --dry-run
+
 # Tests
 .PHONY: coverage tests reset-coverage reset-tests
 coverage: 				## Run the tests with the Code coverage report

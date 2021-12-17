@@ -3,34 +3,31 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use App\Entity\User;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class TaskController extends AbstractController
 {
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * @Route("/tasks", name="task_list")
-     */
+    #[Route(path: '/tasks', name: 'task_list')]
     public function list(TaskRepository $taskRepository)
     {
         return $this->render('task/list.html.twig', ['tasks' => $taskRepository->findAll()]);
     }
 
-    /**
-     * @Route("/tasks/create", name="task_create")
-     */
+    #[Route(path: '/tasks/create', name: 'task_create')]
     public function create(Request $request)
     {
         $task = new Task();
@@ -39,7 +36,9 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $task->setUser($this->getUser());
+            /** @var User $user */
+            $user = $this->getUser();
+            $task->setUser($user);
             $this->entityManager->persist($task);
             $this->entityManager->flush();
 
@@ -51,13 +50,10 @@ class TaskController extends AbstractController
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
     }
 
-    /**
-     * @Route("/tasks/{id}/edit", name="task_edit")
-     */
+    #[Route(path: '/tasks/{id}/edit', name: 'task_edit')]
     public function edit(Task $task, Request $request)
     {
         $form = $this->createForm(TaskType::class, $task);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -74,9 +70,7 @@ class TaskController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/tasks/{id}/toggle", name="task_toggle")
-     */
+    #[Route(path: '/tasks/{id}/toggle', name: 'task_toggle')]
     public function toggleTask(Task $task)
     {
         $task->toggle(!$task->isDone());
@@ -88,9 +82,9 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/{id}/delete", name="task_delete")
      * @IsGranted("TASK_DELETE", subject="task")
      */
+    #[Route(path: '/tasks/{id}/delete', name: 'task_delete')]
     public function deleteTask(Task $task)
     {
         $this->entityManager->remove($task);

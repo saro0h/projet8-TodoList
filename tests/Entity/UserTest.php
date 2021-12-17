@@ -14,19 +14,19 @@ class UserTest extends TestCase
         $user = new User();
         $user->addTask($task);
         $user->removeTask($task);
-        $this->assertEquals(0, count($user->getTasks()));
+        self::assertEquals(0, count($user->getTasks()));
     }
 
     public function testRolesAreValid()
     {
         $user = new User();
         $user->setRoles(['ROLE_ADMIN']);
-        $this->assertGreaterThan(0, count($user->getRoles()));
+        self::assertGreaterThan(0, count($user->getRoles()));
     }
 
     public function testRolesWithRoleUserAreValid()
     {
         $user = new User();
-        $this->assertGreaterThan(0, count($user->getRoles()));
+        self::assertGreaterThan(0, count($user->getRoles()));
     }
 }

@@ -11,6 +11,6 @@ class SecurityControllerTest extends BaseController
         $client = static::createClient();
         $client->request('GET', '/login');
 
-        $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 }

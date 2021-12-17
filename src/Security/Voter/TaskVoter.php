@@ -13,7 +13,7 @@ class TaskVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, ['TASK_DELETE'])
+        return in_array($attribute, ['TASK_DELETE'], true)
             && $subject instanceof Task;
     }
 
