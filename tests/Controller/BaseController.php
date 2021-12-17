@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Task;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BaseController extends WebTestCase
@@ -10,7 +11,7 @@ class BaseController extends WebTestCase
     private function getService($serviceName)
     {
         self::bootKernel();
-        $service = self::$container
+        $service = self::getContainer()
             ->get($serviceName);
         self::ensureKernelShutdown();
         return $service;
@@ -34,11 +35,17 @@ class BaseController extends WebTestCase
             ;
     }
 
-    protected function login($username, $password)
+    protected function login($username)
     {
-        return static::createClient([], [
-            'PHP_AUTH_USER' => $username,
-            'PHP_AUTH_PW'   => $password,
-        ]);
+        $client = static::createClient();
+
+        // get or create the user somehow (e.g. creating some users only
+        // for tests while loading the test fixtures)
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneByEmail($username);
+
+        $client->loginUser($testUser);
+
+        return $client;
     }
 }

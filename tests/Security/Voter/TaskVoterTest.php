@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Security;
+namespace App\Tests\Security\Voter;
 
 use App\Entity\Task;
 use App\Entity\User;
@@ -9,13 +9,11 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-
 class TaskVoterTest extends WebTestCase
 {
-    private function createUser(int $id): User
+    private function createUser(): User
     {
         $user = new User();
-        $user->setId($id);
         $user->setRoles(['ROLE_USER']);
 
         return $user;
@@ -32,14 +30,14 @@ class TaskVoterTest extends WebTestCase
     public function provideCases(): ?\Generator
     {
         yield 'Utilisateur peut supprimer sa tâche' => [
-            $user = $this->createUser(2),
+            $user = $this->createUser(),
             $task = $this->createTask($user),
             $attribute = 'TASK_DELETE',
             TaskVoter::ACCESS_GRANTED,
         ];
 
         yield 'Utilisateur ne peut supprimer la tâche ne lui appartenant pas' => [
-            $this->createUser(2),
+            $this->createUser(),
             $task = $this->createTask($this->createUser(4)),
             $attribute = 'TASK_DELETE',
             TaskVoter::ACCESS_DENIED,
@@ -47,7 +45,7 @@ class TaskVoterTest extends WebTestCase
 
         yield 'Utilisateur annonyme ne peut pas supprimer de tâche' => [
             $user = null,
-            $task = $this->createTask(null),
+            $task = $this->createTask(),
             $attribute = 'TASK_DELETE',
             TaskVoter::ACCESS_DENIED,
         ];

@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class TaskVoter extends Voter
 {
-    protected function supports($attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
@@ -33,6 +33,7 @@ class TaskVoter extends Voter
                 if ($subject->getUser() === $user) {
                     return true;
                 }
+                break;
         }
 
         return false;

@@ -16,7 +16,7 @@ class DefaultControllerTest extends BaseController
 
     public function testHomepageWithLoggedUser()
     {
-        $client = $this->login('user', 'pass');
+        $client = $this->login('user');
         $client->request('GET', '/');
 
         $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
@@ -24,7 +24,7 @@ class DefaultControllerTest extends BaseController
 
     public function testHomepageWithLoggedAdmin()
     {
-        $client = $this->login('admin', 'pass');
+        $client = $this->login('admin');
         $client->request('GET', '/');
 
         $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());

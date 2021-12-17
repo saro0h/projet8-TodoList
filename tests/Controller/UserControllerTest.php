@@ -16,7 +16,7 @@ class UserControllerTest extends BaseController
 
     public function testUserListpageWithLoggedUser()
     {
-        $client = $this->login('user', 'pass');
+        $client = $this->login('user');
         $client->request('GET', '/users');
 
         $this->assertSame(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
@@ -24,7 +24,7 @@ class UserControllerTest extends BaseController
 
     public function testUserListpageWithLoggedAdmin()
     {
-        $client = $this->login('admin', 'pass');
+        $client = $this->login('admin');
         $client->request('GET', '/users');
 
         $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
@@ -32,7 +32,7 @@ class UserControllerTest extends BaseController
 
     public function testUserCreatepageWithLoggedAdminWithFakeData()
     {
-        $client = $this->login('admin', 'pass');
+        $client = $this->login('admin');
         $client->request('GET', '/users/create');
 
         $client->submitForm('Ajouter', [
@@ -48,7 +48,7 @@ class UserControllerTest extends BaseController
 
     public function testUserCreatepageWithLoggedAdminWithGoodData()
     {
-        $client = $this->login('admin', 'pass');
+        $client = $this->login('admin');
         $client->request('GET', '/users/create');
 
         $client->submitForm('Ajouter', [
@@ -64,7 +64,7 @@ class UserControllerTest extends BaseController
 
     public function testUserEditpageWithLoggedAdminWithGoodData()
     {
-        $client = $this->login('admin', 'pass');
+        $client = $this->login('admin');
         $client->request('GET', '/users/2/edit');
 
         $client->submitForm('Modifier', [
