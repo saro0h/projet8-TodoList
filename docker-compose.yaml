@@ -1,0 +1,65 @@
+version: "3.4"
+
+services:
+    blackfire:
+        container_name: blackfire
+        env_file: .env.local
+        image: blackfire/blackfire:2
+        ports:
+            - "8307:8307"
+
+    database:
+        container_name: postgresql
+        image: postgres:${POSTGRES_VERSION:-13}-alpine
+        environment:
+            POSTGRES_DB: ${POSTGRES_DB:-app}
+            # You should definitely change the password in production
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
+            POSTGRES_USER: ${POSTGRES_USER:-symfony}
+        volumes:
+            - db-data:/var/lib/postgresql/data:rw
+
+    php:
+        container_name: php
+        build:
+            context: .
+            target: symfony_php
+        environment:
+            DATABASE_URL: postgresql://${POSTGRES_USER:-symfony}:${POSTGRES_PASSWORD:-ChangeMe}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-13}
+        restart: unless-stopped
+        volumes:
+            - php_socket:/var/run/php
+
+    caddy:
+        container_name: caddy
+        build:
+            context: .
+            target: symfony_caddy
+        depends_on:
+            - php
+        environment:
+            SERVER_NAME: ${SERVER_NAME:-localhost, caddy:80}
+        restart: unless-stopped
+        volumes:
+            - php_socket:/var/run/php
+            - caddy_data:/data
+            - caddy_config:/config
+        ports:
+            # HTTP
+            - target: 80
+              published: 80
+              protocol: tcp
+            # HTTPS
+            - target: 443
+              published: 443
+              protocol: tcp
+            # HTTP/3
+            - target: 443
+              published: 443
+              protocol: udp
+
+volumes:
+    php_socket:
+    caddy_data:
+    caddy_config:
+    db-data:
