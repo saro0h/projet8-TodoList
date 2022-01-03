@@ -11,7 +11,7 @@ class UserControllerTest extends BaseController
         $client = static::createClient();
         $client->request('GET', '/users');
 
-        $this->assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 
     public function testUserListpageWithLoggedUser()
@@ -19,7 +19,7 @@ class UserControllerTest extends BaseController
         $client = $this->login(BaseController::USER_EMAIL);
         $client->request('GET', '/users');
 
-        $this->assertSame(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
     }
 
     public function testUserListpageWithLoggedAdmin()
@@ -27,7 +27,7 @@ class UserControllerTest extends BaseController
         $client = $this->login(BaseController::ADMIN_EMAIL);
         $client->request('GET', '/users');
 
-        $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 
     public function testUserCreatepageWithLoggedAdminWithFakeData()
@@ -43,7 +43,7 @@ class UserControllerTest extends BaseController
             'user[roles]' => 'ROLE_USER',
         ]);
 
-        $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 
     public function testUserCreatepageWithLoggedAdminWithGoodData()
@@ -59,7 +59,7 @@ class UserControllerTest extends BaseController
             'user[roles]' => 'ROLE_USER',
         ]);
 
-        $this->assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 
     public function testUserEditpageWithLoggedAdminWithGoodData()
@@ -75,6 +75,6 @@ class UserControllerTest extends BaseController
             'user[roles]' => 'ROLE_ADMIN',
         ]);
 
-        $this->assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 }

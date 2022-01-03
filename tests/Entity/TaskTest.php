@@ -12,6 +12,6 @@ class TaskTest extends TestCase
         $task = new Task();
         $date = new \DateTime();
         $task->setCreatedAt($date);
-        $this->assertEquals($date, $task->getCreatedAt());
+        self::assertEquals($date, $task->getCreatedAt());
     }
 }

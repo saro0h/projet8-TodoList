@@ -2,7 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Task;
 use Symfony\Component\HttpFoundation\Response;
 
 class TaskControllerTest extends BaseController
@@ -12,7 +11,7 @@ class TaskControllerTest extends BaseController
         $client = $this->login(BaseController::USER_EMAIL);
         $client->request('GET', '/tasks');
 
-        $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 
     public function testTaskPage()
@@ -20,7 +19,7 @@ class TaskControllerTest extends BaseController
         $client = $this->login(BaseController::USER_EMAIL);
         $client->request('GET', '/tasks/1/edit');
 
-        $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 
     public function testCreateTaskPageWithFakeData()
@@ -30,10 +29,10 @@ class TaskControllerTest extends BaseController
 
         $client->submitForm('Ajouter', [
             'task[title]' => '',
-            'task[content]' => ''
+            'task[content]' => '',
         ]);
 
-        $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 
     public function testCreateTaskPageWithGoodData()
@@ -43,10 +42,10 @@ class TaskControllerTest extends BaseController
 
         $client->submitForm('Ajouter', [
             'task[title]' => 'a new task',
-            'task[content]' => 'a new content'
+            'task[content]' => 'a new content',
         ]);
 
-        $this->assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 
     public function testEditTaskPageWithGoodData()
@@ -56,10 +55,10 @@ class TaskControllerTest extends BaseController
 
         $client->submitForm('Modifier', [
             'task[title]' => 'task updated',
-            'task[content]' => 'content updated'
+            'task[content]' => 'content updated',
         ]);
 
-        $this->assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 
     public function testToggleTask()
@@ -67,7 +66,7 @@ class TaskControllerTest extends BaseController
         $client = $this->login(BaseController::USER_EMAIL);
         $client->request('GET', '/tasks/1/toggle');
 
-        $this->assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 
     public function testDeleteTask()
@@ -75,7 +74,7 @@ class TaskControllerTest extends BaseController
         $client = $this->login(BaseController::USER_EMAIL);
         $client->request('GET', '/tasks/1/delete');
 
-        $this->assertSame(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
     }
 
     public function testDeleteTaskOtherUser()
@@ -83,6 +82,6 @@ class TaskControllerTest extends BaseController
         $client = $this->login(BaseController::ADMIN_EMAIL);
         $client->request('GET', '/tasks/1/delete');
 
-        $this->assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 }

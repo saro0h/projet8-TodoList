@@ -11,7 +11,7 @@ class DefaultControllerTest extends BaseController
         $client = static::createClient();
         $client->request('GET', '/');
 
-        $this->assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 
     public function testHomepageWithLoggedUser()
@@ -19,7 +19,7 @@ class DefaultControllerTest extends BaseController
         $client = $this->login('user@todolist.com');
         $client->request('GET', '/');
 
-        $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 
     public function testHomepageWithLoggedAdmin()
@@ -27,6 +27,6 @@ class DefaultControllerTest extends BaseController
         $client = $this->login(BaseController::ADMIN_EMAIL);
         $client->request('GET', '/');
 
-        $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 }

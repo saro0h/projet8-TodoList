@@ -5,7 +5,7 @@
 
 {% block body %}
     <div class="row">
-        {{ form_start(form, {'action' : path('user_edit', {'id' : user.id})}) }}
+        {{ form_start(form, {'action': path('user_edit', {'id': user.id})}) }}
             {{ form_row(form.username) }}
             {{ form_row(form.password) }}
             {{ form_row(form.email) }}

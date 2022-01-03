@@ -16,7 +16,7 @@ class Task
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="datetime")
@@ -25,33 +25,33 @@ class Task
 
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank(message="Vous devez saisir un titre.")
      */
+    #[Assert\NotBlank(message: 'Vous devez saisir un titre.')]
     private $title;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="Vous devez saisir du contenu.")
      */
+    #[Assert\NotBlank(message: 'Vous devez saisir du contenu.')]
     private $content;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isDone;
+    private bool $isDone;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tasks")
      */
-    private $user;
+    private ?User $user = null;
 
     public function __construct()
     {
-        $this->createdAt = new \Datetime();
+        $this->createdAt = new \DateTime();
         $this->isDone = false;
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -86,7 +86,7 @@ class Task
         $this->content = $content;
     }
 
-    public function isDone()
+    public function isDone(): bool
     {
         return $this->isDone;
     }

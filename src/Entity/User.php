@@ -6,10 +6,10 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -23,37 +23,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-    * @ORM\Column(type="string", length=60, unique=true)
-    * @Assert\NotBlank(message="Vous devez saisir une adresse email.")
-    * @Assert\Email(message="Le format de l'adresse n'est pas correcte.")
-    */
-    private $email;
+     * @ORM\Column(type="string", length=60, unique=true)
+     */
+    #[Assert\NotBlank(message: 'Vous devez saisir une adresse email.')]
+    #[Assert\Email(message: "Le format de l'adresse n'est pas correcte.")]
+    private ?string $email = null;
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
-     * @Assert\NotBlank(message="Vous devez saisir un nom d'utilisateur.")
      */
-    private $username;
+    #[Assert\NotBlank(message: "Vous devez saisir un nom d'utilisateur.")]
+    private ?string $username = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $password;
+    private ?string $password = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Task", mappedBy="user")
      */
-    private $tasks;
+    private Collection $tasks;
 
     /**
-     * @var array
-     *
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     public function __construct()
     {
@@ -65,7 +63,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getUsername(): ?string
+    public function getUsername(): string
     {
         return $this->username;
     }

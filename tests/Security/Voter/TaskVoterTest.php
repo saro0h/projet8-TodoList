@@ -6,7 +6,7 @@ use App\Entity\Task;
 use App\Entity\User;
 use App\Security\Voter\TaskVoter;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\Security\Core\Authentication\Token\NullToken;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class TaskVoterTest extends WebTestCase
@@ -38,7 +38,7 @@ class TaskVoterTest extends WebTestCase
 
         yield 'Utilisateur ne peut supprimer la tâche ne lui appartenant pas' => [
             $this->createUser(),
-            $task = $this->createTask($this->createUser(4)),
+            $task = $this->createTask($this->createUser()),
             $attribute = 'TASK_DELETE',
             TaskVoter::ACCESS_DENIED,
         ];
@@ -60,10 +60,6 @@ class TaskVoterTest extends WebTestCase
 
     /**
      * @dataProvider provideCases
-     * @param $user
-     * @param Task $task
-     * @param string $attribute
-     * @param int $expectedVote
      */
     public function testVote(
         $user,
@@ -71,16 +67,15 @@ class TaskVoterTest extends WebTestCase
         string $attribute,
         int $expectedVote): void
     {
-
         $voter = new TaskVoter();
 
-        $token = new AnonymousToken('secret', 'anonymous');
+        $token = new NullToken();
         if ($user) {
             $token = new UsernamePasswordToken(
-                $user, 'password', 'memory'
+                $user, 'password', []
             );
         }
 
-        $this->assertSame($expectedVote, $voter->vote($token, $task, [$attribute]));
+        self::assertSame($expectedVote, $voter->vote($token, $task, [$attribute]));
     }
 }
