@@ -1,0 +1,27 @@
+@startuml
+autonumber
+title       "User or Admin" creating a task
+actor       "User or Admin"
+participant Application
+database    Database
+
+ref over "User or Admin", Application, Database
+    /login
+end ref
+ref over "User or Admin", Application, Database
+    /tasks
+end ref
+"User or Admin" -> Application: GET /tasks/create
+"User or Admin" <-- Application: Render /tasks/create
+"User or Admin" -> Application: POST /tasks/create
+Application -> Application: check submitted form
+
+alt form is valid
+    Application -> Database: Create task
+    Database -> Application: Task created
+    Application -> "User or Admin": Redirect to /tasks
+else form errors
+    Application -> Application: Add errors to form
+    Application -> "User or Admin": Render /tasks/create with errors
+end
+@enduml

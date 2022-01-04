@@ -1,0 +1,15 @@
+@startuml
+autonumber
+title       Admin show users
+actor       Admin
+participant Application
+database    Database
+
+ref over Admin, Application, Database
+    /login
+end ref
+Admin -> Application: GET /users
+Application -> Database: SELECT * FROM users
+Database --> Application: return users
+Admin <-- Application: Render /users
+@enduml

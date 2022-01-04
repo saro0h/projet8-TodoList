@@ -1,0 +1,50 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Task {
+   -id
+   -createdAt
+   -title
+   -content
+   -isDone
+   -user
+   +getId()
+   +getCreatedAt()
+   +setCreatedAt()
+   +getTitle()
+   +setTitle()
+   +getContent()
+   +setContent()
+   +isDone()
+   +toggle()
+   +getUser()
+   +setUser()
+}
+
+class User {
+   -id
+   -email
+   -username
+   -password
+   -tasks
+   -roles
+   +getId()
+   +getUsername()
+   +setUsername()
+   +getEmail()
+   +setEmail()
+   +getUserIdentifier()
+   +getPassword()
+   +setPassword()
+   +getTasks()
+   +addTask()
+   +removeTask()
+   +getRoles()
+   +setRoles()
+   +getSalt()
+   +eraseCredentials()
+}
+
+User -{ Task
+
+@enduml

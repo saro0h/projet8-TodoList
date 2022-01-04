@@ -1,0 +1,23 @@
+@startuml
+autonumber
+title       "User or Admin" wants to log in
+actor       "User or Admin"
+participant Application
+database    Database
+
+"User or Admin" -> Application: GET /login
+"User or Admin" <-- Application: Render /login
+"User or Admin" -> Application: POST /login
+Application -> Application: hash password
+Application -> Database: send values to database
+Database -> Database: checks credentials
+alt user logged in
+    Database -> Application: User found
+    Application -> Application: Log user
+    Application -> "User or Admin": Redirect to /
+else authentication error
+    Database -> Application: User not found
+    Application -> Application: Add error for login
+    Application -> "User or Admin": render /login
+end
+@enduml

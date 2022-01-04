@@ -1,0 +1,16 @@
+@startuml
+autonumber
+title       "User or Admin" accessing to /login
+actor       "User or Admin"
+participant Application
+database    Database
+
+ref over "User or Admin", Application, Database
+    /login
+end ref
+"User or Admin" -> Application: GET /tasks
+Application -> Database: SELECT * FROM tasks
+Database --> Application: return tasks
+"User or Admin" <-- Application: Render /tasks
+
+@enduml

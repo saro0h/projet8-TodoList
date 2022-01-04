@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+actor User as user #limegreen;line:limegreen;line.bold;text:black
+actor Admin as admin #dodgerblue;line:dodgerblue;line.bold;text:black
+
+package Task #dodgerblue;line:darkgreen;line.bold;text:white {
+  usecase "Show tasks" as showTasks
+  usecase "Create task" as createTask
+  usecase "Update Task" as updateTask
+  usecase "Delete his own task" as deleteHisOwnTask
+  usecase "Delete anonymous task" as deleteAnonymousTask
+}
+
+admin --> user
+
+user --> showTasks
+user --> createTask
+user --> updateTask
+user --> deleteHisOwnTask
+
+admin --> deleteAnonymousTask
+
+@enduml

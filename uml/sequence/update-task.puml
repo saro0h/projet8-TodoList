@@ -1,0 +1,33 @@
+@startuml
+autonumber
+title       "User or Admin" editing a task
+actor       "User or Admin"
+participant Application
+database    Database
+
+ref over "User or Admin", Application, Database
+    /login
+end ref
+ref over "User or Admin", Application, Database
+    /tasks
+end ref
+"User or Admin" -> Application: GET /tasks/1/edit
+Application -> Database: Find task with id 1
+Database -> Application: Task with id 1 or null
+alt task exists
+    Application -> "User or Admin": Render /tasks/1/edit
+else task does not exist
+    Application -> "User or Admin": Render 404
+end
+"User or Admin" -> Application: POST /tasks/1/edit
+Application -> Application: check submitted form
+
+alt form is valid
+    Application -> Database: Update task
+    Database -> Application: Task updated
+    Application -> "User or Admin": Redirect to /tasks
+else form errors
+    Application -> Application: Add errors to form
+    Application -> "User or Admin": Render /tasks/1/edit with errors
+end
+@enduml

@@ -55,6 +55,10 @@ Code coverage
 $ make coverage
 ```
 
+Diagrams
+------------
+[Link](diagrams.md)
+
 [1]: https://symfony.com/doc/current/reference/requirements.html
 [2]: https://docs.docker.com/installation/
 [3]: https://docs.docker.com/compose/
