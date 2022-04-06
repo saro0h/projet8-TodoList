@@ -46,7 +46,6 @@ class UserController extends AbstractController
             $em = $this->doctrine->getManager();
             $user->setPassword($this->userPasswordHasher->hashPassword($user, $user->getPassword()));
 
-            //dd($user);
             $em->persist($user);
             $em->flush();
 
@@ -68,10 +67,11 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
+            if($user->getPassword()) {
+                $user->setPassword($this->userPasswordHasher->hashPassword($user, $user->getPassword()));
+            }
 
-            $this->getDoctrine()->getManager()->flush();
+            $this->doctrine->getManager()->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
