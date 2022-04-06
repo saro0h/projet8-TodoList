@@ -5,6 +5,7 @@ namespace App\Service;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 
@@ -22,31 +23,34 @@ class Referer
         $this->router = $router;
     }
 
-    public function set()
+    public function set(): ?string
     {
         $referer = $this->request->headers->get('referer');
         $baseURL = $this->request->getSchemeAndHttpHost();
         $refererPath = str_replace($baseURL, '', $referer);
         $loginPath = $this->router->generate('app_login');
 
-        if($referer != null && $refererPath != $loginPath) return $this->requestSession->set('referer', $referer);
+        if($referer != null && $refererPath != $loginPath) {
+            return $this->requestSession->set('referer', $referer);
+        }
+        return null;
     }
 
-    public function get()
+    public function get(): string
     {
         return $this->requestSession->get('referer');
     }
 
-    public function goTo()
+    public function goTo(): Response
     {
         if ($this->get()) {
             return new RedirectResponse($this->get());
         } else {
-            return new RedirectResponse($this->router->generate('home'));
+            return new RedirectResponse($this->router->generate('homepage'));
         }
     }
 
-    public function setAndGo()
+    public function setAndGo(): Response
     {
         $this->set();
         return $this->goTo();

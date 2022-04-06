@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Task;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -22,11 +23,15 @@ class AppFixtures extends Fixture
     {
         $faker = Faker\Factory::create('fr_FR');
 
+        $users = [];
+
+        /* users */
         $user = new User();
         $user->setEmail('admin@admin.com')
             ->setPassword($this->userPasswordHasher->hashPassword($user, "admin"))
             ->setUsername("admin")
             ->setRoles(['ROLE_ADMIN']);
+        $users[] = $user;
         $manager->persist($user);
 
         $user = new User();
@@ -34,7 +39,27 @@ class AppFixtures extends Fixture
             ->setPassword($this->userPasswordHasher->hashPassword($user, "user"))
             ->setUsername("user")
             ->setRoles([]);
+        $users[] = $user;
         $manager->persist($user);
+
+        /* tasks */
+        foreach ($users as $user) {
+            for ($i = 0; $i < 3; $i++) {
+                $task = (new Task())
+                    ->setUser($user)
+                    ->setTitle($faker->sentence(4))
+                    ->setContent($faker->sentence(10));
+                $manager->persist($task);
+            }
+        }
+
+        /* anonymous tasks */
+        for ($i = 0; $i < 3; $i++) {
+            $task = (new Task())
+                ->setTitle($faker->sentence(4))
+                ->setContent($faker->sentence(10));
+            $manager->persist($task);
+        }
 
         $manager->flush();
     }

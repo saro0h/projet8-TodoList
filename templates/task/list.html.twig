@@ -7,7 +7,10 @@
 {% block body %}
     <div class="row">
         {% if tasks %}
-            <a href="{{ path('task_create') }}" class="btn btn-info pull-right px-3">Créer une tâche</a>
+            {% if app.request.get('_route') != 'task_list_anonymous' %}
+                <a href="{{ path('task_create') }}" class="btn btn-info pull-right px-3">Créer une tâche</a>
+            {% endif %}
+
             {% for task in tasks %}
                 <div class="col-sm-4 col-lg-4 col-md-4">
                     <div class="thumbnail">
@@ -33,10 +36,25 @@
                 </div>
             {% endfor %}
         {% else %}
-            <div class="alert alert-warning" role="alert">
-                Il n'y a pas encore de tâche enregistrée.
-                <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
-            </div>
+            {% if app.request.get('_route') != 'task_list_anonymous' %}
+                <div class="alert alert-warning" role="alert">
+                    Il n'y a pas encore de tâche enregistrée.
+                    <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
+                </div>
+            {% else %}
+                <div class="alert alert-warning" role="alert">
+                    Il n'y a pas encore de tâche anonyme.
+                </div>
+            {% endif %}
         {% endif %}
     </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="row">
+            {% if app.request.get('_route') != 'task_list_anonymous' %}
+                <a href="{{ path('task_list_anonymous') }}" class="btn btn-warning">Liste des tâches anonymes</a>
+            {% else %}
+                <a href="{{ path('task_list') }}" class="btn btn-warning">Retourner à vos tâches</a>
+            {% endif %}
+        </div>
+    {% endif %}
 {% endblock %}
