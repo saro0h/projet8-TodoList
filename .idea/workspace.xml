@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="43b553a7-2b61-47e9-b993-7173646eb02f" name="Changes" comment="issue-4">
+    <list default="true" id="c49c9d40-904e-4ce3-beab-753e0b3b5004" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TaskController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TaskController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Task.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Task.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/UserType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/UserType.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +136,7 @@
       <path value="$PROJECT_DIR$/vendor/fakerphp/faker" />
     </include_path>
   </component>
-  <component name="ProjectId" id="27IP3rTDIszVuMSDjeqZr6DOETq" />
+  <component name="ProjectId" id="27O2YlBTnSyD9at9E226FuWBJ4k" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -147,50 +146,19 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="Symfony.ProfilerSettingsForm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="43b553a7-2b61-47e9-b993-7173646eb02f" name="Changes" comment="" />
-      <created>1649004432259</created>
+      <changelist id="c49c9d40-904e-4ce3-beab-753e0b3b5004" name="Changes" comment="" />
+      <created>1649176866301</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1649004432259</updated>
-      <workItem from="1649004434279" duration="111000" />
-      <workItem from="1649004555279" duration="251000" />
-      <workItem from="1649057837225" duration="6465000" />
+      <updated>1649176866301</updated>
+      <workItem from="1649176867840" duration="1720000" />
+      <workItem from="1649232546163" duration="1912000" />
     </task>
-    <task id="LOCAL-00001" summary="issue-1">
-      <created>1649004499270</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1649004499271</updated>
-    </task>
-    <task id="LOCAL-00002" summary="issue-4">
-      <created>1649004650414</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1649004650414</updated>
-    </task>
-    <task id="LOCAL-00003" summary="issue-4">
-      <created>1649064822043</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1649064822043</updated>
-    </task>
-    <task id="LOCAL-00004" summary="issue-4">
-      <created>1649064972596</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1649064972596</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -206,11 +174,6 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="issue-1" />
-    <MESSAGE value="issue-4" />
-    <option name="LAST_COMMIT_MESSAGE" value="issue-4" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
