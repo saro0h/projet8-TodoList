@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
+use App\Service\Referer;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,6 +29,17 @@ class TaskController extends AbstractController
     {
         return $this->render('task/list.html.twig', [
             'tasks' => $taskRepository->findBy(['user' => $this->getUser()])
+        ]);
+    }
+
+    /**
+     * @Route("/tasks/anonymous", name="task_list_anonymous")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function listTaskAnonymous(TaskRepository $taskRepository): Response
+    {
+        return $this->render('task/list.html.twig', [
+            'tasks' => $taskRepository->findBy(['user' => null])
         ]);
     }
 
@@ -95,7 +108,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/delete", name="task_delete")
      */
-    public function deleteTask(Task $task): Response
+    public function deleteTask(Task $task, Referer $referer): Response
     {
         $this->denyAccessUnlessGranted('edit', $task);
 
@@ -104,6 +117,6 @@ class TaskController extends AbstractController
 
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
-        return $this->redirectToRoute('task_list');
+        return $referer->setAndGo();
     }
 }
