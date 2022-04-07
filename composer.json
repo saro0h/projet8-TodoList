@@ -25,6 +25,7 @@
         "symfony/http-client": "6.0.*",
         "symfony/intl": "6.0.*",
         "symfony/mailer": "6.0.*",
+        "symfony/messenger": "6.0.*",
         "symfony/mime": "6.0.*",
         "symfony/monolog-bundle": "^3.0",
         "symfony/notifier": "6.0.*",
@@ -98,6 +99,7 @@
         }
     },
     "require-dev": {
+        "dama/doctrine-test-bundle": "^6.7",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "fakerphp/faker": "^1.19",
         "phpunit/phpunit": "^9.5",
