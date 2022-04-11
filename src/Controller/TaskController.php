@@ -28,18 +28,7 @@ class TaskController extends AbstractController
     public function listTask(TaskRepository $taskRepository): Response
     {
         return $this->render('task/list.html.twig', [
-            'tasks' => $taskRepository->findBy(['user' => $this->getUser()])
-        ]);
-    }
-
-    /**
-     * @Route("/tasks/anonymous", name="task_list_anonymous")
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function listTaskAnonymous(TaskRepository $taskRepository): Response
-    {
-        return $this->render('task/list.html.twig', [
-            'tasks' => $taskRepository->findBy(['user' => null])
+            'tasks' => $taskRepository->findAll()
         ]);
     }
 

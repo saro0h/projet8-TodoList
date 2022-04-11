@@ -21,40 +21,28 @@
                             </h4>
                             <h4><a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a></h4>
                             <p>{{ task.content }}</p>
+                            <i>{{ task.user ? 'Créée par ' ~ task.user.username|capitalize : 'Anonyme' }}</i>
                         </div>
-                        <div>
-                            <form action="{{ path('task_toggle', {'id' : task.id }) }}">
-                                <button class="btn btn-success btn-sm pull-right">
-                                    {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
-                                </button>
-                            </form>
-                            <form action="{{ path('task_delete', {'id' : task.id }) }}">
-                                <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
-                            </form>
-                        </div>
+                        {% if task.user == app.user or (not task.user and is_granted('ROLE_ADMIN')) %}
+                            <div>
+                                <form action="{{ path('task_toggle', {'id' : task.id }) }}">
+                                    <button class="btn btn-success btn-sm pull-right">
+                                        {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
+                                    </button>
+                                </form>
+                                <form action="{{ path('task_delete', {'id' : task.id }) }}">
+                                    <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
+                                </form>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
         {% else %}
-            {% if app.request.get('_route') != 'task_list_anonymous' %}
-                <div class="alert alert-warning" role="alert">
-                    Il n'y a pas encore de tâche enregistrée.
-                    <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
-                </div>
-            {% else %}
-                <div class="alert alert-warning" role="alert">
-                    Il n'y a pas encore de tâche anonyme.
-                </div>
-            {% endif %}
+            <div class="alert alert-warning" role="alert">
+                Il n'y a pas encore de tâche enregistrée.
+                <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
+            </div>
         {% endif %}
     </div>
-    {% if is_granted('ROLE_ADMIN') %}
-        <div class="row">
-            {% if app.request.get('_route') != 'task_list_anonymous' %}
-                <a href="{{ path('task_list_anonymous') }}" class="btn btn-warning">Liste des tâches anonymes</a>
-            {% else %}
-                <a href="{{ path('task_list') }}" class="btn btn-warning">Retourner à vos tâches</a>
-            {% endif %}
-        </div>
-    {% endif %}
 {% endblock %}

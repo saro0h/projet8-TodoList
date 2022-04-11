@@ -48,7 +48,7 @@ class AppFixtures extends Fixture
                 $task = (new Task())
                     ->setUser($user)
                     ->setTitle($faker->sentence(4))
-                    ->setContent($faker->sentence(10));
+                    ->setContent($faker->sentence(7));
                 $manager->persist($task);
             }
         }
