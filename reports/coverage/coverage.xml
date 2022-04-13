@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1649671470">
-  <project timestamp="1649671470">
+<coverage generated="1649862322">
+  <project timestamp="1649862322">
     <file name="/home/romain/PhpstormProjects/ocp8-dev/src/Controller/DefaultController.php">
       <class name="App\Controller\DefaultController" namespace="global">
         <metrics complexity="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="0" elements="2" coveredelements="0"/>
@@ -293,8 +293,8 @@
       <class name="App\Security\AccessDeniedHandler" namespace="global">
         <metrics complexity="2" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="1" elements="4" coveredelements="2"/>
       </class>
-      <line num="17" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
-      <line num="19" type="stmt" count="1"/>
+      <line num="17" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="19" type="stmt" count="2"/>
       <line num="22" type="method" name="handle" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="24" type="stmt" count="0"/>
       <metrics loc="26" ncloc="26" classes="1" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="1" elements="4" coveredelements="2"/>
@@ -303,9 +303,9 @@
       <class name="App\Security\AppAuthenticator" namespace="global">
         <metrics complexity="5" methods="4" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="3" elements="16" coveredelements="5"/>
       </class>
-      <line num="28" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
-      <line num="30" type="stmt" count="1"/>
-      <line num="31" type="stmt" count="1"/>
+      <line num="28" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="30" type="stmt" count="2"/>
+      <line num="31" type="stmt" count="2"/>
       <line num="34" type="method" name="authenticate" visibility="public" complexity="1" crap="2" count="0"/>
       <line num="36" type="stmt" count="0"/>
       <line num="38" type="stmt" count="0"/>
@@ -317,19 +317,19 @@
       <line num="51" type="stmt" count="0"/>
       <line num="52" type="stmt" count="0"/>
       <line num="55" type="stmt" count="0"/>
-      <line num="58" type="method" name="getLoginUrl" visibility="protected" complexity="1" crap="1" count="1"/>
-      <line num="60" type="stmt" count="1"/>
+      <line num="58" type="method" name="getLoginUrl" visibility="protected" complexity="1" crap="1" count="2"/>
+      <line num="60" type="stmt" count="2"/>
       <metrics loc="63" ncloc="63" classes="1" methods="4" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="3" elements="16" coveredelements="5"/>
     </file>
     <file name="/home/romain/PhpstormProjects/ocp8-dev/src/Security/TaskVoter.php">
       <class name="App\Security\TaskVoter" namespace="global">
         <metrics complexity="9" methods="4" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="3" elements="20" coveredelements="4"/>
       </class>
-      <line num="20" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
-      <line num="22" type="stmt" count="1"/>
-      <line num="25" type="method" name="supports" visibility="protected" complexity="3" crap="4.94" count="1"/>
-      <line num="28" type="stmt" count="1"/>
-      <line num="29" type="stmt" count="1"/>
+      <line num="20" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="22" type="stmt" count="2"/>
+      <line num="25" type="method" name="supports" visibility="protected" complexity="3" crap="4.94" count="2"/>
+      <line num="28" type="stmt" count="2"/>
+      <line num="29" type="stmt" count="2"/>
       <line num="33" type="stmt" count="0"/>
       <line num="34" type="stmt" count="0"/>
       <line num="37" type="stmt" count="0"/>
@@ -351,10 +351,10 @@
       <class name="App\Service\Referer" namespace="global">
         <metrics complexity="8" methods="5" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="3" elements="21" coveredelements="4"/>
       </class>
-      <line num="19" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
-      <line num="21" type="stmt" count="1"/>
-      <line num="22" type="stmt" count="1"/>
-      <line num="23" type="stmt" count="1"/>
+      <line num="19" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="21" type="stmt" count="2"/>
+      <line num="22" type="stmt" count="2"/>
+      <line num="23" type="stmt" count="2"/>
       <line num="26" type="method" name="set" visibility="public" complexity="3" crap="12" count="0"/>
       <line num="28" type="stmt" count="0"/>
       <line num="29" type="stmt" count="0"/>
