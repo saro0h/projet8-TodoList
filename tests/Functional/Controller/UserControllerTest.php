@@ -2,11 +2,10 @@
 
 namespace App\Tests\Functional\Controller;
 
-use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\Functional\AbstractWebTestCase;
+use Symfony\Component\Form\FormFactoryInterface;
 
-class UserControllerTest extends WebTestCase
+class UserControllerTest extends AbstractWebTestCase
 {
     const PAGES = [
         '/users',
@@ -15,23 +14,11 @@ class UserControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->client = static::createClient();
-        $this->userRepository = static::getContainer()->get(UserRepository::class);
+        parent::setUp();
+        $this->factory = static::getContainer()->get(FormFactoryInterface::class);
     }
 
-    protected function loginAs(string $email): KernelBrowser
-    {
-        $user = $this->userRepository->findOneBy(['email' => $email]);
-        return $this->client->loginUser($user);
-    }
-
-    public function test()
-    {
-        $this->testAsAdmin();
-        $this->testAsUser();
-    }
-
-    protected function testAsAdmin()
+    public function testAsAdmin()
     {
         $this->loginAs('admin@admin.com');
 
@@ -40,7 +27,7 @@ class UserControllerTest extends WebTestCase
         }
     }
 
-    protected function testAsUser()
+    public function testAsUser()
     {
         $this->loginAs('user@user.com');
 
@@ -56,7 +43,7 @@ class UserControllerTest extends WebTestCase
             $this->assertResponseIsSuccessful();
         }
         else {
-            $this->assertResponseIsUnprocessable();
+            $this->assertNotEquals(200, $this->client->getResponse()->getStatusCode());
         }
     }
 }

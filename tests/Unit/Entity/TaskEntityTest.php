@@ -2,16 +2,22 @@
 
 namespace App\Tests\Unit\Entity;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Entity\Task;
+use App\Tests\Unit\AbstractKernelTestCase;
 
-class TaskEntityTest extends KernelTestCase
+class TaskEntityTest extends AbstractKernelTestCase
 {
-    public function testSomething(): void
+    public function testTaskEntityIsValid (): void
     {
-        $kernel = self::bootKernel();
+        $task = new Task();
+        $task
+            ->setTitle('task one')
+            ->setContent('content task one')
+            ->setUser(null)
+            ->setCreatedAt(new \DateTimeImmutable())
+        ;
 
-        $this->assertSame('test', $kernel->getEnvironment());
-        //$routerService = static::getContainer()->get('router');
-        //$myCustomService = static::getContainer()->get(CustomService::class);
+        $errors = $this->validator->validate($task);
+        $this->assertCount(0, $errors);
     }
 }

@@ -2,24 +2,10 @@
 
 namespace App\Tests\Functional\Controller;
 
-use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\Functional\AbstractWebTestCase;
 
-class DefaultControllerTest extends WebTestCase
+class DefaultControllerTest extends AbstractWebTestCase
 {
-    protected function setUp(): void
-    {
-        $this->client = static::createClient();
-        $this->userRepository = static::getContainer()->get(UserRepository::class);
-    }
-
-    protected function loginAs(string $email): void
-    {
-        $user = $this->userRepository->findOneBy(['email' => $email]);
-        $this->client->loginUser($user);
-    }
-
     public function testIndexAnonymous()
     {
         $this->testIndex(302);

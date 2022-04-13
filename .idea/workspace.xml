@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c49c9d40-904e-4ce3-beab-753e0b3b5004" name="Changes" comment="issue-7">
-      <change afterPath="$PROJECT_DIR$/tests/Functional/Controller/UserControllerTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Functional/AbstractWebTestCase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Functional/Controller/SecurityControllerTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Unit/AbstractKernelTestCase.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/coverage/Controller/DefaultController.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Controller/DefaultController.php.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/coverage/Controller/SecurityController.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Controller/SecurityController.php.html" afterDir="false" />
@@ -37,11 +39,11 @@
       <change beforePath="$PROJECT_DIR$/reports/coverage/coverage.xml" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/coverage.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/coverage/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/coverage/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Referer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Referer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/Functional/Controller/DefaultControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/Controller/DefaultControllerTest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/Functional/Controller/TaskControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/Controller/TaskControllerTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/Entity/TaskTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Unit/Entity/TaskEntityTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/Entity/UserTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Unit/Entity/UserEntityTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/Controller/UserControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/Controller/UserControllerTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Unit/Entity/TaskEntityTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Unit/Entity/TaskEntityTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Unit/Entity/UserEntityTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Unit/Entity/UserEntityTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -245,7 +247,7 @@
       <workItem from="1649668566185" duration="97000" />
       <workItem from="1649668772737" duration="4384000" />
       <workItem from="1649680976910" duration="31000" />
-      <workItem from="1649858746958" duration="8684000" />
+      <workItem from="1649858746958" duration="14715000" />
     </task>
     <task id="LOCAL-00001" summary="issue-6">
       <created>1649239128202</created>
@@ -310,7 +312,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649862445151</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="issue-7">
+      <created>1649878762034</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1649878762034</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
