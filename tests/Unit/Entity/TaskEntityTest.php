@@ -4,7 +4,7 @@ namespace App\Tests\Unit\Entity;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class TaskTest extends KernelTestCase
+class TaskEntityTest extends KernelTestCase
 {
     public function testSomething(): void
     {

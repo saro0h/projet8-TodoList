@@ -36,9 +36,9 @@ class Referer
         return null;
     }
 
-    public function get(): string
+    public function get(): ?string
     {
-        return $this->requestSession->get('referer');
+        return $this->requestSession->get('referer') ?? null;
     }
 
     public function goTo(): Response

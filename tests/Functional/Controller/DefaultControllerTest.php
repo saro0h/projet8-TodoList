@@ -2,17 +2,40 @@
 
 namespace App\Tests\Functional\Controller;
 
+use App\Repository\UserRepository;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
-    public function testIndex()
+    protected function setUp(): void
     {
-        $client = static::createClient();
+        $this->client = static::createClient();
+        $this->userRepository = static::getContainer()->get(UserRepository::class);
+    }
 
-        $crawler = $client->request('GET', '/');
+    protected function loginAs(string $email): void
+    {
+        $user = $this->userRepository->findOneBy(['email' => $email]);
+        $this->client->loginUser($user);
+    }
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertStringContainsString('Welcome to Symfony', $crawler->filter('#container h1')->text());
+    public function testIndexAnonymous()
+    {
+        $this->testIndex(302);
+    }
+
+    public function testIndexLogged()
+    {
+        $this->loginAs('user@user.com');
+        $this->testIndex(200);
+    }
+
+    protected function testIndex(int $expectedCode)
+    {
+        $crawler = $this->client->request('GET', '/');
+
+        $this->assertEquals($expectedCode, $this->client->getResponse()->getStatusCode());
+        //$this->assertStringContainsString('Welcome to Symfony', $crawler->filter('#container h1')->text());
     }
 }

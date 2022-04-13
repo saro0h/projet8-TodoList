@@ -4,9 +4,8 @@ namespace App\Tests\Unit\Entity;
 
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Validator\ConstraintViolationList;
 
-class UserTest extends KernelTestCase
+class UserEntityTest extends KernelTestCase
 {
     private const EMAIL_NOT_BLANK_MESSAGE = 'Vous devez saisir une adresse email.';
     private const EMAIL_CONSTRAINT_MESSAGE = "Le format de l'adresse n'est pas correcte.";
@@ -18,7 +17,7 @@ class UserTest extends KernelTestCase
     {
         $kernel = self::bootKernel();
 
-        $this->validator = $kernel->getContainer()->get('validator');
+        $this->validator = static::getContainer()->get('validator');
     }
 
     public function testUserEntityIsValid (): void
