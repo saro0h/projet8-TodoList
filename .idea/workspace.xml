@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c49c9d40-904e-4ce3-beab-753e0b3b5004" name="Changes" comment="issue-7">
-      <change afterPath="$PROJECT_DIR$/tests/EntityGetSetTest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/coverage/Controller/DefaultController.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Controller/DefaultController.php.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/coverage/Controller/SecurityController.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Controller/SecurityController.php.html" afterDir="false" />
@@ -34,6 +33,11 @@
       <change beforePath="$PROJECT_DIR$/reports/coverage/coverage.xml" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/coverage.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/coverage/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/coverage/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Task.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Task.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/EntityGetSetTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/EntityGetSetTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/AbstractWebTestCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/AbstractWebTestCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/Controller/TaskControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/Controller/TaskControllerTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/Controller/UserControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/Controller/UserControllerTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -205,14 +209,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/romain/PhpstormProjects/ocp8-dev/tests",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/romain/PhpstormProjects/ocp8-dev/tests&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/tests" />
@@ -245,7 +249,9 @@
       <workItem from="1649979019195" duration="17000" />
       <workItem from="1649979084023" duration="606000" />
       <workItem from="1650034723716" duration="6000" />
-      <workItem from="1650526171973" duration="3182000" />
+      <workItem from="1650526171973" duration="3466000" />
+      <workItem from="1650534679966" duration="1804000" />
+      <workItem from="1650555254472" duration="5714000" />
     </task>
     <task id="LOCAL-00001" summary="issue-6">
       <created>1649239128202</created>
@@ -345,7 +351,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650529408951</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="issue-7">
+      <created>1650532217505</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1650532217505</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

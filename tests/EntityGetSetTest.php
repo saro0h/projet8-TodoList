@@ -30,6 +30,7 @@ class EntityGetSetTest extends TestCase
             $propertyFakeValue = $this->getFakeValue($reflectionProperty->getType());
             $propertyName = $reflectionProperty->getName();
 
+            $reflectionProperty->setAccessible(true);
             $reflectionProperty->setValue($task, $propertyFakeValue);
 
             $getterName = 'get' . ucfirst($propertyName);

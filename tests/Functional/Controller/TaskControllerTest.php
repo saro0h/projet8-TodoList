@@ -2,7 +2,6 @@
 
 namespace App\Tests\Functional\Controller;
 
-use App\Entity\Task;
 use App\Repository\TaskRepository;
 use App\Tests\Functional\AbstractWebTestCase;
 
@@ -16,15 +15,20 @@ class TaskControllerTest extends AbstractWebTestCase
 
     public function testTaskList(): void
     {
-        $this->loginAs('user@user.com');
-        $crawler = $this->client->request('GET', '/tasks');
-
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-        //$this->assertStringContainsString('Welcome to Symfony', $crawler->filter('#container h1')->text());
-
-        $this->assertResponseIsSuccessful();
-        //$this->assertSelectorTextContains('h1', 'Hello World');
+        $this->testEntityList('user@user.com', 'task_list');
     }
+
+//    public function testTaskList(): void
+//    {
+//        $this->loginAs('user@user.com');
+//        $crawler = $this->client->request('GET', '/tasks');
+//
+//        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+//        //$this->assertStringContainsString('Welcome to Symfony', $crawler->filter('#container h1')->text());
+//
+//        $this->assertResponseIsSuccessful();
+//        //$this->assertSelectorTextContains('h1', 'Hello World');
+//    }
 
     public function testCreateTaskAndVerifyUser()
     {
