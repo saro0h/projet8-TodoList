@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c49c9d40-904e-4ce3-beab-753e0b3b5004" name="Changes" comment="issue-7">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phpunit.xml.dist" beforeDir="false" afterPath="$PROJECT_DIR$/phpunit.xml.dist" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,14 +174,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -209,6 +207,12 @@
       <workItem from="1649680976910" duration="31000" />
       <workItem from="1649858746958" duration="19477000" />
       <workItem from="1649934045828" duration="578000" />
+      <workItem from="1649968115730" duration="92000" />
+      <workItem from="1649978975624" duration="10000" />
+      <workItem from="1649979019195" duration="17000" />
+      <workItem from="1649979084023" duration="606000" />
+      <workItem from="1650034723716" duration="6000" />
+      <workItem from="1650526171973" duration="686000" />
     </task>
     <task id="LOCAL-00001" summary="issue-6">
       <created>1649239128202</created>
@@ -294,7 +298,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649888494417</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="issue-7">
+      <created>1649968200721</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1649968200721</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
