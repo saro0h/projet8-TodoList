@@ -2,7 +2,38 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c49c9d40-904e-4ce3-beab-753e0b3b5004" name="Changes" comment="issue-7">
+      <change afterPath="$PROJECT_DIR$/tests/EntityGetSetTest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Controller/DefaultController.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Controller/DefaultController.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Controller/SecurityController.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Controller/SecurityController.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Controller/TaskController.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Controller/TaskController.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Controller/UserController.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Controller/UserController.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Controller/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Controller/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Controller/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Controller/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Entity/Task.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Entity/Task.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Entity/User.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Entity/User.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Entity/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Entity/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Entity/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Entity/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Form/TaskType.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Form/TaskType.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Form/UserType.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Form/UserType.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Form/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Form/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Form/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Form/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Kernel.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Kernel.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Repository/TaskRepository.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Repository/TaskRepository.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Repository/UserRepository.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Repository/UserRepository.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Repository/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Repository/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Repository/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Repository/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Security/AccessDeniedHandler.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Security/AccessDeniedHandler.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Security/AppAuthenticator.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Security/AppAuthenticator.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Security/TaskVoter.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Security/TaskVoter.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Security/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Security/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Security/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Security/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Service/Referer.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Service/Referer.php.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Service/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Service/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/Service/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Service/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/coverage.xml" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/coverage.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/coverage/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,12 +208,14 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/romain/PhpstormProjects/ocp8-dev/tests",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tests" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -212,7 +245,7 @@
       <workItem from="1649979019195" duration="17000" />
       <workItem from="1649979084023" duration="606000" />
       <workItem from="1650034723716" duration="6000" />
-      <workItem from="1650526171973" duration="686000" />
+      <workItem from="1650526171973" duration="3182000" />
     </task>
     <task id="LOCAL-00001" summary="issue-6">
       <created>1649239128202</created>
@@ -305,7 +338,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649968200721</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="issue-7">
+      <created>1650529408950</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1650529408951</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
