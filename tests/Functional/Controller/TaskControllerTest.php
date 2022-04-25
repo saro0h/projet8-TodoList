@@ -30,7 +30,7 @@ class TaskControllerTest extends AbstractWebTestCase
 //        //$this->assertSelectorTextContains('h1', 'Hello World');
 //    }
 
-    public function testCreateTaskAndVerifyUser()
+    public function testCreateTaskAndVerifyUserAndDelete()
     {
         $user = $this->loginAs('user@user.com');
 
@@ -40,7 +40,7 @@ class TaskControllerTest extends AbstractWebTestCase
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
-        $title = 'Test of creation';
+        $title = 'Test of creation ' . rand(100, 200);
 
         $form = $crawler->selectButton('Ajouter')->form();
         $form['task[title]']->setValue($title);
@@ -48,8 +48,12 @@ class TaskControllerTest extends AbstractWebTestCase
         $this->client->submit($form);
 
         $task = $this->taskRepository->findOneBy(['title' => $title]);
-
         $this->assertEquals($user->getId(), $task->getUser()->getId());
+
+        $crawler = $this->client->request('GET', "/tasks/" . $task->getId() . "/delete");
+
+        $task = $this->taskRepository->findOneBy(['title' => $title]);
+        $this->assertEquals(false, (bool)$task);
     }
 
     public function testEditTask()
@@ -73,4 +77,19 @@ class TaskControllerTest extends AbstractWebTestCase
 
         $this->assertNotEquals($task, $editedTask);
     }
+
+//    public function testToggleTask()
+//    {
+//        $user = $this->loginAs('user@user.com');
+//
+//        $task = $this->taskRepository->findOneBy(['isDone' => false]);
+//        $this->assertEquals(true, (bool)$task);
+//
+//        $crawler = $this->client->request('GET', "/tasks/" . $task->getId() . "/toggle");
+//        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+//
+//        $editedTask = $this->taskRepository->findOneBy(['id' => $task->getId()]);
+//        $this->assertEquals(true, $editedTask->isDone());
+//    }
+
 }
