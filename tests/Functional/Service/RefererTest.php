@@ -26,7 +26,7 @@ class RefererTest extends AbstractWebTestCase
         $this->referer->set();
         $result = $this->referer->get();
 
-        $this->assertEquals($url1,$result);
+        $this->assertEquals($url1, $result);
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1', 'Hello World');

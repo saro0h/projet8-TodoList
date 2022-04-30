@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1651326069">
-  <project timestamp="1651326069">
+<coverage generated="1651328084">
+  <project timestamp="1651328084">
     <file name="/home/romain/PhpstormProjects/ocp8-dev/src/Controller/DefaultController.php">
       <class name="App\Controller\DefaultController" namespace="global">
         <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
       </class>
-      <line num="14" type="method" name="indexAction" visibility="public" complexity="1" crap="1" count="1"/>
-      <line num="16" type="stmt" count="1"/>
+      <line num="14" type="method" name="indexAction" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="16" type="stmt" count="2"/>
       <metrics loc="19" ncloc="16" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
     </file>
     <file name="/home/romain/PhpstormProjects/ocp8-dev/src/Controller/SecurityController.php">
@@ -159,8 +159,8 @@
       <line num="83" type="method" name="setUsername" visibility="public" complexity="1" crap="1" count="2"/>
       <line num="85" type="stmt" count="2"/>
       <line num="87" type="stmt" count="2"/>
-      <line num="95" type="method" name="getUserIdentifier" visibility="public" complexity="1" crap="1" count="8"/>
-      <line num="97" type="stmt" count="8"/>
+      <line num="95" type="method" name="getUserIdentifier" visibility="public" complexity="1" crap="1" count="9"/>
+      <line num="97" type="stmt" count="9"/>
       <line num="103" type="method" name="getRoles" visibility="public" complexity="1" crap="1" count="9"/>
       <line num="105" type="stmt" count="9"/>
       <line num="107" type="stmt" count="9"/>

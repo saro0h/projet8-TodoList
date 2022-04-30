@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c49c9d40-904e-4ce3-beab-753e0b3b5004" name="Changes" comment="issue-7">
+      <change beforePath="$PROJECT_DIR$/.idea/ocp8-dev.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ocp8-dev.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/coverage/Controller/DefaultController.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Controller/DefaultController.php.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/coverage/Controller/SecurityController.php.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/Controller/SecurityController.php.html" afterDir="false" />
@@ -33,6 +35,8 @@
       <change beforePath="$PROJECT_DIR$/reports/coverage/coverage.xml" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/coverage.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/coverage/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/coverage/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/Controller/SecurityControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/Controller/SecurityControllerTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/Service/RefererTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/Service/RefererTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +120,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/doctrine-bridge" />
       <path value="$PROJECT_DIR$/vendor/symfony/options-resolver" />
       <path value="$PROJECT_DIR$/vendor/symfony/twig-bundle" />
-      <path value="$PROJECT_DIR$/vendor/symfony/webpack-encore-bundle" />
       <path value="$PROJECT_DIR$/vendor/symfony/runtime" />
       <path value="$PROJECT_DIR$/vendor/doctrine/collections" />
       <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
@@ -255,7 +258,7 @@
       <workItem from="1651057494935" duration="2170000" />
       <workItem from="1651307068365" duration="2386000" />
       <workItem from="1651312260780" duration="5000" />
-      <workItem from="1651323463121" duration="1215000" />
+      <workItem from="1651323463121" duration="2523000" />
     </task>
     <task id="LOCAL-00001" summary="issue-6">
       <created>1649239128202</created>
@@ -390,7 +393,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651308976601</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="issue-7">
+      <created>1651327325323</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1651327325323</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

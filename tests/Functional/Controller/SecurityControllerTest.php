@@ -25,6 +25,7 @@ class SecurityControllerTest extends AbstractWebTestCase
 
     public function testLogin()
     {
+        $this->client->followRedirects();
         $crawler = $this->client->request('GET', "/login");
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
@@ -34,7 +35,7 @@ class SecurityControllerTest extends AbstractWebTestCase
         $form['password']->setValue('user');
         $this->client->submit($form);
 
-        $user = $this->security->getUser();
+        $user = $this->client->getRequest()->getUser();
 
         $this->assertNotEquals('user@user.com', $user->getEmail());
     }
