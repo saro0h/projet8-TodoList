@@ -33,10 +33,6 @@
       <change beforePath="$PROJECT_DIR$/reports/coverage/coverage.xml" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/coverage.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/coverage/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reports/coverage/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/coverage/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/DefaultController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DefaultController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/TaskRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TaskRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UserRepository.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,15 +204,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/romain/PhpstormProjects/ocp8-dev/tests",
-    "nodejs_package_manager_path": "npm",
-    "php.override.implement.member.chooser.php.doc": "NONE",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/romain/PhpstormProjects/ocp8-dev/tests&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;php.override.implement.member.chooser.php.doc&quot;: &quot;NONE&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/tests" />
@@ -257,7 +253,9 @@
       <workItem from="1650917744398" duration="2214000" />
       <workItem from="1651005047345" duration="963000" />
       <workItem from="1651057494935" duration="2170000" />
-      <workItem from="1651307068365" duration="1531000" />
+      <workItem from="1651307068365" duration="2386000" />
+      <workItem from="1651312260780" duration="5000" />
+      <workItem from="1651323463121" duration="1215000" />
     </task>
     <task id="LOCAL-00001" summary="issue-6">
       <created>1649239128202</created>
@@ -385,7 +383,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650919949397</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="issue-7">
+      <created>1651308976601</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1651308976601</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

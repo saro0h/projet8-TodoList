@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1651308729">
-  <project timestamp="1651308729">
+<coverage generated="1651326069">
+  <project timestamp="1651326069">
     <file name="/home/romain/PhpstormProjects/ocp8-dev/src/Controller/DefaultController.php">
       <class name="App\Controller\DefaultController" namespace="global">
         <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
