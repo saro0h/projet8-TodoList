@@ -33,7 +33,7 @@ class Task
      * @ORM\ManyToOne(targetEntity="User", inversedBy="task")
      * @ORM\JoinColumn(name="created_by", referencedColumnName="id"))
      */
-    private $createdBy;
+    private $createdBy = null;
 
     /**
      * @ORM\Column(type="text")
