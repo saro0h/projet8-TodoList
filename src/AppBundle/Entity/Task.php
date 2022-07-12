@@ -30,6 +30,12 @@ class Task
     private $title;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="task")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id"))
+     */
+    private $createdBy;
+
+    /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Vous devez saisir du contenu.")
      */
@@ -76,6 +82,11 @@ class Task
         return $this->content;
     }
 
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
     public function setContent($content)
     {
         $this->content = $content;
@@ -89,5 +100,10 @@ class Task
     public function toggle($flag)
     {
         $this->isDone = $flag;
+    }
+
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
     }
 }
