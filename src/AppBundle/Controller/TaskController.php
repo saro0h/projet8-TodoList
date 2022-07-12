@@ -89,11 +89,20 @@ class TaskController extends Controller
      */
     public function deleteTaskAction(Task $task)
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($task);
-        $em->flush();
 
-        $this->addFlash('success', 'La tâche a bien été supprimée.');
+        // get authenticated user
+        $user = $this->getUser();
+
+        // check if user is the owner of the task
+        if ($user !== $task->getCreatedBy()) {
+            $this->addFlash('error', 'Vous n\'êtes pas autorisé à supprimer cette tâche car vous n\'êtes pas l\'auteur.');
+        } else {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($task);
+            $em->flush();
+
+            $this->addFlash('success', 'La tâche a bien été supprimée.');
+        }
 
         return $this->redirectToRoute('task_list');
     }
