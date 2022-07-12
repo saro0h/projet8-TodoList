@@ -7,6 +7,21 @@ security:
             entity:
                 class: AppBundle:User
                 property: username
+        in_memory:
+            memory:
+                users:
+                    admin:
+                        roles:
+                            - ROLE_ADMIN
+                        password: admin
+                    user:
+                        roles:
+                            - ROLE_USER
+                        password: user
+                    anonyme:
+                        roles:
+                            - ROLE_USER
+                        password: anonyme
 
     firewalls:
         dev:

@@ -23,11 +23,15 @@ class UserController extends Controller
      */
     public function createAction(Request $request)
     {
+
+        
+        
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
-
+        
         $form->handleRequest($request);
 
+        
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
