@@ -30,7 +30,7 @@ class Task
     private $title;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="task")
+     * @ORM\OneToOne(targetEntity="User", inversedBy="task")
      * @ORM\JoinColumn(name="created_by", referencedColumnName="id"))
      */
     private $createdBy;
