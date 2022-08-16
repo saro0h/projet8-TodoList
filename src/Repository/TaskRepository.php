@@ -20,11 +20,4 @@ class TaskRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Task::class);
     }
-
-    public function getTasks()
-    {
-        $queryBuilder = $this->createQueryBuilder('t')
-            ->where('t.task = :task');
-        return $queryBuilder->getQuery()->getResult();
-    }
 }

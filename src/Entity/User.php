@@ -23,6 +23,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: "Vous devez saisir un nom d'utilisateur.")]
     private string $username;
 
+    private string $plainPassword;
+
     #[ORM\Column(type: 'string', length: 64)]
     private string $password;
 
@@ -59,6 +61,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         return (string) $this->username;
+    }
+
+    public function getplainPassword(): string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setplainPassword(string $password): self
+    {
+        $this->plainPassword = $password;
+
+        return $this;
     }
 
     /**
