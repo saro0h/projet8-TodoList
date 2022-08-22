@@ -45,7 +45,7 @@
                 {% endif %}
 
                 {% if not app.user and 'login' != app.request.attributes.get('_route') %}
-                <a href="{{ path('login') }}" class="btn btn-success">Se connecter</a>
+                <a href="{{ path('app_login') }}" class="btn btn-success">Se connecter</a>
                 {% endif %}
             </div>
 
