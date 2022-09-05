@@ -25,7 +25,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/logout', name: 'app_logout')]
-    public function logoutCheck()
+    public function logoutCheck(): void
     {
         // This code is never executed.
     }
