@@ -1,18 +1,19 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Table("user")
  * @ORM\Entity
  * @UniqueEntity("email")
  */
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -39,6 +40,9 @@ class User implements UserInterface
      */
     private $email;
 
+
+    
+
     public function getId()
     {
         return $this->id;
@@ -59,7 +63,7 @@ class User implements UserInterface
         return null;
     }
 
-    public function getPassword()
+    public function getPassword() : ?string
     {
         return $this->password;
     }
