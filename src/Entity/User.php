@@ -3,10 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+//use Doctrine\ORM\EntityManager;
 
 /**
  * @ORM\Table("user")
@@ -40,22 +44,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $email;
 
+    /**
+     * @ORM\Column(type="json")
+     */
+    // #[ORM\Column(type: 'json')]
+    // #[Assert\NotNull()]
+    private array $roles = [];//Warning: Array to string conversion
 
+    /**
+     * @ORM\ManyToOne(targetEntity= Roles::class, inversedBy= "users")
+     * @ORM\JoinColumn(nullable= true)
+     */
+    // #[ORM\ManyToOne(targetEntity: Roles::class, inversedBy: 'users')]
+    // #[ORM\JoinColumn(nullable: false)]
+    // private $roles;
+
+    /**
+     * @ORM\OneToMany(mappedBy="user", targetEntity= Task::class, cascade={"persist"}, orphanRemoval= false))
+     */
+    // #[ORM\OneToMany(mappedBy: 'user', targetEntity: Task::class, orphanRemoval: false)]
+    private $tasks;
     
+    public function __construct()
+    {
+        $this->tasks = new ArrayCollection();
+        
+    }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUsername()
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    public function setUsername($username)
+    public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
     }
 
     public function getSalt()
@@ -63,30 +93,98 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return null;
     }
 
-    public function getPassword() : ?string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword($password)
+    public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
     }
 
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function setEmail($email)
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
     }
 
-    public function getRoles()
+    // public function getRoles(): ?Roles
+    // {
+    //     return $this->roles;
+    // }
+
+    // public function setRoles(?Roles $roles): self
+    // {
+    //     $this->roles = $roles;
+
+    //     return $this;
+    // }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTask(): Collection
     {
-        return array('ROLE_USER');
+        return $this->task;
     }
+
+    public function addTask(Task $task): self
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks->add($task);
+            $task->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): self
+    {
+        if ($this->tasks->removeElement($task)) {
+            // set the owning side to null (unless already changed)
+            if ($task->getUser() === $this) {
+                $task->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        
+        return $this;
+    }
+    // public function getRoles()
+    // {
+    //     return array('ROLE_USER');
+    // }
 
     public function eraseCredentials()
     {

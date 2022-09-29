@@ -29,6 +29,8 @@ security:
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/users, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # allow unauthenticated users to access the login form
+        # - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER }
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
