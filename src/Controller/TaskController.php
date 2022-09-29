@@ -14,8 +14,26 @@ class TaskController extends AbstractController
      * @Route("/tasks", name="task_list")
      */
     public function listAction()
+    {   
+        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository(Task::class)->findBy(['user' => $this->getUser()])]);
+    }
+
+    
+    /**
+     * @Route("/tasks_done", name="task_done_list")
+     */
+    public function listDoneAction()
     {
-        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository(Task::class)->findAll()]);
+        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository(Task::class)->findBy(['user' => $this->getUser(),'isDone'=> '1'])]);
+    }
+
+    
+    /**
+     * @Route("/tasks_not_done", name="task_not_done_list")
+     */
+    public function listNotDoneAction()
+    {
+        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository(Task::class)->findBy(['user' => $this->getUser(),'isDone'=> '0'])]);
     }
 
     /**
@@ -29,6 +47,7 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $task->setUser($this->getUser());
             $em = $this->getDoctrine()->getManager();
 
             $em->persist($task);

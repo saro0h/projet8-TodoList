@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TaskRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -39,6 +40,14 @@ class Task
      * @ORM\Column(type="boolean")
      */
     private $isDone;
+
+    /**
+     * @ORM\ManyToOne(targetEntity= User::class, inversedBy= "task")
+     * @ORM\JoinColumn(nullable= true)
+     */
+    // #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'task')]
+    // #[ORM\JoinColumn(nullable: true)]
+    private $user;
 
     public function __construct()
     {
@@ -90,4 +99,27 @@ class Task
     {
         $this->isDone = $flag;
     }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+//     /**
+//  * Transform to string
+//  *
+//  * @returnstring
+//  */
+//     public function __toString()
+//     {
+//         return (string) $this->getId();
+//     }
+
 }

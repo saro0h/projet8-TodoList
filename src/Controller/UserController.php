@@ -50,7 +50,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/{id}/edit", name="user_edit")
      */
-    public function editAction(User $user, Request $request, UserPasswordHasherInterface $hacher)
+    public function editAction(User $user, EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $hacher)
     {
         $form = $this->createForm(UserType::class, $user);
 
@@ -62,7 +62,9 @@ class UserController extends AbstractController
 
             $user->setPassword($password);
 
-            $this->getDoctrine()->getManager()->flush();
+            // $this->getDoctrine()->getManager()->flush();
+            $em->persist($user);
+            $em->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
