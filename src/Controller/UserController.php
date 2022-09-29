@@ -4,11 +4,15 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -16,6 +20,7 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/users", name="user_list")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function listAction()
     {
@@ -35,23 +40,27 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $hacher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
-
+            // $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
-            return $this->redirectToRoute('user_list');
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('user/create.html.twig', ['form' => $form->createView()]);
     }
 
     /**
-     * @Route("/users/{id}/edit", name="user_edit")
+     * @Route("/users/edit", name="user_edit")
+     * @IsGranted("ROLE_USER")
      */
-    public function editAction(User $user, EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $hacher)
+    public function editAction(
+        // User $user, 
+        EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $hacher)
     {
+        $user = $this->getUser();
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
@@ -68,7 +77,9 @@ class UserController extends AbstractController
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
-            return $this->redirectToRoute('user_list');
+            
+            
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);

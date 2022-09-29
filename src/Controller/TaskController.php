@@ -6,6 +6,7 @@ use App\Entity\Task;
 use App\Form\TaskType;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
@@ -66,8 +67,10 @@ class TaskController extends AbstractController
      */
     public function editAction(Task $task, Request $request)
     {
+        
         $form = $this->createForm(TaskType::class, $task);
-
+        if ($task->getUser() === $this->getUser())
+        {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -77,7 +80,8 @@ class TaskController extends AbstractController
 
             return $this->redirectToRoute('task_list');
         }
-
+        }
+        else $this->addFlash('error', 'Vous ne pouvez pas modifier cette tâche.');
         return $this->render('task/edit.html.twig', [
             'form' => $form->createView(),
             'task' => $task,
@@ -102,12 +106,15 @@ class TaskController extends AbstractController
      */
     public function deleteTaskAction(Task $task)
     {
+        if ($task->getUser() === $this->getUser())
+        {
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
         $em->flush();
 
         $this->addFlash('success', 'La tâche a bien été supprimée.');
-
+        }
+        $this->addFlash('error', 'Vous ne pouvez pas supprimer cette tâche.');
         return $this->redirectToRoute('task_list');
     }
 }
