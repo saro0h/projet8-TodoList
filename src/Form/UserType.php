@@ -3,14 +3,15 @@
 namespace App\Form;
 use App\Entity\Roles;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class UserType extends AbstractType
 {
@@ -30,14 +31,26 @@ class UserType extends AbstractType
             ->add('roles', ChoiceType::class, [
                 'label' => 'Rôle de l\'utilisateur',
                 'choices' => [
-                    'ROLE_ADMIN' => 'ROLE_ADMIN', 
-                    'ROLE_USER' => 'ROLE_USER'
+                    'Administrateur' => 'ROLE_ADMIN', 
+                    'Utilisateur' => 'ROLE_USER'
                 ],
                 'required' => true,
-                'multiple' => true,
+                'multiple' => false,
                 'expanded' => true,
             ]
             )
+        ;
+        $builder->get('roles')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($roles) {
+                    // transform the array to a string
+                    return $roles[0];
+                },
+                function ($roles) {
+                    // transform the string back to an array
+                    return [$roles];
+                }
+            ))
         ;
     }
 }
