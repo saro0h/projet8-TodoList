@@ -1,0 +1,23 @@
+{
+    "name": "Snowtricks",
+    "short_name": "Snowtricks",
+    "lang": "fr",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "blue",
+    "icons": [
+      {
+        "src": "icons/logo-192.png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "icons/logo-512.png",
+        "sizes": "512x512"
+      },
+      {
+        "src": "icons/logo.svg",
+        "sizes": "513x513"
+      }
+    ]
+  }
+  
