@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-//use Doctrine\ORM\EntityManager;
 
 /**
  * @ORM\Table("user")
@@ -47,22 +46,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="json")
      */
-    // #[ORM\Column(type: 'json')]
-    // #[Assert\NotNull()]
     private array $roles = [];//Warning: Array to string conversion
-
-    /**
-     * @ORM\ManyToOne(targetEntity= Roles::class, inversedBy= "users")
-     * @ORM\JoinColumn(nullable= true)
-     */
-    // #[ORM\ManyToOne(targetEntity: Roles::class, inversedBy: 'users')]
-    // #[ORM\JoinColumn(nullable: false)]
-    // private $roles;
 
     /**
      * @ORM\OneToMany(mappedBy="user", targetEntity= Task::class, cascade={"persist"}, orphanRemoval= false))
      */
-    // #[ORM\OneToMany(mappedBy: 'user', targetEntity: Task::class, orphanRemoval: false)]
     private $tasks;
     
     public function __construct()
@@ -117,18 +105,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // public function getRoles(): ?Roles
-    // {
-    //     return $this->roles;
-    // }
-
-    // public function setRoles(?Roles $roles): self
-    // {
-    //     $this->roles = $roles;
-
-    //     return $this;
-    // }
-
     /**
      * @return Collection<int, Task>
      */
@@ -181,12 +157,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         
         return $this;
     }
-    // public function getRoles()
-    // {
-    //     return array('ROLE_USER');
-    // }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
     }
 }
