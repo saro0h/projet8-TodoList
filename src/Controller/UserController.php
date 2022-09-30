@@ -20,12 +20,11 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/users", name="user_list")
-     * @IsGranted("ROLE_ADMIN")
      */
     public function listAction()
     {
         return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository(User::class)->findAll()]);
-    }
+    }// * @IsGranted("ROLE_ADMIN")
 
     /**
      * @Route("/users/create", name="user_create")
