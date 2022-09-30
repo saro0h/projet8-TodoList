@@ -70,7 +70,7 @@ class Task
         $this->createdAt = $createdAt;
         return $this;
     }
-    
+
     public function getTitle(): ?string
     {
         return $this->title;
@@ -93,12 +93,12 @@ class Task
         return $this;
     }
 
-    public function isDone()
+    public function isDone():bool
     {
         return $this->isDone;
     }
 
-    public function toggle($flag)
+    public function toggle(mixed $flag):mixed
     {
         $this->isDone = $flag;
     }
