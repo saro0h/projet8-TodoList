@@ -21,11 +21,12 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/users", name="user_list")
+     * * @IsGranted("ROLE_ADMIN")
      */
     public function listAction():Response
     {
         return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository(User::class)->findAll()]);
-    }// * @IsGranted("ROLE_ADMIN")
+    }
 
     /**
      * @Route("/users/create", name="user_create")
@@ -73,7 +74,7 @@ class UserController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('task_list');
         }
 
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
