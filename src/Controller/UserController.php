@@ -4,14 +4,15 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
+use App\Repository\UserRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -21,7 +22,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users", name="user_list")
      */
-    public function listAction()
+    public function listAction():Response
     {
         return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository(User::class)->findAll()]);
     }// * @IsGranted("ROLE_ADMIN")
@@ -29,7 +30,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/create", name="user_create")
      */
-    public function createAction(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $hacher)
+    public function createAction(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $hacher):Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -39,7 +40,6 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $hacher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
-            // $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
 
@@ -56,8 +56,9 @@ class UserController extends AbstractController
      * @IsGranted("ROLE_USER")
      */
     public function editAction(
-        // User $user, 
-        EntityManagerInterface $em, Request $request, UserPasswordHasherInterface $hacher)
+        EntityManagerInterface $em, 
+        Request $request, 
+        UserPasswordHasherInterface $hacher):Response
     {
         $user = $this->getUser();
         $form = $this->createForm(UserType::class, $user);
@@ -65,19 +66,13 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
             $password = $hacher->hashPassword($user, $user->getPassword());
 
             $user->setPassword($password);
-
-            // $this->getDoctrine()->getManager()->flush();
             $em->persist($user);
             $em->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
-
-            
-            
             return $this->redirectToRoute('homepage');
         }
 
