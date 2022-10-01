@@ -17,26 +17,9 @@ class TaskController extends AbstractController
      */
     public function listAction():Response
     {   
-        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository(Task::class)->findBy(['user' => $this->getUser()])]);
+        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository(Task::class)->findAll()]);
     }
 
-    
-    /**
-     * @Route("/tasks_done", name="task_done_list")
-     */
-    public function listDoneAction():Response
-    {
-        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository(Task::class)->findBy(['user' => $this->getUser(),'isDone'=> '1'])]);
-    }
-
-    
-    /**
-     * @Route("/tasks_not_done", name="task_not_done_list")
-     */
-    public function listNotDoneAction():Response
-    {
-        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository(Task::class)->findBy(['user' => $this->getUser(),'isDone'=> '0'])]);
-    }
 
     /**
      * @Route("/tasks/create", name="task_create")
@@ -63,15 +46,13 @@ class TaskController extends AbstractController
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
     }
 
-    /**
+     /**
      * @Route("/tasks/{id}/edit", name="task_edit")
      */
-    public function editAction(Task $task, Request $request):Response
+    public function editAction(Task $task, Request $request)
     {
-        
         $form = $this->createForm(TaskType::class, $task);
-        if ($task->getUser() === $this->getUser())
-        {
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -81,14 +62,12 @@ class TaskController extends AbstractController
 
             return $this->redirectToRoute('task_list');
         }
-        }
-        else $this->addFlash('error', 'Vous ne pouvez pas modifier cette tâche.');
+
         return $this->render('task/edit.html.twig', [
             'form' => $form->createView(),
             'task' => $task,
         ]);
     }
-
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle")
      */
