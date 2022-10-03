@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TaskRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

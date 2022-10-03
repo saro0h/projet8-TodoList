@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Task;
-use App\Entity\TaskRepository;
+use App\Repository\TaskRepository;
 use App\Form\TaskType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Entity\UserRepository;
+use App\Repository\UserRepository;
 use App\Form\UserType;
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Doctrine\ORM\EntityManagerInterface;
