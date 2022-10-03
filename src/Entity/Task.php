@@ -98,7 +98,7 @@ class Task
         return $this->isDone;
     }
 
-    public function toggle(mixed $flag):mixed
+    public function toggle(bool $flag)
     {
         $this->isDone = $flag;
     }

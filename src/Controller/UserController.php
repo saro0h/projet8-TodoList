@@ -21,25 +21,28 @@ class UserController extends AbstractController
 {
       /**
      * @Route("/users", name="user_list")
+     * @IsGranted("ROLE_ADMIN")
      */
-    public function listAction()
+    public function listAction():Response
     {
-        return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository('AppBundle:User')->findAll()]);
+        return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository(User::class)->findAll()]);
     }
 
     /**
      * @Route("/users/create", name="user_create")
+     * @IsGranted("ROLE_ADMIN")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $hacher):Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
+            //$password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
+            $password = $hacher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
 
             $em->persist($user);
@@ -55,15 +58,21 @@ class UserController extends AbstractController
 
     /**
      * @Route("/users/{id}/edit", name="user_edit")
+     * @IsGranted("ROLE_ADMIN")
      */
-    public function editAction(User $user, Request $request)
+    public function editAction(User $user, 
+    Request $request,
+    EntityManagerInterface $em,
+    UserPasswordHasherInterface $hacher
+    ):Response
     {
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
+        if ($form->isSubmitted() && $form->isValid()) {
+            //$password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
+            $password = $hacher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
 
             $this->getDoctrine()->getManager()->flush();
