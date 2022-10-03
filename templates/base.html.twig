@@ -12,8 +12,9 @@
 
         <!-- Bootstrap Core CSS -->
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-
+        <link rel="manifest" href="/manifest.json" />
         <!-- Custom CSS -->
+        <link rel="icon" href="favicon.ico" />
         <link href="{{ asset('css/shop-homepage.css') }}" rel="stylesheet">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -38,10 +39,14 @@
         <!-- Page Content -->
         <div class="container">
             <div class="row">
-                <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
-
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('user_list') }}" class="btn btn-warning mr-2">Liste d'utilisateurs</a>
+                {% endif %}
                 {% if app.user %}
-                <a href="{{ path('logout') }}" class="pull-right btn btn-danger">Se déconnecter</a>
+                    <a href="{{ path('logout') }}" class="pull-right btn btn-danger">Se déconnecter</a>
                 {% endif %}
 
                 {% if not app.user and 'login' != app.request.attributes.get('_route') %}
