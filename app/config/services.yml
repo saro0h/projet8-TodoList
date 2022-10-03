@@ -7,3 +7,9 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+    _defaults:
+        autowire: true
+        autoconfigure: true
+    # alias to allow this type to be autowired
+    Doctrine\ORM\EntityManager: '@doctrine.orm.default_entity_manager'
