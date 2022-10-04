@@ -30,6 +30,17 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/logout", name="logout")
+     */
+    public function logoutCheck(): void
+    {
+        $this->addFlash(
+            'success',
+            'Vous êtes déconnecté !'
+        );
+    }
+
+    /**
      * @Route("/login_check", name="login_check")
      */
     // public function loginCheck()
@@ -37,11 +48,4 @@ class SecurityController extends AbstractController
     //     // This code is never executed.
     // }
 
-    /**
-     * @Route("/logout", name="logout")
-     */
-    public function logoutCheck()
-    {
-        // This code is never executed.
-    }
 }
