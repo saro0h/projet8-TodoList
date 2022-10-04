@@ -16,7 +16,7 @@ services:
       - dev
   phpmyadmin:
     image: phpmyadmin
-    container_name: phpmyadmin_docker_todo
+    container_name: phpmyadmin_docker_toDoList
     restart: always
     depends_on:
       - databasetodo
