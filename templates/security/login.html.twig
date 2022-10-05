@@ -4,15 +4,20 @@
     {% if error %}
         <div class="alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
+    <div class="d-flex justify-content-center flex-column  align-items-center">
+        <div class="col-12 col-md-5">
+            <form action="{{ path('login') }}" method="post">
+                <label for="username">Nom d'utilisateur :</label>
+                <input class="form-control" type="text" id="username" name="username" value="{{ last_username }}" />
 
-    <form action="{{ path('login') }}" method="post">
-        <label for="username">Nom d'utilisateur :</label>
-        <input type="text" id="username" name="username" value="{{ last_username }}" />
+                <label for="password" class="mt-2">Mot de passe :</label>
+                <input class="form-control"  type="password" id="password" name="password" />
+                
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <button class="btn btn-success mt-3" type="submit">Se connecter</button>
+            </form>
+        </div>
+    </div>
+    <a href="{{ path('homepage') }}" class="float-end btn btn-primary mt-4">Retour à l'accueil</a>
 
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="password" />
-        
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        <button class="btn btn-success" type="submit">Se connecter</button>
-    </form>
 {% endblock %}

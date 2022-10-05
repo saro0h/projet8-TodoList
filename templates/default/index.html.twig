@@ -6,9 +6,34 @@
 
 {% block body %}
 
-    <div class="row">
+    <div class="d-flex gap-4">
         <a href="{{ path('task_create') }}" class="btn btn-success">Créer une nouvelle tâche</a>
         <a href="{{ path('task_list') }}" class="btn btn-info">Consulter la liste des tâches à faire</a>
-        <a href="" class="btn btn-secondary">Consulter la liste des tâches terminées</a>
+    </div>
+    <div class="d-flex flex-column mt-4">
+        <p class="fs-3">Liste des tâches terminées</p>
+        {% for task in tasks %}
+        <div class="card w-100 p-2 my-2 shadow" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title"><h4><a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a></h4></h5>
+                <p class="card-text">{{ task.content }}</p>
+                <div class="d-flex gap-1">
+                    <form action="{{ path('task_toggle', {'id' : task.id }) }}">
+                        <button class="btn btn-success btn-sm pull-right">
+                            {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
+                        </button>
+                    </form>
+                    <form action="{{ path('task_delete', {'id' : task.id }) }}">
+                        <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                Il n'y a pas encore de tâche "terminée" enregistrée.
+            </div>
+        {% endfor %}
+
     </div>
 {% endblock %}
