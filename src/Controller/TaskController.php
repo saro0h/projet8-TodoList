@@ -14,31 +14,33 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TaskController extends AbstractController
 {
-    /**
-     * @Route("/tasks", name="task_list")
-     */
-    public function listAction(TaskRepository $taskRepository)
+    #[Route('/', name: 'task_list')]
+    public function listTaskIsDone(TaskRepository $taskRepository)
     {
         return $this->render('task/list.html.twig', ['tasks' => $taskRepository->findByIsDone(0)]);
     }
 
-
-    /**
-     * @Route("/tasks/create", name="task_create")
-     */
-    public function createAction(Request $request, EntityManagerInterface $em)
+    #[Route('/tasks', name: 'homepage')]
+    public function listTaskTodo(TaskRepository $taskRepository)
     {
+        return $this->render('default/index.html.twig', ['tasks' => $taskRepository->findByIsDone(1)]);
+    }
+
+
+    #[Route('/taks/create', name: 'task_create')]
+    public function createTask(Request $request, EntityManagerInterface $em)
+    {
+        $user = $this->getUser();
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$em = $this->getDoctrine()->getManager();
-
+            $task->setAuthor($user);
+            dd($task);
             $em->persist($task);
             $em->flush();
-
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
             return $this->redirectToRoute('task_list');
@@ -47,10 +49,8 @@ class TaskController extends AbstractController
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
     }
 
-    /**
-     * @Route("/tasks/{id}/edit", name="task_edit")
-     */
-    public function editAction(Task $task, Request $request, EntityManagerInterface $em)
+    #[Route('/taks/{id}/edit', name: 'task_edit')]
+    public function editTask(Task $task, Request $request, EntityManagerInterface $em)
     {
         $form = $this->createForm(TaskType::class, $task);
 
@@ -70,10 +70,8 @@ class TaskController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/tasks/{id}/toggle", name="task_toggle")
-     */
-    public function toggleTaskAction(Task $task, EntityManagerInterface $em)
+    #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
+    public function toggleTask(Task $task, EntityManagerInterface $em)
     {
         $task->toggle(!$task->isDone());
         $em->flush();
@@ -86,16 +84,17 @@ class TaskController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/tasks/{id}/delete", name="task_delete")
-     */
-    public function deleteTaskAction(Task $task, EntityManagerInterface $em)
+    #[Route('/taks/{id}/delete', name: 'task_delete')]
+    public function deleteTask(Task $task, EntityManagerInterface $em)
     {
-        //$em = $this->getDoctrine()->getManager();
-        $em->remove($task);
-        $em->flush();
-
-        $this->addFlash('success', 'La tâche a bien été supprimée.');
+        $user = $this->getUser();
+        if ($task->getAuthor() !== $user) {
+            $this->addFlash('error', 'Cette tâche ne peut être supprimé que par son auteur.');
+        } else {
+            $em->remove($task);
+            $em->flush();
+            $this->addFlash('success', 'La tâche a bien été supprimée.');
+        }
 
         return $this->redirectToRoute('task_list');
     }

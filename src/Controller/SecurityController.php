@@ -2,24 +2,15 @@
 
 namespace App\Controller;
 
-//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Routing\Annotation\Route;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    /**
-     * @Route("/login", name="login")
-     */
-    public function loginAction(AuthenticationUtils $authenticationUtils, Request $request)
+    #[Route('/login', name: 'login')]
+    public function login(AuthenticationUtils $authenticationUtils)
     {
-        //$authenticationUtils = $this->get('security.authentication_utils');
-
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
@@ -29,23 +20,12 @@ class SecurityController extends AbstractController
         ));
     }
 
-    /**
-     * @Route("/logout", name="logout")
-     */
-    public function logoutCheck(): void
+    #[Route('/logout', name: 'logout')]
+    public function logout(): void
     {
         $this->addFlash(
             'success',
             'Vous êtes déconnecté !'
         );
     }
-
-    /**
-     * @Route("/login_check", name="login_check")
-     */
-    // public function loginCheck()
-    // {
-    //     // This code is never executed.
-    // }
-
 }
