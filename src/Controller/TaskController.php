@@ -34,7 +34,7 @@ class TaskController extends AbstractController
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task)->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->persist($task);
             $this->manager->flush();
 
@@ -53,7 +53,7 @@ class TaskController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
