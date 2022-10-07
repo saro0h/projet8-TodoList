@@ -7,27 +7,31 @@ use App\Repository\TaskRepository;
 use App\Form\TaskType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Routing\Annotation\Route;
-//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class TaskController extends AbstractController
 {
-    #[Route('/', name: 'task_list')]
+    #[Route('/', name: 'homepage')]
+    public function toListTasksTodo()
+    {
+        return $this->redirectToRoute('task_list_todo');
+    }
+
+    #[Route('/todo-list', name: 'task_list_todo')]
     public function listTaskIsDone(TaskRepository $taskRepository)
     {
-        return $this->render('task/list.html.twig', ['tasks' => $taskRepository->findByIsDone(0)]);
+        return $this->render('task/listTodo.html.twig', ['tasks' => $taskRepository->findByIsDone(0)]);
     }
 
-    #[Route('/tasks', name: 'homepage')]
+    #[Route('/done-tasks', name: 'task_list_is_done')]
     public function listTaskTodo(TaskRepository $taskRepository)
     {
-        return $this->render('default/index.html.twig', ['tasks' => $taskRepository->findByIsDone(1)]);
+        return $this->render('task/listIsDone.html.twig', ['tasks' => $taskRepository->findByIsDone(1)]);
     }
 
 
-    #[Route('/taks/create', name: 'task_create')]
+    #[Route('/task/create', name: 'task_create')]
     public function createTask(Request $request, EntityManagerInterface $em)
     {
         $user = $this->getUser();
@@ -38,18 +42,17 @@ class TaskController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $task->setAuthor($user);
-            dd($task);
             $em->persist($task);
             $em->flush();
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
-            return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('task_list_todo');
         }
 
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/taks/{id}/edit', name: 'task_edit')]
+    #[Route('/task/{id}/edit', name: 'task_edit')]
     public function editTask(Task $task, Request $request, EntityManagerInterface $em)
     {
         $form = $this->createForm(TaskType::class, $task);
@@ -61,7 +64,8 @@ class TaskController extends AbstractController
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
 
-            return $this->redirectToRoute('task_list');
+            if ($task->isDone()) return $this->redirectToRoute('task_list_is_done');
+            return $this->redirectToRoute('task_list_todo');
         }
 
         return $this->render('task/edit.html.twig', [
@@ -70,32 +74,37 @@ class TaskController extends AbstractController
         ]);
     }
 
-    #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
+    #[Route('/task/{id}/toggle', name: 'task_toggle')]
     public function toggleTask(Task $task, EntityManagerInterface $em)
     {
         $task->toggle(!$task->isDone());
         $em->flush();
         if ($task->isDone()) {
             $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
-            return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('task_list_todo');
         } else {
             $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme à faire.', $task->getTitle()));
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('task_list_is_done');
         }
     }
 
-    #[Route('/taks/{id}/delete', name: 'task_delete')]
+    #[Route('/task/{id}/delete', name: 'task_delete')]
     public function deleteTask(Task $task, EntityManagerInterface $em)
     {
         $user = $this->getUser();
-        if ($task->getAuthor() !== $user) {
-            $this->addFlash('error', 'Cette tâche ne peut être supprimé que par son auteur.');
+        if ($task->getAuthor() !== $user && ($task->getAuthor()->getUsername() == "anonyme" && !$this->isGranted('ROLE_ADMIN'))) {
+            $this->addFlash('danger', 'Cette tâche ne peut être supprimé que par son auteur.');
         } else {
+            if ($task->getAuthor()->getUsername() == "anonyme" && $this->isGranted('ROLE_ADMIN')) {
+                $this->addFlash('success', 'Cette tâche a été supprimé par un administrateur.');
+            } else {
+                $this->addFlash('success', 'La tâche a bien été supprimée.');
+            }
             $em->remove($task);
             $em->flush();
-            $this->addFlash('success', 'La tâche a bien été supprimée.');
         }
 
-        return $this->redirectToRoute('task_list');
+        if ($task->isDone()) return $this->redirectToRoute('task_list_is_done');
+        return $this->redirectToRoute('task_list_todo');
     }
 }

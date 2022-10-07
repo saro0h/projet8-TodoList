@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="Il existe déjà un compte avec cet adresse email")
+ * @UniqueEntity(fields="username", message="Ce nom utilisateur existe déjà")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -52,6 +53,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=Task::class, mappedBy="author")
      */
     private $tasks;
+
+    private $plainPassword = null;
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password): self
+    {
+        $this->plainPassword = $password;
+        return $this;
+    }
 
     public function getId(): ?int
     {

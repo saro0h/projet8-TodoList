@@ -4,13 +4,16 @@
 {% block header_img %}{% endblock %}
 
 {% block body %}
-    <div class="row">
+    <div class="col-12">
+        <p>Laissez vides les champs concernant le mot passe si vous ne désirez pas le changer.</p>
+    </div>
+    <div class="col-12 col-md-4">
         {{ form_start(form, {'action' : path('user_edit', {'id' : user.id})}) }}
         {{ form_widget(form) }}
 
         <button type="submit" class="btn btn-success pull-right">Modifier</button>
         {{ form_end(form) }}
     </div>
-        <a href="{{ path('homepage') }}" class="float-end btn btn-primary mt-4">Retour à l'accueil</a>
+        <a href="{{ path('task_list_todo') }}" class="float-end btn btn-primary mt-4">Retour à l'accueil</a>
 
 {% endblock %}

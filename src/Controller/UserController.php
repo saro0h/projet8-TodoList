@@ -28,7 +28,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $userPasswordHasher->hashPassword($user, $user->getPassword());
+            $password = $userPasswordHasher->hashPassword($user, $user->getPlainPassword());
             $user->setPassword($password);
             $em->persist($user);
             $em->flush();
@@ -49,13 +49,13 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $userPasswordHasher->hashPassword($user, $user->getPassword());
-            $user->setPassword($password);
+            if ($user->getPlainPassword()) {
+                $password = $userPasswordHasher->hashPassword($user, $user->getPlainPassword());
+                $user->setPassword($password);
+            }
 
             $em->flush();
-
             $this->addFlash('success', "L'utilisateur a bien été modifié");
-
             return $this->redirectToRoute('user_list');
         }
 

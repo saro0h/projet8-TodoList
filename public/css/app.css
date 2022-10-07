@@ -1,0 +1,63 @@
+.flash {
+    animation: flash-animation 3.5s;
+    position: fixed;
+    top: -200px;
+    right: 0;
+    z-index: 100000;
+    width: auto;
+    border-radius: 0;
+    padding: 30px;
+}
+
+@keyframes flash-animation {
+    20% {
+        top: 0px;
+    }
+
+    85% {
+        top: 0px;
+    }
+
+    92% {
+        top: 10px;
+    }
+
+    95% {
+        top: 25px;
+    }
+
+    100% {
+        top: -200px;
+        display: none;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .flash {
+        width: 100%;
+        animation: flash-animation-mobile 3.5s;
+    }
+
+    @keyframes flash-animation-mobile {
+        20% {
+            top: 0px;
+        }
+
+        85% {
+            top: 0px;
+        }
+
+        92% {
+            top: 65px;
+        }
+
+        95% {
+            top: 90px;
+        }
+
+        100% {
+            top: -200px;
+            display: none;
+        }
+    }
+}

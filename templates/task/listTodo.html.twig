@@ -3,7 +3,7 @@
 {% block body %}
     <div class="d-flex gap-4 mb-4">
         <a href="{{ path('task_create') }}" class="btn btn-success">Créer une nouvelle tâche</a>
-        <a href="{{ path('homepage') }}" class="btn btn-secondary">Consulter la liste des tâches terminées</a>
+        <a href="{{ path('task_list_is_done') }}" class="btn btn-secondary">Consulter la liste des tâches terminées</a>
     </div>
 
     <div class="row">
@@ -12,6 +12,7 @@
         {% for task in tasks %}
         <div class="card w-100 p-2 my-2 shadow" style="width: 18rem;">
             <div class="card-body">
+                <p class="fs-6 text-warning mb-0"><i>Tâche Créée par</i> [ <b>{{ task.author.username }}</b> ]</p>
                 <h5 class="card-title"><h4><a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a></h4></h5>
                 <p class="card-text">{{ task.content }}</p>
                 <div class="d-flex gap-1">

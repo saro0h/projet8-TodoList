@@ -6,6 +6,8 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -19,12 +21,17 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, ['label' => "Nom d'utilisateur"])
-            ->add('password', RepeatedType::class, [
+            ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
+                'options' => array('always_empty' => true),
                 'invalid_message' => 'Les deux mots de passe doivent correspondre.',
-                'required' => true,
+                'required' => false,
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Tapez le mot de passe à nouveau'],
+                'empty_data' => '',
+                'constraints' => array(
+                    new Length(array('min' => 6, 'max' => 16, 'minMessage' => 'Au moins 6 caractères !', 'maxMessage' => 'Maximum 16 caractères !')),
+                )
             ])
             ->add('email', EmailType::class, [
                 'required' => true,
