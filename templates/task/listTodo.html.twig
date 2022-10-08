@@ -7,7 +7,7 @@
     </div>
 
     <div class="row">
-        <p class="fs-3">Liste des tâches à faire</p>
+        <p class="fs-3">Liste des tâches à faire <span class="fs-6 badge bg-secondary">{{ tasks|length }}</span></p>
 
         {% for task in tasks %}
         <div class="card w-100 p-2 my-2 shadow" style="width: 18rem;">

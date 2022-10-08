@@ -92,14 +92,23 @@ class TaskController extends AbstractController
     public function deleteTask(Task $task, EntityManagerInterface $em)
     {
         $user = $this->getUser();
-        if ($task->getAuthor() !== $user && ($task->getAuthor()->getUsername() == "anonyme" && !$this->isGranted('ROLE_ADMIN'))) {
-            $this->addFlash('danger', 'Cette tâche ne peut être supprimé que par son auteur.');
-        } else {
-            if ($task->getAuthor()->getUsername() == "anonyme" && $this->isGranted('ROLE_ADMIN')) {
-                $this->addFlash('success', 'Cette tâche a été supprimé par un administrateur.');
+        $action = false;
+        if ($task->getAuthor()->getUsername() == "anonyme" && $this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('success', 'Cette tâche a été supprimé par un administrateur.');
+            $action = true;
+        }
+        if (!$action && $task->getAuthor() !== $user) {
+            if ($task->getAuthor()->getUsername() == "anonyme") {
+                $this->addFlash('danger', 'Cette tâche ne peut être supprimé que par un administrateur.');
             } else {
-                $this->addFlash('success', 'La tâche a bien été supprimée.');
+                $this->addFlash('danger', 'Cette tâche ne peut être supprimé que par son auteur.');
             }
+        }
+        if (!$action && $task->getAuthor() === $user) {
+            $this->addFlash('success', 'La tâche a bien été supprimée.');
+            $action = true;
+        }
+        if ($action) {
             $em->remove($task);
             $em->flush();
         }
