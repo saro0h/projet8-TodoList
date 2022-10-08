@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Task;
-use App\Repository\TaskRepository;
 use App\Form\TaskType;
+use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Services\RightToDeleteTaskService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
 {
@@ -60,10 +61,9 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $em->flush();
-
             $this->addFlash('success', 'La tâche a bien été modifiée.');
-
             if ($task->isDone()) return $this->redirectToRoute('task_list_is_done');
             return $this->redirectToRoute('task_list_todo');
         }
@@ -89,26 +89,9 @@ class TaskController extends AbstractController
     }
 
     #[Route('/task/{id}/delete', name: 'task_delete')]
-    public function deleteTask(Task $task, EntityManagerInterface $em)
+    public function deleteTask(Task $task, EntityManagerInterface $em, RightToDeleteTaskService $rightToDeleteTaskService)
     {
-        $user = $this->getUser();
-        $action = false;
-        if ($task->getAuthor()->getUsername() == "anonyme" && $this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash('success', 'Cette tâche a été supprimé par un administrateur.');
-            $action = true;
-        }
-        if (!$action && $task->getAuthor() !== $user) {
-            if ($task->getAuthor()->getUsername() == "anonyme") {
-                $this->addFlash('danger', 'Cette tâche ne peut être supprimé que par un administrateur.');
-            } else {
-                $this->addFlash('danger', 'Cette tâche ne peut être supprimé que par son auteur.');
-            }
-        }
-        if (!$action && $task->getAuthor() === $user) {
-            $this->addFlash('success', 'La tâche a bien été supprimée.');
-            $action = true;
-        }
-        if ($action) {
+        if ($rightToDeleteTaskService->control($task)) {
             $em->remove($task);
             $em->flush();
         }

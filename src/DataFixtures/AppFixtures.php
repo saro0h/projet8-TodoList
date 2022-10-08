@@ -22,7 +22,7 @@ class AppFixtures extends Fixture
 
         $roles = ["ROLE_USER", "ROLE_ADMIN"];
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 7; $i++) {
             $random = random_int(0, 1);
             $user = new User();
             if ($i == 0) {
