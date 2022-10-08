@@ -19,6 +19,16 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /*
+        *   Create conditional Constraints, for new user Adding new NotBlank for password
+        */
+        $passwordConstraints = [
+            new Length(array('min' => 6, 'max' => 16, 'minMessage' => 'Au moins 6 caractères !', 'maxMessage' => 'Maximum 16 caractères !'))
+        ];
+        if ($options["data"]->getUsername() == '') {
+            $passwordConstraints[] = new NotBlank(['message' => 'Le mot de passe ne peux pas être vide']);
+        }
+
         $builder
             ->add('username', TextType::class, ['label' => "Nom d'utilisateur"])
             ->add('plainPassword', RepeatedType::class, [
@@ -28,10 +38,7 @@ class UserType extends AbstractType
                 'required' => false,
                 'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Tapez le mot de passe à nouveau'],
-                'empty_data' => '',
-                'constraints' => array(
-                    new Length(array('min' => 6, 'max' => 16, 'minMessage' => 'Au moins 6 caractères !', 'maxMessage' => 'Maximum 16 caractères !')),
-                )
+                'constraints' => $passwordConstraints
             ])
             ->add('email', EmailType::class, [
                 'required' => true,

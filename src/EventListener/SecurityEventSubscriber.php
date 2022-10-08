@@ -7,6 +7,11 @@ use Symfony\Component\Security\Http\Event\LoginFailureEvent;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/*
+*   catch events about security and make flash message on
+*   LogOut - Login Success - Login Failure
+*/
+
 class SecurityEventSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()

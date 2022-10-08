@@ -49,6 +49,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // If plainPassword is not null -> update Password
             if ($user->getPlainPassword()) {
                 $password = $userPasswordHasher->hashPassword($user, $user->getPlainPassword());
                 $user->setPassword($password);
