@@ -14,7 +14,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class SecurityEventSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             LogoutEvent::class => 'logoutMessage',
@@ -31,7 +31,6 @@ class SecurityEventSubscriber implements EventSubscriberInterface
 
     public function loginSuccesMessage(LoginSuccessEvent $event)
     {
-        //dd($event);
         $session = $event->getRequest()->getSession();
         $session->getFlashBag()->add('success', 'Vous vous êtes connecté !');
     }
