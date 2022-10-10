@@ -13,13 +13,7 @@ class TaskVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        // return in_array($attribute, [self::DELETE])
-        //     && $subject instanceof \App\Entity\Task;
-        if (!in_array($attribute, [self::DELETE])) {
-            return false;
-        }
-
-        if (!$subject instanceof Task) {
+        if (!in_array($attribute, [self::DELETE]) || (!$subject instanceof Task)) {
             return false;
         }
 
@@ -28,30 +22,15 @@ class TaskVoter extends Voter
     /** @var Task $task */
     protected function voteOnAttribute(
         string $attribute, 
-        // mixed $task,
         $task, 
         TokenInterface $token
     ): bool
     {
         $user = $token->getUser();
-        // if the user is anonymous, do not grant access
         if (!$user instanceof UserInterface) {
             return false;
         }
 
-        // ... (check conditions and return true to grant permission) ...
-        switch ($attribute) {
-            case self::DELETE:
-                
-                if (($user->getRoles() === ["ROLE_ADMIN"]) && ($task->getUser() === null))  {
-                    return true;
-                }
-                if ($user == $task->getUser()) {
-                    return true;
-                }
-                break;
-        }
-        // throw new \LogicException('SUPPRESSION IMPOSSIBLE!');
-        return false;
+        return ((($user->getRoles() === ["ROLE_ADMIN"]) && ($task->getUser() === null)) || ($user == $task->getUser()));
     }
 }
