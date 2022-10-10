@@ -87,8 +87,7 @@ class TaskController extends AbstractController
      */
     public function deleteTaskAction(Task $task):Response
     {
-        // if ($task->getUser() === $this->getUser())
-        // {
+        
         $this->denyAccessUnlessGranted(
         // TaskVoter::DELETE
         'DELETE'
@@ -98,8 +97,7 @@ class TaskController extends AbstractController
         $em->flush();
 
         $this->addFlash('success', 'La tâche a bien été supprimée.');
-        // }
-        // $this->addFlash('error', 'Vous ne pouvez pas supprimer cette tâche.');
+        
         return $this->redirectToRoute('task_list');
     }
 }
