@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\Functional\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class LoginControllerTest extends WebTestCase
+class SecurityControllerTest extends WebTestCase
 {
     use AuthenticationTrait;
 
@@ -31,7 +31,6 @@ class LoginControllerTest extends WebTestCase
         ]);
 
         $client->submit($form);
-
         $this->assertResponseStatusCodeSame(302);
 
         $client->followRedirect();
@@ -78,9 +77,6 @@ class LoginControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(302);
 
         $client->followRedirect();
-        $this->assertResponseStatusCodeSame(302);
-
-        $client->followRedirect();
         $this->assertSelectorExists('.alert.alert-success');
     }
 
@@ -88,19 +84,19 @@ class LoginControllerTest extends WebTestCase
     {
         $client = static::createAuthenticatedUser();
 
-        $crawler = $client->request('GET', '/todo-list');
+        $crawler = $client->request('GET', '/');
 
         $link = $crawler->selectLink('Se déconnecter')->link();
 
         $client->click($link);
 
         $this->assertRouteSame('logout');
-        $this->assertResponseStatusCodeSame(302);
 
+        $this->assertResponseStatusCodeSame(302);
         $client->followRedirect();
         $this->assertResponseStatusCodeSame(302);
-
         $client->followRedirect();
+
         $this->assertSelectorExists('.alert.alert-success');
     }
 }

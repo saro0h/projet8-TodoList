@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block header_title %}<h1>Liste des tâches à faire</strong></h1>{% endblock %}
+
 {% block body %}
     <div class="d-flex gap-4 mb-4">
         <a href="{{ path('task_create') }}" class="btn btn-success">Créer une nouvelle tâche</a>
@@ -7,22 +9,22 @@
     </div>
 
     <div class="row">
-        <p class="fs-3">Liste des tâches à faire <span class="fs-6 badge bg-secondary">{{ tasks|length }}</span></p>
+        <p class="fs-3">Tâches à faire <span class="fs-6 badge bg-secondary">{{ tasks|length }}</span></p>
 
         {% for task in tasks %}
-        <div class="card w-100 p-2 my-2 shadow" style="width: 18rem;">
+        <div class="card w-100 p-2 my-2 shadow" style="width: 18rem;" id="task_{{ task.id }}">
             <div class="card-body">
-                <p class="fs-6 text-warning mb-0"><i>Tâche Créée par</i> [ <b>{{ task.author.username }}</b> ]</p>
+                <p class="fs-6 text-warning mb-0"><i>Tâche Créée le {{ task.createdAt | date("d/m/y")}} par</i> [ <b>{{ task.author.username }}</b> ]</p>
                 <h5 class="card-title"><h4><a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a></h4></h5>
                 <p class="card-text">{{ task.content }}</p>
                 <div class="d-flex gap-1">
                     <form action="{{ path('task_toggle', {'id' : task.id }) }}">
-                        <button class="btn btn-success btn-sm pull-right">
+                        <button class="btn btn-success btn-sm pull-right" id="toDone_{{ task.id }}">
                             {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
                         </button>
                     </form>
                     <form action="{{ path('task_delete', {'id' : task.id }) }}">
-                        <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
+                        <button class="btn btn-danger btn-sm pull-right" id="toDelete_{{ task.id }}">Supprimer</button>
                     </form>
                 </div>
             </div>

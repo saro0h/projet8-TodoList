@@ -21,7 +21,7 @@ services:
     depends_on:
       - databasetodo
     ports:
-      - "8082:80"
+      - "8081:80"
     environment:
       PMA_HOST: databasetodo
     networks:

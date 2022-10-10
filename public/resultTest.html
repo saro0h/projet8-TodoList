@@ -1,33 +1,143 @@
 PHPUnit 9.5.25 [44;37m#StandWith[0m[43;30mUkraine[0m
 
 Testing 
-...FE                                                               5 / 5 (100%)
-
-Time: 00:01.883, Memory: 32.00 MB
-
-There was 1 error:
-
-1) App\Tests\Controller\LoginControllerTest::testSuccessfullLogout
-InvalidArgumentException: The current node list is empty.
-
-C:\wamp64\www\toDo\vendor\symfony\dom-crawler\Crawler.php:837
-C:\wamp64\www\toDo\Tests\Controller\LoginControllerTest.php:91
-
---
-
-There was 1 failure:
-
-1) App\Tests\Controller\LoginControllerTest::testLoginSuccess
-Failed asserting that the Crawler matches selector ".alert.alert-success".
-
-C:\wamp64\www\toDo\vendor\symfony\framework-bundle\Test\DomCrawlerAssertionsTrait.php:30
-C:\wamp64\www\toDo\Tests\Controller\LoginControllerTest.php:82
-
-ERRORS!
-Tests: 5, Assertions: 8, Errors: 1, Failures: 1.
-
-Remaining indirect deprecation notices (1)
-
-  1x: The "DAMA\DoctrineTestBundle\Doctrine\DBAL\AbstractStaticDriver" class implements "Doctrine\DBAL\VersionAwarePlatformDriver" that is deprecated All drivers will have to be aware of the server version in the next major release.
-    1x in PHPUnitExtension::executeBeforeFirstTest from DAMA\DoctrineTestBundle\PHPUnit
-
+Symfony\Component\DomCrawler\Crawler {#1195
+  #uri: "http://localhost/signup"
+  -defaultNamespacePrefix: "default"
+  -namespaces: []
+  -cachedNamespaces: ArrayObject {#1249
+    -storage: []
+    flag::STD_PROP_LIST: false
+    flag::ARRAY_AS_PROPS: false
+    iteratorClass: "ArrayIterator"
+  }
+  -baseHref: "http://localhost/signup"
+  -document: DOMDocument {#1246
+    +config: null
+    +nodeName: "#document"
+    +nodeValue: null
+    +nodeType: XML_HTML_DOCUMENT_NODE
+    +parentNode: null
+    +childNodes: DOMNodeList {#1208
+      +length: 2
+    }
+    +firstChild: DOMDocumentType {#1206 ÔÇª}
+    +lastChild: DOMElement {#1245 ÔÇª}
+    +previousSibling: null
+    +nextSibling: null
+    +attributes: null
+    +ownerDocument: null
+    +namespaceURI: null
+    +prefix: ""
+    +localName: null
+    +baseURI: null
+    +textContent: ""
+    +doctype: DOMDocumentType {#1206 ÔÇª}
+    +implementation: DOMImplementation {#1200
+      Core: "1.0"
+      XML: "2.0"
+    }
+    +documentElement: DOMElement {#1245 ÔÇª}
+    +actualEncoding: "utf-8"
+    +encoding: "utf-8"
+    +xmlEncoding: "utf-8"
+    +standalone: true
+    +xmlStandalone: true
+    +version: null
+    +xmlVersion: null
+    +strictErrorChecking: true
+    +documentURI: null
+    +formatOutput: false
+    +validateOnParse: true
+    +resolveExternals: false
+    +preserveWhiteSpace: true
+    +recover: false
+    +substituteEntities: false
+    xml: """
+      <?xml version="1.0" encoding="utf-8" standalone="yes"?>\n
+      <!DOCTYPE html>\n
+      <html lang="fr">\n
+      \n
+          <head>\n
+              <meta charset="utf-8"/>\n
+              <meta http-equiv="X-UA-Compatible" content="IE=edge"/>\n
+              <meta name="viewport" content="width=device-width, initial-scale=1"/>\n
+              <meta name="description" content=""/>\n
+              <meta name="author" content=""/>\n
+      \n
+              <title>To Do List app</title>\n
+              <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"/>\n
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer"/>\n
+              <link href="/css/app.css" rel="stylesheet"/>\n
+              <!--[if lt IE 9]>\n
+              <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>\n
+              <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>\n
+              <![endif]-->\n
+          </head>\n
+      \n
+          <body>\n
+              <div class="py-3" style="background-color: #e3f2fd;">\n
+                  <div class="container d-flex justify-content-between fs-4" onclick="document.location='/todo-list'">\n
+                      <div>\n
+                          <a class="navbar-brand" href="#">To Do List app</a>\n
+      \n
+                          <img src="/img/Logo_OpenClassrooms.png" alt="OpenClassrooms"/>\n
+                      </div>\n
+                      <div>\n
+                          <i class="fa-solid fa-house" role="button"/>\n
+                      </div>\n
+                  </div>\n
+              </div>\n
+      \n
+              <!-- Page Content -->\n
+              <div class="container mt-4 mb-5 p-2 p-md-0">\n
+                  <div class="d-flex gap-3 mb-4">\n
+                      \n
+      \n
+                                      <a href="/signup" class="btn btn-primary">S'inscrire</a>\n
+                      \n
+                                      <a href="/login" class="btn btn-success">Se connecter</a>\n
+                                  </div>\n
+      \n
+                                              <h1>Cr├®er un utilisateur</h1>                    \n
+      \n
+                  <div class="row mt-4">\n
+                      <div class="col-md-12">\n
+                              <div class="col-12 col-md-6">\n
+              <form name="user" method="post" action="/signup">\n
+                  <div id="user"><div class="mb-3"><label for="user_username" class="form-label required">Nom d'utilisateur</label><input type="text" id="user_username" name="user[username]" required="required" class="form-control"/>        </div><div class="mb-3"><label for="user_plainPassword_first" class="form-label">Mot de passe</label><input type="password" id="user_plainPassword_first" name="user[plainPassword][first]" class="form-control"/>        </div><div class="mb-3"><label for="user_plainPassword_second" class="form-label">Tapez le mot de passe ├á nouveau</label><input type="password" id="user_plainPassword_second" name="user[plainPassword][second]" class="form-control"/>        </div><div class="mb-3"><label for="user_email" class="form-label required">Adresse email</label><input type="email" id="user_email" name="user[email]" required="required" class="form-control"/>        </div><div class="mb-3"><label class="form-label required" for="user_Roles">Roles</label><select id="user_Roles" name="user[Roles]" class="form-select"><option value="ROLE_USER">Utilisateur</option><option value="ROLE_ADMIN">Administrateur</option></select>        </div><input type="hidden" id="user__token" name="user[_token]" value="8195888a0b.6b4Ovu77YTwJaw9_VhDbck-ZpuPSc8DSqTLmtSKby64.h49FyqqYDVdsJEYqEmmfRD2086WoAvS1-R_SmHjsicyMhkPfhqkVc2IfQg"/></div>\n
+      \n
+                  <button type="submit" class="btn btn-success pull-right">Ajouter</button>\n
+              </form>\n
+          </div>\n
+          <a href="/todo-list" class="float-end btn btn-primary mt-4">Retour ├á l'accueil</a>\n
+      \n
+                      </div>\n
+                  </div>\n
+              </div>\n
+              <!-- /.container -->\n
+      \n
+              <div class="container">\n
+      \n
+                  <hr/>\n
+                  <footer>\n
+                      <div class="row">\n
+                          <div class="col-lg-12">\n
+                              <p class="pull-right">Copyright ┬® OpenClassrooms</p>\n
+                          </div>\n
+                      </div>\n
+                  </footer>\n
+      \n
+              </div>\n
+              <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"/>\n
+              <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"/>\n
+                  </body>\n
+      </html>\n
+      """
+  }
+  -nodes: array:1 [
+    0 => DOMElement {#1245 ÔÇª}
+  ]
+  -isHtml: true
+  -html5Parser: null
+}

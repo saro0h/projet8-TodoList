@@ -46,12 +46,6 @@ class Task
      */
     private $author = null;
 
-    public function __construct()
-    {
-        $this->createdAt = new \Datetime();
-        $this->isDone = false;
-    }
-
     public function getId()
     {
         return $this->id;
@@ -103,10 +97,10 @@ class Task
         $this->isDone = $flag;
     }
 
-    public function isIsDone(): ?bool
-    {
-        return $this->isDone;
-    }
+    // public function isIsDone(): ?bool
+    // {
+    //     return $this->isDone;
+    // }
 
     public function setIsDone(bool $isDone): self
     {

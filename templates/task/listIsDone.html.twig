@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block header_title %}
-    <h1>Bienvenue sur Todo List, l'application vous permettant de gérer l'ensemble de vos tâches sans effort !</h1>
-{% endblock %}
+{% block header_title %}<h1>Liste des tâches terminées</strong></h1>{% endblock %}
 
 {% block body %}
 
@@ -11,20 +9,20 @@
         <a href="{{ path('task_list_todo') }}" class="btn btn-info">Consulter la liste des tâches à faire</a>
     </div>
     <div class="d-flex flex-column mt-4">
-        <p class="fs-3">Liste des tâches terminées <span class="fs-6 badge bg-secondary">{{ tasks|length }}</span></p>
+        <p class="fs-3">Tâches terminées <span class="fs-6 badge bg-secondary">{{ tasks|length }}</span></p>
         {% for task in tasks %}
-        <div class="card w-100 p-2 my-2 shadow" style="width: 18rem;">
+        <div class="card w-100 p-2 my-2 shadow" style="width: 18rem;" id="task_{{ task.id }}">
             <div class="card-body">
-                <p class="fs-6 text-warning mb-0"><i>Tâche Créée par</i> [ <b>{{ task.author.username }}</b> ]</p>
+                <p class="fs-6 text-warning mb-0"><i>Tâche Créée le {{ task.createdAt | date("d/m/y")}} par</i> [ <b>{{ task.author.username }}</b> ]</p>
                 <h5 class="card-title"><a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a></h5>
                 <p class="card-text">{{ task.content }}</p>
                 <div class="d-flex gap-1">
                     <form action="{{ path('task_toggle', {'id' : task.id }) }}">
-                        <button class="btn btn-success btn-sm pull-right">
+                        <button class="btn btn-success btn-sm pull-right" id="toDo_{{ task.id }}">
                             {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
                         </button>
                     </form>
-                    <form action="{{ path('task_delete', {'id' : task.id }) }}">
+                    <form action="{{ path('task_delete', {'id' : task.id }) }}" id="toDelete_{{ task.id }}">
                         <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
                     </form>
                 </div>

@@ -22,8 +22,8 @@ class AppFixtures extends Fixture
 
         $roles = ["ROLE_USER", "ROLE_ADMIN"];
 
-        for ($i = 0; $i < 7; $i++) {
-            $random = random_int(0, 1);
+        for ($i = 0; $i < 8; $i++) {
+            $switchRoles = ($i % 2) ? 0 : 1;
             $user = new User();
             if ($i == 0) {
                 $user->setUsername('anonyme')
@@ -33,17 +33,18 @@ class AppFixtures extends Fixture
             } else {
                 $user->setUsername($faker->name())
                     ->setEmail($faker->email())
-                    ->setRoles([$roles[$random]])
+                    ->setRoles([$roles[$switchRoles]])
                     ->setPassword($this->hasher->hashPassword($user, "password"));
             }
             $manager->persist($user);
 
-            for ($t = 0; $t < 5; $t++) {
+            for ($t = 0; $t < 10; $t++) {
+                $switchDoneStatus = ($t % 2) ? 0 : 1;
                 $task = new Task();
                 $task->setTitle($faker->sentence(2))
                     ->setContent($faker->text())
                     ->setCreatedAt($faker->dateTime())
-                    ->setIsDone(random_int(0, 1))
+                    ->setIsDone($switchDoneStatus)
                     ->setAuthor($user);
                 $manager->persist($task);
             }

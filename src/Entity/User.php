@@ -27,7 +27,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25, unique=true)
+     * @ORM\Column(type="string", length=40, unique=true)
      * @Assert\NotBlank(message="Vous devez saisir un nom d'utilisateur.")
      */
     private $username;
@@ -136,7 +136,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection|Task[]
      */
-    public function getTasks(): Collection
+    public function getTasks(): ?Collection
     {
         return $this->tasks;
     }

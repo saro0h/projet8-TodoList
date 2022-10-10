@@ -19,28 +19,6 @@ class UserController extends AbstractController
         return $this->render('user/list.html.twig', ['users' => $userRepository->findAll()]);
     }
 
-    #[Route('/signup', name: 'user_create')]
-    public function createUser(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $em)
-    {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $password = $userPasswordHasher->hashPassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
-            $em->persist($user);
-            $em->flush();
-
-            $this->addFlash('success', "L'utilisateur a bien été ajouté.");
-
-            return $this->redirectToRoute('user_list');
-        }
-
-        return $this->render('user/create.html.twig', ['form' => $form->createView()]);
-    }
-
     #[Route('/user/{id}', name: 'user_edit')]
     public function editUser(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $em)
     {

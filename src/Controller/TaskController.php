@@ -13,13 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
 {
-    #[Route('/', name: 'homepage')]
-    public function toListTasksTodo()
-    {
-        return $this->redirectToRoute('task_list_todo');
-    }
+    // #[Route('/', name: 'homepage')]
+    // public function toListTasksTodo()
+    // {
+    //     return $this->redirectToRoute('task_list_todo');
+    // }
 
-    #[Route('/todo-list', name: 'task_list_todo')]
+    #[Route('/', name: 'task_list_todo')]
     public function listTaskIsDone(TaskRepository $taskRepository)
     {
         return $this->render('task/listTodo.html.twig', ['tasks' => $taskRepository->findByIsDone(0)]);
@@ -43,6 +43,8 @@ class TaskController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $task->setAuthor($user);
+            $task->setIsDone(0);
+            $task->setCreatedAt(new \DateTimeImmutable('NOW'));
             $em->persist($task);
             $em->flush();
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
