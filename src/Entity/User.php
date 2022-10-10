@@ -23,7 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: "Vous devez saisir un nom d'utilisateur.")]
     private string $username;
 
-    private string $plainPassword;
+    private ?string $plainPassword = null;
 
     #[ORM\Column(type: 'string', length: 64)]
     private string $password;
@@ -38,6 +38,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column(type: 'array')]
     private array $roles;
+
+    public function __construct()
+    {
+        $this->roles = ['ROLE_USER'];
+    }
 
     public function getId(): ?int
     {
@@ -66,12 +71,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->username;
     }
 
-    public function getplainPassword(): string
+    public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
 
-    public function setplainPassword(string $password): self
+    public function setPlainPassword(?string $password): self
     {
         $this->plainPassword = $password;
 
