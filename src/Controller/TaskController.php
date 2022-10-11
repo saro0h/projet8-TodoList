@@ -43,7 +43,7 @@ class TaskController extends AbstractController
             return $this->redirectToRoute('task_list');
         }
 
-        return $this->render('task/create.html.twig', ['form' => $form->createView()]);
+        return $this->renderForm('task/create.html.twig', ['form' => $form]);
     }
 
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
