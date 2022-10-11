@@ -20,19 +20,19 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    # App\EventListener\LogoutListener:
+    # App\Security\LogoutListener:
     #     tags:
     #         - name: 'kernel.event_listener'
     #           event: 'Symfony\Component\Security\Http\Event\LogoutEvent'
     #           dispatcher: security.event_dispatcher.main
 
-    # App\EventListener\LoginSuccessListener:
+    # App\Security\LoginSuccessListener:
     #     tags:
     #         - name: 'kernel.event_listener'
     #           event: 'Symfony\Component\Security\Http\Event\LoginSuccessEvent'
     #           dispatcher: security.event_dispatcher.main
 
-    # App\EventListener\LoginFailureListener:
+    # App\Security\LoginFailureListener:
     #     tags:
     #         - name: 'kernel.event_listener'
     #           event: 'Symfony\Component\Security\Http\Event\LoginFailureEvent'

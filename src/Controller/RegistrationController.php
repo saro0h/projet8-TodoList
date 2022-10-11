@@ -26,7 +26,7 @@ class RegistrationController extends AbstractController
             $user->setPassword($password);
             $userRepository->save($user, true);
 
-            $this->addFlash('success', "L'utilisateur a bien été ajouté.");
+            $this->addFlash("success", "L'utilisateur a bien été ajouté !");
 
             return $this->redirectToRoute('user_list');
         }

@@ -23,6 +23,7 @@ class RegistrationControllerTest extends WebTestCase
         $faker = Factory::create('fr-FR');
 
         $client = static::createClient();
+        $client->followRedirects();
         $crawler = $client->request('GET', '/signup');
         $fakeName = $faker->name();
         $fakeEmail = $faker->email();
@@ -36,11 +37,7 @@ class RegistrationControllerTest extends WebTestCase
 
         $client->submit($form);
 
-        $this->assertResponseStatusCodeSame(302);
-        $client->followRedirect();
-        $this->assertResponseStatusCodeSame(302);
-        $client->followRedirect();
-        $this->assertSelectorExists('.alert.alert-success');
+        $this->assertSelectorTextSame(".alert.alert-success", "L'utilisateur a bien été ajouté !");
 
         $userRepository = static::getContainer()->get(UserRepository::class);
         // DESC TO AVOID "Anonymous User" of Fixtures DATA

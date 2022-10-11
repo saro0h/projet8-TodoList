@@ -13,19 +13,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
 {
-    // #[Route('/', name: 'homepage')]
-    // public function toListTasksTodo()
-    // {
-    //     return $this->redirectToRoute('task_list_todo');
-    // }
+    #[Route('/', name: 'homepage')]
+    public function toListTasksTodo(TaskRepository $taskRepository)
+    {
+        return $this->render('homepage/homepage.html.twig', ['tasks' => $taskRepository->findAll()]);
+    }
 
-    #[Route('/', name: 'task_list_todo')]
+    #[Route('/tasks/todo', name: 'task_list_todo')]
     public function listTaskIsDone(TaskRepository $taskRepository)
     {
         return $this->render('task/listTodo.html.twig', ['tasks' => $taskRepository->findByIsDone(0)]);
     }
 
-    #[Route('/done-tasks', name: 'task_list_is_done')]
+    #[Route('/tasks/done', name: 'task_list_done')]
     public function listTaskTodo(TaskRepository $taskRepository)
     {
         return $this->render('task/listIsDone.html.twig', ['tasks' => $taskRepository->findByIsDone(1)]);
@@ -66,7 +66,7 @@ class TaskController extends AbstractController
 
             $em->flush();
             $this->addFlash('success', 'La tâche a bien été modifiée.');
-            if ($task->isDone()) return $this->redirectToRoute('task_list_is_done');
+            if ($task->isDone()) return $this->redirectToRoute('task_list_done');
             return $this->redirectToRoute('task_list_todo');
         }
 
@@ -86,19 +86,19 @@ class TaskController extends AbstractController
             return $this->redirectToRoute('task_list_todo');
         } else {
             $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme à faire.', $task->getTitle()));
-            return $this->redirectToRoute('task_list_is_done');
+            return $this->redirectToRoute('task_list_done');
         }
     }
 
     #[Route('/task/{id}/delete', name: 'task_delete')]
-    public function deleteTask(Task $task, EntityManagerInterface $em, RightToDeleteTaskService $rightToDeleteTaskService)
+    public function deleteTask(Task $task, EntityManagerInterface $em)
     {
-        if ($rightToDeleteTaskService->control($task)) {
-            $em->remove($task);
-            $em->flush();
-        }
+        $this->denyAccessUnlessGranted('delete_task', $task);
+        $em->remove($task);
+        $em->flush();
+        $this->addFlash('success', 'La tâche a bien été supprimée.');
 
-        if ($task->isDone()) return $this->redirectToRoute('task_list_is_done');
+        if ($task->isDone()) return $this->redirectToRoute('task_list_done');
         return $this->redirectToRoute('task_list_todo');
     }
 }

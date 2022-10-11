@@ -20,9 +20,9 @@
 
     <body>
         <div class="py-3" style="background-color: #e3f2fd;">
-            <div class="container d-flex justify-content-between fs-4" onclick="document.location='{{ path('task_list_todo') }}'">
+            <div class="container d-flex justify-content-between fs-4" onclick="document.location='{{ path('homepage') }}'">
                 <div>
-                    <a class="navbar-brand" href="#">To Do List app</a>
+                    <a class="navbar-brand" href="{{ path('homepage') }}">To Do List app</a>
 
                     <img src="{{ asset('img/Logo_OpenClassrooms.png') }}" alt="OpenClassrooms" />
                 </div>

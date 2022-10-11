@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block header_title %}<h1>Créez votre liste de tâches à faire facilement</strong></h1>{% endblock %}
+
+{% block body %}
+    {% if app.user %}
+    <div class="d-flex gap-4">
+        <a href="{{ path('task_create') }}" class="btn btn-success">Créer une nouvelle tâche</a>
+        <a href="{{ path('task_list_todo') }}" class="btn btn-info">Consulter la liste des tâches à faire</a>
+         <a href="{{ path('task_list_done') }}" class="btn btn-secondary">Consulter la liste des tâches terminées</a>
+    </div>
+    {% endif %}
+    <p class="mt-5 fs-4 text-center">Il y a actuellement {{ tasks | length }} tâche{% if tasks|length > 1%}s{% endif %} enregistrée{% if tasks|length > 1%}s{% endif %} dans notre application.
+{% endblock %}

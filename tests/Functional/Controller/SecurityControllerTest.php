@@ -56,7 +56,7 @@ class SecurityControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(302);
 
         $client->followRedirect();
-        $this->assertSelectorExists('.alert.alert-danger');
+        $this->assertSelectorTextSame('.alert.alert-danger', 'Nom utilisateur ou mot de passe incorrect !');
     }
 
     public function testLoginSuccess(): void
@@ -74,29 +74,20 @@ class SecurityControllerTest extends WebTestCase
 
         $client->submit($form);
 
-        $this->assertResponseStatusCodeSame(302);
-
         $client->followRedirect();
-        $this->assertSelectorExists('.alert.alert-success');
+        $this->assertSelectorTextSame('.alert.alert-success', 'Vous vous êtes connecté !');
     }
 
     public function testLogout(): void
     {
         $client = static::createAuthenticatedUser();
-
+        $client->followRedirects();
         $crawler = $client->request('GET', '/');
 
         $link = $crawler->selectLink('Se déconnecter')->link();
 
         $client->click($link);
 
-        $this->assertRouteSame('logout');
-
-        $this->assertResponseStatusCodeSame(302);
-        $client->followRedirect();
-        $this->assertResponseStatusCodeSame(302);
-        $client->followRedirect();
-
-        $this->assertSelectorExists('.alert.alert-success');
+        $this->assertSelectorTextSame('.alert.alert-success', 'Vous êtes déconnecté !');
     }
 }

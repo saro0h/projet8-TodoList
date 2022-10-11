@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="Il existe déjà un compte avec cet adresse email")
- * @UniqueEntity(fields="username", message="Ce nom utilisateur existe déjà")
+ * @UniqueEntity(fields={"username"}, message="Ce nom utilisateur existe déjà")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -118,8 +118,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-
         return array_unique($roles);
     }
 
