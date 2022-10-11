@@ -15,7 +15,7 @@ class RegistrationControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', '/signup');
         $this->assertResponseStatusCodeSame(200);
-        $this->assertRouteSame('user_create');
+        //$this->assertRouteSame('user_create');
     }
 
     public function testRegistrationInsertRandom(): void

@@ -50,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     /**
-     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="author")
+     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="author", orphanRemoval=true, cascade={"persist"})
      */
     private $tasks;
 
