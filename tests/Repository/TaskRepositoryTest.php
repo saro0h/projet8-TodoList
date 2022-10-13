@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Repository;
+namespace App\Tests\Repository;
 
 use Faker\Factory;
 use App\Entity\Task;

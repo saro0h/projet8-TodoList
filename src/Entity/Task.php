@@ -20,7 +20,7 @@ class Task
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime_immutable")
      */
     private $createdAt;
 
@@ -45,6 +45,11 @@ class Task
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
      */
     private $author = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId()
     {
@@ -91,16 +96,6 @@ class Task
     {
         return $this->isDone;
     }
-
-    public function toggle($flag)
-    {
-        $this->isDone = $flag;
-    }
-
-    // public function isIsDone(): ?bool
-    // {
-    //     return $this->isDone;
-    // }
 
     public function setIsDone(bool $isDone): self
     {

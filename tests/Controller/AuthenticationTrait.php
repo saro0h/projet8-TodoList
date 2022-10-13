@@ -2,7 +2,6 @@
 
 namespace App\Tests\Functional\Controller;
 
-use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
@@ -14,7 +13,7 @@ trait AuthenticationTrait
 
         $userRepository = static::getContainer()->get(UserRepository::class);
 
-        $user = $userRepository->findOneBy([]);
+        $user = $userRepository->findOneBy(['username' => 'simple']);
 
         $client->loginUser($user);
 
@@ -27,7 +26,7 @@ trait AuthenticationTrait
 
         $userRepository = static::getContainer()->get(UserRepository::class);
 
-        $user = $userRepository->findOneByRole('ROLE_ADMIN');
+        $user = $userRepository->findOneBy(['username' => 'admin']);
         $client->loginUser($user);
 
         return $client;

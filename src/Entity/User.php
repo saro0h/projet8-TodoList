@@ -27,8 +27,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=40, unique=true)
+     * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\NotBlank(message="Vous devez saisir un nom d'utilisateur.")
+     * @Assert\Length(min=3, max=50, minMessage="Le nom utilisateur doit comporter au moins {{ min }} caractères.", maxMessage="Le nom utilisateur doit comporter au maximum {{ max }} caractères.")
      */
     private $username;
 
@@ -50,7 +51,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     /**
-     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="author", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="author", cascade={"remove"})
      */
     private $tasks;
 

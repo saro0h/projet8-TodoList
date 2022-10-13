@@ -26,6 +26,7 @@ class DeleteTaskVoter extends Voter
 
     protected function voteOnAttribute(string $attribute, $task, TokenInterface $token): bool
     {
+        $attribute = null; // USE FOR DEVELOP TESTS IN A FUTUR
         $user = $token->getUser();
         if (!$user instanceof UserInterface) {
             return false;

@@ -22,7 +22,7 @@ class AppFixtures extends Fixture
 
         $roles = ["ROLE_USER", "ROLE_ADMIN"];
 
-        for ($i = 0; $i < 8; $i++) {
+        for ($i = 0; $i < 4; $i++) {
             $switchRoles = ($i % 2) ? 0 : 1;
             $user = new User();
             if ($i == 0) {
@@ -38,7 +38,7 @@ class AppFixtures extends Fixture
             }
             $manager->persist($user);
 
-            for ($t = 0; $t < 10; $t++) {
+            for ($t = 0; $t < 4; $t++) {
                 $switchDoneStatus = ($t % 2) ? 0 : 1;
                 $task = new Task();
                 $task->setTitle($faker->sentence(2))
@@ -49,9 +49,11 @@ class AppFixtures extends Fixture
                 $manager->persist($task);
             }
         }
-
-
-
         $manager->flush();
+    }
+
+    public static function getGroups(): array
+    {
+        return ['demo'];
     }
 }
