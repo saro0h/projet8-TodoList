@@ -1,0 +1,27 @@
+App\Entity\Task:
+    task{1..11}:
+        title: Tâche<current()>
+        content: <sentence()>
+        toggle: <boolean()>
+        user: '@user*'
+        createdAt: <dateTimeBetween("-200 days", "now")>
+    task{12..20}:
+        title: Tâche<current()>
+        content: <sentence()>
+        toggle: <boolean()>
+        user: 
+        createdAt: <dateTimeBetween("-200 days", "now")>    
+
+App\Entity\User:
+    user1:
+        username: 'Durand'
+        password: <encodePassword('password')>
+        email: 'durand@y.fr'
+        roles: [ROLE_ADMIN]
+    user{2..10}:
+        username: <username()>
+        password: <encodePassword('password')>
+        email: <email()>
+        # roles: '<userRole()>'
+        roles: [ROLE_USER]
+

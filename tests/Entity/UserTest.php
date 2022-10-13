@@ -42,7 +42,7 @@ class UserTest extends TestCase
         static::assertEquals($user->getSalt(), null);
     }
 
-    public function testGetAddTask()
+    public function testAddTask()
     {
         $user = new User();
         static::assertInstanceOf(User::class, $user->AddTask(new Task()));

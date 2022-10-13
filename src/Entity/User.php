@@ -105,13 +105,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Task>
-     */
-    public function getTask(): Collection
-    {
-        return $this->task;
-    }
+    // /**
+    //  * @return Collection<int, Task>
+    //  */
+    // public function getTask(): Collection
+    // {
+    //     return $this->task;
+    // }
 
     public function addTask(Task $task): self
     {
