@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Functional\Controller;
+namespace App\Tests\Controller;
 
 use Faker\Factory;
 use App\Entity\User;
@@ -12,6 +12,7 @@ class RegistrationControllerTest extends WebTestCase
 {
     public function testRegistrationPage(): void
     {
+        self::ensureKernelShutdown();
         $client = static::createClient();
         $client->request('GET', '/signup');
         $this->assertResponseStatusCodeSame(200);

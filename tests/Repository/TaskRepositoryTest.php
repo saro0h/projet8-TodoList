@@ -21,7 +21,6 @@ class TaskRespositoryTest extends WebTestCase
         $counterBefore = $taskRepository->count([]);
         $task =  (new Task())->setTitle($faker->sentence(2))
             ->setContent($faker->text())
-            ->setCreatedAt($faker->dateTime())
             ->setIsDone(0)
             ->setAuthor($user);
         $taskRepository->save($task, true);

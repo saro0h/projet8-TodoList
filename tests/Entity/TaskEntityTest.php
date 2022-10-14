@@ -5,7 +5,7 @@ namespace App\Tests\Entity;
 use App\Entity\Task;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Validator\ConstraintViolantionList;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TaskEntityTest extends KernelTestCase
@@ -15,14 +15,14 @@ class TaskEntityTest extends KernelTestCase
     private User $author;
     private ValidatorInterface $validator;
 
-    protected function setUp(): void 
+    protected function setUp(): void
     {
         $kernel = self::bootKernel();
-        $this->validator = $kernel->getContainer()->get('validator');
+        $this->validator = $kernel->getContainer(ValidatorInterface::class)->get('validator');
         $this->author = new User();
     }
 
-    public function testTaskEntityIsValid(): void 
+    public function testTaskEntityIsValid(): void
     {
         $now = new \DateTimeImmutable();
         $task = new Task();
@@ -40,7 +40,7 @@ class TaskEntityTest extends KernelTestCase
         $this->assertSame($task->getCreatedAt(), $now);
     }
 
-    public function testTaskIsNull(): void 
+    public function testTaskIsNull(): void
     {
         $task = new Task();
         $this->assertEmpty($task->getTitle());
@@ -48,24 +48,22 @@ class TaskEntityTest extends KernelTestCase
         $this->assertEmpty($task->getAuthor());
     }
 
-    public function testTaskEntityIsInvalidNoTitleEntered(): void 
+    public function testTaskEntityIsInvalidNoTitleEntered(): void
     {
         $task = new Task();
-        $task
-            ->setContent('Description de l\'essai')
-        
-        $errors = $this->getValidationErrors($user, 1);
+        $task->setContent('Description de l\'essai');
+
+        $errors = $this->getValidationErrors($task, 1);
 
         $this->assertEquals(self::NOT_BLANK_CONSTRAINT_TITLE_MESSAGE, $errors[0]->getMessage());
     }
 
-    public function testTaskEntityIsInvalidNoContentEntered(): void 
+    public function testTaskEntityIsInvalidNoContentEntered(): void
     {
-        $user = new User();
-        $user
-            ->setTitle('Un essai')
-        
-        $errors = $this->getValidationErrors($user, 1);
+        $task = new Task();
+        $task->setTitle('Un essai');
+
+        $errors = $this->getValidationErrors($task, 1);
 
         $this->assertEquals(self::NOT_BLANK_CONSTRAINT_CONTENT_MESSAGE, $errors[0]->getMessage());
     }

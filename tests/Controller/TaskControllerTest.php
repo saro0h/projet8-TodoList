@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Functional\Controller;
+namespace App\Tests\Controller;
 
 use Faker\Factory;
 use App\Entity\User;
@@ -12,20 +12,23 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TaskControllerTest extends WebTestCase
 {
-    use AuthenticationTrait;
-
     /**
-    *  @dataProvider provideAuthorizedTaskPages 
-    */
+     *  @dataProvider provideAuthorizedTaskPages 
+     */
     public function testAuthorizedTaskPages(string $url, string $message): void
     {
-        $client = static::createAuthenticatedUser();
+        $client = static::createClient();
 
-        $crawler = $client->request('GET', $url);
-        $this->assertGreaterThan(
-            0,
-            $crawler->filter('html h1:contains("'.$message.'")')->count()
-        );
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $username = 'simple';
+        $user = $userRepository->findOneBy(['username' => $username]);
+        $client->loginUser($user);
+
+        $client->request('GET', $url);
+        dd($client);
+
+        //$this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h1', $message);
     }
 
     public function provideAuthorizedTaskPages(): array
@@ -33,53 +36,60 @@ class TaskControllerTest extends WebTestCase
         return [
             ['/tasks/todo', 'Liste des tâches à faire'],
             ['/tasks/done', 'Liste des tâches terminées'],
-            ['/task/3/edit', 'Modifier une tâche'],
+            ['/task/5/edit', 'Modifier une tâche'],
             ['/task/create', 'Créer une tâche']
         ];
     }
 
     /**
-    *  @dataProvider provideDataToTestTaskToggleButtonForChangeIsDoneStatus 
-    */
-    public function testTaskToggleButtonToChangeIsDoneStatus(bool $doneStatus, string $buttonLabel, string $url, string $sentence): void
+     *  @dataProvider provideDataToTestTaskToggleButtonForChangeIsDoneStatus 
+     */
+    public function testTaskToggleButtonToChangeIsDoneStatus(int $doneStatus, int $idTask, string $url, string $sentence): void
     {
-        $client = static::createAuthenticatedUser();
-        $taskRepository = static::getContainer()->get(TaskRepository::class);
-        $taskToToggle = $taskRepository->findOneBy(['isDone' => 0], ['id' => 'DESC']);
+        $client = static::createClient();
+
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $username = 'simple';
+        $user = $userRepository->findOneBy(['username' => $username]);
+        $client->loginUser($user);
+
+        $client->followRedirects();
 
         $crawler = $client->request('GET', $url);
+        $form = $crawler->filter("#button_" . $idTask)->selectButton($sentence)->form();
+        $crawler = $client->submit($form);
 
-        $form = $crawler->filter("#".$buttonLabel."_{$taskToToggle->getId()}")->selectButton($sentence)->form();
-        $client->submit($form);
-
-        $client->followRedirect();
-
-        $this->assertSelectorExists('.alert.alert-success');
-        $taskToControl = $taskRepository->findOneBy(['id' => $taskToToggle->getId()]);
-        $this->assertEquals(!$doneStatus, $taskToControl->isDone());
+        //$this->assertSelectorExists('.alert.alert-success');
+        $taskRepository = static::getContainer()->get(TaskRepository::class);
+        $taskToControl = $taskRepository->findOneBy(['id' => $idTask]);
+        $this->assertSame(!$doneStatus, $taskToControl->getIsDone());
     }
 
     public function provideDataToTestTaskToggleButtonForChangeIsDoneStatus(): array
     {
         return [
-            [0, '/tasks/todo', 'toDone' 'Marquer comme faite'],
-            [1, '/tasks/done', 'toDo', 'Marquer non terminée']
+            [1, 5, '/tasks/done', 'Marquer non terminée'],
+            [0, 4, '/tasks/todo', 'Marquer comme à faire']
         ];
     }
 
     public function testEditTask(): void
     {
-        $client = static::createAuthenticatedUser();
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $username = 'simple';
+        $user = $userRepository->findOneBy(['username' => $username]);
+        $client->loginUser($user);
+        $client->followRedirects();
 
         $taskRepository = static::getContainer()->get(TaskRepository::class);
-        $taskToEdit = $taskRepository->findOneBy([], ['id' => 'DESC']); // Task id 5
+        $taskToEdit = $taskRepository->findOneBy([], ['id' => 'DESC']); // Last Task
 
-        $client->request('GET', '/task/' . $taskToEdit->getId() . '/edit');
-        $client->submitForm('Modifier', [
+        $crawler = $client->request('GET', '/task/' . $taskToEdit->getId() . '/edit');
+        $crawler = $client->submitForm('Modifier', [
             'task[title]' => $taskToEdit->getTitle() . ' Updated',
             'task[content]' => $taskToEdit->getContent() . ' Updated',
         ]);
-        $crawler = $client->followRedirect();
 
         $this->assertSelectorExists('.alert.alert-success');
 
@@ -95,7 +105,13 @@ class TaskControllerTest extends WebTestCase
     {
         $faker = Factory::create('fr-FR');
 
-        $client = static::createAuthenticatedUser();
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $username = 'simple';
+        $user = $userRepository->findOneBy(['username' => $username]);
+        $client->loginUser($user);
+
+        $client->followRedirects();
 
         $client->request('GET', '/task/create');
         $randomTitle = $faker->sentence(2);
@@ -106,7 +122,6 @@ class TaskControllerTest extends WebTestCase
             'task[content]' => $randomContent,
         ]);
 
-        $client->followRedirect();
 
         $this->assertSelectorExists('.alert.alert-success');
 
@@ -118,34 +133,37 @@ class TaskControllerTest extends WebTestCase
     }
 
     /**
-    *  @dataProvider provideDataToTestDeleteTaskByUserProfile 
-    */
-    public function testDeleteTask(bool $typeOfClient, string $titleTask, string $alert): void
+     *  @dataProvider provideDataToTestDeleteTaskByUserProfile 
+     */
+    public function testDeleteTask(bool $typeOfClient, int $idTask, string $alert, string $message): void
     {
-        if ($typeOfClient) $client = $static::createAuthenticatedAdmin();
-        else $client = $static::createAuthenticatedUser();
-        $taskRepository = static::getContainer()->get(TaskRepository::class);
-        $task = $taskRepository->findOneBy([], ['title' => $titleTask]);
+        $client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $username = 'simple';
+        if ($typeOfClient) $username = 'admin';
+        $user = $userRepository->findOneBy(['username' => $username]);
+        $client->loginUser($user);
+
         $client->followRedirects();
 
-        $client->request('GET', '/task/' . $task->getId() . '/delete');
+        $client->request('GET', '/task/' . $idTask . '/delete');
 
-        $this->assertSelectorExists($alert);
+        $this->assertSelectorTextContains($alert, $message);
     }
 
     /**
-     * @return [typeOfClient (false => simple, true => admin), titleTask, alert]
+     * @return [typeOfClient (false => simple, true => admin), $idTask, titleTask, alert]
      */
     public function provideDataToTestDeleteTaskByUserProfile(): array
     {
+        self::ensureKernelShutdown();
+
         return [
-            [false, 'admin_task', '.alert.alert-danger'],
-            [false, 'anomymous_task', '.alert.alert-danger'],
-            [true, 'simple_task_todo', '.alert.alert-danger'],
-            [false, 'simple_task_todo', '.alert.alert-success'],
-            [true, 'anomymous_task', '.alert.alert-success'],
+            [false, 5, '.alert.alert-success', 'La tâche a bien été supprimée.'],
+            [true, 2, '.alert.alert-success', 'La tâche a bien été supprimée.'],
+            [false, 3, '.alert.alert-danger', 'Vous n\'avez pas le droit de supprimer cette tâche !'],
+            [false, 2, '.alert.alert-danger', 'Vous n\'avez pas le droit de supprimer cette tâche !'],
+            [true, 4, '.alert.alert-danger', 'Vous n\'avez pas le droit de supprimer cette tâche !'],
         ];
     }
-
-
 }

@@ -39,7 +39,7 @@ class Task
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isDone;
+    private $isDone = false;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
@@ -92,7 +92,7 @@ class Task
         return $this;
     }
 
-    public function isDone()
+    public function getIsDone(): ?bool
     {
         return $this->isDone;
     }

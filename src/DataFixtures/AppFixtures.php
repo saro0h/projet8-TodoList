@@ -7,9 +7,10 @@ use App\Entity\Task;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class AppFixtures extends Fixture
+class AppFixtures extends Fixture implements FixtureGroupInterface
 {
     public function __construct(UserPasswordHasherInterface $hasher)
     {
@@ -43,7 +44,6 @@ class AppFixtures extends Fixture
                 $task = new Task();
                 $task->setTitle($faker->sentence(2))
                     ->setContent($faker->text())
-                    ->setCreatedAt($faker->dateTime())
                     ->setIsDone($switchDoneStatus)
                     ->setAuthor($user);
                 $manager->persist($task);

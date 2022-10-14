@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block header_title %}<h1>Liste des tâches à faire</strong></h1>{% endblock %}
+{% block header_title %}<h1>Liste des tâches à faire</h1>{% endblock %}
 
 {% block body %}
     <div class="d-flex gap-4 mb-4">
@@ -19,8 +19,8 @@
                 <p class="card-text">{{ task.content }}</p>
                 <div class="d-flex gap-1">
                     <form action="{{ path('task_toggle', {'id' : task.id }) }}">
-                        <button class="btn btn-success btn-sm pull-right" id="toDone_{{ task.id }}">
-                            {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
+                        <button class="btn btn-success btn-sm pull-right" id="button_{{ task.id }}">
+                            Marquer comme à faire
                         </button>
                     </form>
                     <form action="{{ path('task_delete', {'id' : task.id }) }}">

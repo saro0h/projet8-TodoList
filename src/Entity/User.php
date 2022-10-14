@@ -14,8 +14,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields={"email"}, message="Il existe déjà un compte avec cet adresse email")
- * @UniqueEntity(fields={"username"}, message="Ce nom utilisateur existe déjà")
+ * @UniqueEntity(fields={"email"}, message="Il existe déjà un compte avec cet adresse email.")
+ * @UniqueEntity(fields={"username"}, message="Ce nom utilisateur existe déjà.")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -29,7 +29,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      * @Assert\NotBlank(message="Vous devez saisir un nom d'utilisateur.")
-     * @Assert\Length(min=3, max=50, minMessage="Le nom utilisateur doit comporter au moins {{ min }} caractères.", maxMessage="Le nom utilisateur doit comporter au maximum {{ max }} caractères.")
+     * @Assert\Length(min=3, max=50, minMessage="Le nom utilisateur doit comporter au moins {{ limit }} caractères.", maxMessage="Le nom utilisateur doit comporter au maximum {{ limit }} caractères.")
      */
     private $username;
 

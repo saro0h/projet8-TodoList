@@ -48,7 +48,7 @@ class SecurityEventSubscriber implements EventSubscriberInterface
         $message = "Oupsssss !!!";
 
         if ($exception->getAttributes()[0] == DeleteTaskVoter::DELETE_TASK) {
-            $message = "Vous n''avez pas le droit de supprimer cette tâche !";
+            $message = "Vous n'avez pas le droit de supprimer cette tâche !";
         }
 
         $session->getFlashBag()->add('danger', $message);

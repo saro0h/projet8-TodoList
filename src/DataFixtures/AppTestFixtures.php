@@ -7,10 +7,13 @@ use App\Entity\Task;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class AppTestFixtures extends Fixture
+class AppTestFixtures extends Fixture implements FixtureGroupInterface
 {
+    private UserPasswordHasherInterface $hasher;
+
     public function __construct(UserPasswordHasherInterface $hasher)
     {
         $this->hasher = $hasher;
@@ -56,7 +59,6 @@ class AppTestFixtures extends Fixture
         $task = new Task();
         $task->setTitle('empty_task')
             ->setContent($faker->text())
-            ->setCreatedAt($faker->dateTime())
             ->setAuthor(null);
         $manager->persist($task);
 
@@ -66,7 +68,6 @@ class AppTestFixtures extends Fixture
         $task = new Task();
         $task->setTitle('anomymous_task')
             ->setContent($faker->text())
-            ->setCreatedAt($faker->dateTime())
             ->setAuthor($userAnonymous);
         $manager->persist($task);
 
@@ -76,7 +77,6 @@ class AppTestFixtures extends Fixture
         $task = new Task();
         $task->setTitle('admin_task')
             ->setContent($faker->text())
-            ->setCreatedAt($faker->dateTime())
             ->setAuthor($userAdmin);
         $manager->persist($task);
 
@@ -86,7 +86,6 @@ class AppTestFixtures extends Fixture
         $task = new Task();
         $task->setTitle('simple_task_todo')
             ->setContent($faker->text())
-            ->setCreatedAt($faker->dateTime())
             ->setAuthor($userSimple);
         $manager->persist($task);
 
@@ -96,7 +95,6 @@ class AppTestFixtures extends Fixture
         $task = new Task();
         $task->setTitle('simple_task_done')
             ->setContent($faker->text())
-            ->setCreatedAt($faker->dateTime())
             ->setIsDone(true)
             ->setAuthor($userSimple);
         $manager->persist($task);

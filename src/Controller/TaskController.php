@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Task;
@@ -13,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TaskController extends AbstractController
 {
     #[Route('/', name: 'homepage')]
-    public function toListTasksTodo(TaskRepository $taskRepository)
+    public function toListTasksCounter(TaskRepository $taskRepository)
     {
         return $this->render('homepage/homepage.html.twig', ['tasks' => $taskRepository->findAll()]);
     }
@@ -21,13 +23,14 @@ class TaskController extends AbstractController
     #[Route('/tasks/todo', name: 'task_list_todo')]
     public function listTaskIsDone(TaskRepository $taskRepository)
     {
-        return $this->render('task/listTodo.html.twig', ['tasks' => $taskRepository->findByIsDone(0)]);
+        $tasksTodo = $taskRepository->findBy(['isDone' => 0], ['createdAt' => 'DESC']);
+        return $this->render('task/listTodo.html.twig', ['tasks' => $tasksTodo]);
     }
 
     #[Route('/tasks/done', name: 'task_list_done')]
     public function listTaskTodo(TaskRepository $taskRepository)
     {
-        return $this->render('task/listIsDone.html.twig', ['tasks' => $taskRepository->findByIsDone(1)]);
+        return $this->render('task/listIsDone.html.twig', ['tasks' => $taskRepository->findBy(['isDone' => 1], ['createdAt' => 'DESC'])]);
     }
 
 
@@ -42,7 +45,6 @@ class TaskController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $task->setAuthor($user);
-            $task->setIsDone(0);
             $task->setCreatedAt(new \DateTimeImmutable('NOW'));
             $emi->persist($task);
             $emi->flush();
@@ -65,7 +67,7 @@ class TaskController extends AbstractController
 
             $emi->flush();
             $this->addFlash('success', 'La tâche a bien été modifiée.');
-            if ($task->isDone()) return $this->redirectToRoute('task_list_done');
+            if ($task->getIsDone()) return $this->redirectToRoute('task_list_done');
             return $this->redirectToRoute('task_list_todo');
         }
 
@@ -78,9 +80,9 @@ class TaskController extends AbstractController
     #[Route('/task/{id}/toggle', name: 'task_toggle')]
     public function toggleTask(Task $task, EntityManagerInterface $emi)
     {
-        $task->setIsDone(!$task->isDone());
+        $task->setIsDone(!$task->getIsDone());
         $emi->flush();
-        if ($task->isDone()) {
+        if ($task->getIsDone()) {
             $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
             return $this->redirectToRoute('task_list_todo');
         } else {
@@ -97,7 +99,7 @@ class TaskController extends AbstractController
         $emi->flush();
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
-        if ($task->isDone()) return $this->redirectToRoute('task_list_done');
+        if ($task->getIsDone()) return $this->redirectToRoute('task_list_done');
         return $this->redirectToRoute('task_list_todo');
     }
 }
