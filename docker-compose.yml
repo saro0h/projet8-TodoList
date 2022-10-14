@@ -1,11 +1,11 @@
 version: "3"
 
 services:
-  databasetodo:
+  databasetodo2:
     image: "mysql:latest"
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: symfony
+      MYSQL_DATABASE: symfony2
     ports:
       # To allow the host machine to access the ports below, modify the lines below.
       # For example, to allow the host to connect to port 3306 on the container, you would change
@@ -16,14 +16,14 @@ services:
       - dev
   phpmyadmin:
     image: phpmyadmin
-    container_name: phpmyadmin_docker_toDoList
+    container_name: phpmyadmin_docker_toDoList2
     restart: always
     depends_on:
-      - databasetodo
+      - databasetodo2
     ports:
-      - "8081:80"
+      - "8083:80"
     environment:
-      PMA_HOST: databasetodo
+      PMA_HOST: databasetodo2
     networks:
       - dev
 

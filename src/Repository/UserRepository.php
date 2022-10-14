@@ -39,18 +39,18 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
-    public function findOneByRole(string $role): User
-    {
-        $user = $this->createQueryBuilder('q')
-            ->andWhere('(q.roles LIKE :roles)')
-            ->setParameter('roles', '%"' . $role . '"%')
-            ->orderBy('q.id', 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getSingleResult();
+    // public function findOneByRole(string $role): User
+    // {
+    //     $user = $this->createQueryBuilder('q')
+    //         ->andWhere('(q.roles LIKE :roles)')
+    //         ->setParameter('roles', '%"' . $role . '"%')
+    //         ->orderBy('q.id', 'DESC')
+    //         ->setMaxResults(1)
+    //         ->getQuery()
+    //         ->getSingleResult();
 
-        return $user;
-    }
+    //     return $user;
+    // }
 
 
     //    /**

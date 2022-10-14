@@ -54,15 +54,6 @@ class AppTestFixtures extends Fixture implements FixtureGroupInterface
         $manager->persist($userSimple);
 
         /**
-         *   MAKE EMPTY USER TASK
-         */
-        $task = new Task();
-        $task->setTitle('empty_task')
-            ->setContent($faker->text())
-            ->setAuthor(null);
-        $manager->persist($task);
-
-        /**
          *   MAKE ANONYMOUS TASK
          */
         $task = new Task();
