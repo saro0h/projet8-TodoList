@@ -16,6 +16,18 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class TaskVoterTest extends TestCase
 {
+    private $task;
+
+    private $voter;
+
+    public function setUp(): void
+    {
+        $this->task = new Task();
+        $this->voter = new TaskVoter();
+    }
+    
+    
+    
     private function createUser(int $id): User
     {
         $user = $this->createMock(User::class);
@@ -24,91 +36,96 @@ class TaskVoterTest extends TestCase
         return $user;
     }
 
-    public function provideCases()
+    private function createTask($user = null): Task
     {
-        yield 'anonymous cannot delete' => [
-            ['DELETE'],
-            new Task($this->createUser(1)),
-            null,
-            VoterInterface::ACCESS_DENIED
+        $task = new Task();
+        $task->setUser($user);
+
+        return $task;
+    }
+    private function createUserRoles(int $id, string $roles): User
+    {
+        $user = new User();
+        $user->setId($id);
+        $user->setRoles([$roles]);
+
+        return $user;
+    }
+
+    public function provideCases(): ?\Generator
+    {
+        // yield 'anonymous cannot delete' => [
+        //     ['DELETE'],
+        //     new Task($this->createUser(1)),
+        //     null,
+        //     VoterInterface::ACCESS_DENIED
+        // ];
+
+        // yield 'non-owner cannot delete' => [
+        //     ['DELETE'],
+        //     new Task($this->createUser(1)),
+        //     $this->createUser(2),
+        //     VoterInterface::ACCESS_DENIED
+        // ];
+
+        // yield 'owner can delete' => [
+        //     ['DELETE'],
+        //     new Task($this->createUser(1)),
+        //     $this->createUser(1),
+        //     VoterInterface::ACCESS_GRANTED
+        // ];
+
+        yield 'Admin peut supprimer une tache Anonyme' => [
+            $this->createUserRoles(2, 'ROLE_ADMIN'),
+            $task = $this->createTask(Null),
+            $attribute = ['DELETE'],
+            TaskVoter::ACCESS_GRANTED,
         ];
 
-        yield 'non-owner cannot delete' => [
-            ['DELETE'],
-            new Task($this->createUser(1)),
+        yield 'User peut supprimer sa propre tâche' => [
+            $user = $this->createUser(2),
+            $task = $this->createTask($user),
+            $attribute = ['DELETE'],
+            TaskVoter::ACCESS_GRANTED,
+        ];
+
+        yield 'User ne peut pas supprimer une tâche de un autre user ' => [
             $this->createUser(2),
-            VoterInterface::ACCESS_DENIED
+            $task = $this->createTask($this->createUser(4)),
+            $attribute = ['DELETE'],
+            TaskVoter::ACCESS_DENIED,
         ];
-
-        yield 'owner can delete' => [
-            ['DELETE'],
-            new Task($this->createUser(1)),
-            $this->createUser(1),
-            VoterInterface::ACCESS_GRANTED
-        ];
+    }
+ /**
+     * @dataProvider provideCases
+     */
+    public function testSupportsFalse()
+    {
+        $tokenInterface = $this->getMockBuilder(TokenInterface::class)->disableOriginalConstructor()->getMock();
+        $security = $this->getMockBuilder(Security::class)->disableOriginalConstructor()->getMock();
+        $voter = new TaskVoter($security);
+        $this->assertEquals(0, $voter->vote($tokenInterface, (new Task()), ["WRONG_ATTRIBUTE"]));
     }
 
     /**
      * @dataProvider provideCases
      */
-    public function testVote(
-        string $attribute,
-        Task $task,
-        ?User $user,
-        $expectedVote
-    ) {
-        $voter = new TaskVoter();
-
-        $token = new AnonymousToken('secret', 'anonymous');
-        if ($user) {
-            $token = new UsernamePasswordToken(
-                $user, 'credentials', 'memory'
-            );
-        }
-
-        $this->assertSame(
-            $expectedVote,
-            $voter->vote($token, $task, [$attribute])
-        );
+    public function testSupportsTrue()
+    {
+        $tokenInterface = $this->getMockBuilder(TokenInterface::class)->disableOriginalConstructor()->getMock();
+        $security = $this->getMockBuilder(Security::class)->disableOriginalConstructor()->getMock();
+        $voter = new TaskVoter($security);
+        $this->assertEquals(-1, $voter->vote($tokenInterface, (new Task()), ["DELETE"]));
     }
 
-
-
-
-
-
-
-
-//     /**
-//      * @dataProvider provideCases
-//      */
-//     public function testVote(array $attributes,
-//  string $subject, 
-//  $expectedVote) {
-//         $this->assertEquals($expectedVote, $this->voter->vote($this->token, $subject, $attributes));
-//     }
-    
-    
-// public function provideCases(): \Generator
-// {
-
-//     yield 'user can delete' => [
-//         ['DELETE'],
-//         'my_subject',
-//         $this->token,
-//         VoterInterface::ACCESS_GRANTED,
-//     ];
-// }
-    
-    
-
-
-    //$this->assertTrue($test);
-    // public function testVoteOnAttributeFalse()
-    // {
-    //     $tokenInterface = $this->getMockBuilder(TokenInterface::class)->disableOriginalConstructor()->getMock();
-    //     $security = $this->getMockBuilder(Security::class)->disableOriginalConstructor()->getMock();
-    //     $voter = new TaskVoter($security);
-    //     $this->assertEquals(0, $voter->vote($tokenInterface, (new Task()), ["WRONG_ATTRIBUTE"]));
-    // }
+    public function testVoteOnAttributeTrue()
+    {
+        $tokenInterface = $this->getMockBuilder(TokenInterface::class)->disableOriginalConstructor()->getMock();
+        $security = $this->getMockBuilder(Security::class)->disableOriginalConstructor()->getMock();
+        $voter = new TaskVoter($security);
+        $user=$tokenInterface->getUser();
+        $task=new Task();
+        $user=$task->getUser();
+        $this->assertEquals(-1, $voter->vote($tokenInterface, $task, ["DELETE"]));
+    }
 }
