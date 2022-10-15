@@ -11,7 +11,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity('email')]
+#[UniqueEntity(
+    fields: ["email"],
+    message: "L'email est déjà utilisé."
+)]
+#[UniqueEntity(
+    fields: ["username"],
+    message: "Ce pseudo est déjà utilisé."
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -23,6 +30,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: "Vous devez saisir un nom d'utilisateur.")]
     private string $username;
 
+    #[Assert\NotBlank(message: "Vous devez saisir un mot de passe.")]
+    #[Assert\Length(
+        min: 8,
+        minMessage: "Le mot de passe doit faire minimum {{ limit }} caractères."
+    )]
+    #[Assert\Regex(
+        "/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$/",
+        message: "Le format de l'adresse n'est pas correcte."
+    )]
     private ?string $plainPassword = null;
 
     #[ORM\Column(type: 'string', length: 64)]

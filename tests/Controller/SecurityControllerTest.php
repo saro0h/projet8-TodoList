@@ -12,7 +12,7 @@ class SecurityControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function login_is_successful()
+    public function user_should_be_authenticated_and_redirect_to_homepage()
     {
         // simule l'envoie d'une requête HTTP
         $client = static::createClient();
@@ -41,7 +41,7 @@ class SecurityControllerTest extends WebTestCase
     /**
      * @test
      */
-    public function login_failed()
+    public function user_should_not_be_authenticated_due_to_invalid_credentials_and_raise_form_error()
     {
         $client = static::createClient();
         $crawler = $client->request(Request::METHOD_GET, '/login');
@@ -57,5 +57,45 @@ class SecurityControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $client->followRedirect();
         $this->assertSelectorTextContains('html', 'Invalid credentials.');
+    }
+
+    /**
+     * @test
+     */
+    public function user_should_not_be_authenticated_due_to_blank_username_raise_form_error_and_redirect_to_login()
+    {
+        $client = static::createClient();
+        $crawler = $client->request(Request::METHOD_GET, '/login');
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+
+        $form = $crawler->filter("form[name=login]")->form([
+            "_username" => "",
+            "_password" => "passworD1!"
+        ]);
+
+        $client->submit($form);
+
+        // $this->assertSelectorTextContains('html', 'Invalid credentials.');
+        $this->assertResponseRedirects('http://localhost/login');
+    }
+
+    /**
+     * @test
+     */
+    public function user_should_not_be_authenticated_due_to_blank_password_raise_form_error_and_redirect_to_login()
+    {
+        $client = static::createClient();
+        $crawler = $client->request(Request::METHOD_GET, '/login');
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+
+        $form = $crawler->filter("form[name=login]")->form([
+            "_username" => "Jean",
+            "_password" => ""
+        ]);
+
+        $client->submit($form);
+
+        // $this->assertSelectorTextContains('html', 'Invalid credentials.');
+        $this->assertResponseRedirects('http://localhost/login');
     }
 }
