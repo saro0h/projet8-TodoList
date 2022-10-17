@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\Security;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Generator;
 use App\Repository\UserRepository;
 
-class DefaultControllerTest extends WebTestCase
+class HoempageTest extends WebTestCase
 {
     /**
      * @dataProvider provideUri

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\Security;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
-class SecurityControllerTest extends WebTestCase
+class LoginTest extends WebTestCase
 {
     /**
      * @test
@@ -18,7 +18,6 @@ class SecurityControllerTest extends WebTestCase
         $client = static::createClient();
         // on récupère le crawler & on souhaite accéder à la page de connexion
         $crawler = $client->request(Request::METHOD_GET, '/login');
-
         // on test d'abord si on arrive bien sur notre page
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
