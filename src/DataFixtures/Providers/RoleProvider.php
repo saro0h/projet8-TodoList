@@ -7,10 +7,10 @@ use Faker\Provider\Base as BaseProvider;
 final class RoleProvider extends BaseProvider
 {
 
-   public function userRole(): array
+   public function userRole(): string
     {
         $roles = array("ROLE_USER","ROLE_ADMIN");
-        return [array_rand($roles,1)];
+        return $roles[array_rand($roles,1)];
         
     }
 }

@@ -75,7 +75,7 @@ class TaskVoterTest extends TestCase
         //     VoterInterface::ACCESS_GRANTED
         // ];
 
-        yield 'Admin peut supprimer une tache Anonyme' => [
+        yield 'Admin peut supprimer une tâche Anonyme' => [
             $this->createUserRoles(2, 'ROLE_ADMIN'),
             $task = $this->createTask(Null),
             $attribute = ['DELETE'],
@@ -123,9 +123,10 @@ class TaskVoterTest extends TestCase
         $tokenInterface = $this->getMockBuilder(TokenInterface::class)->disableOriginalConstructor()->getMock();
         $security = $this->getMockBuilder(Security::class)->disableOriginalConstructor()->getMock();
         $voter = new TaskVoter($security);
-        $user=$tokenInterface->getUser();
+        $user = new User();
+        $tokenInterface->method('getUser')->willReturn($user);
         $task=new Task();
-        $user=$task->getUser();
-        $this->assertEquals(-1, $voter->vote($tokenInterface, $task, ["DELETE"]));
+        $task->setUser($user);
+        $this->assertEquals(1, $voter->vote($tokenInterface, $task, ["DELETE"]));
     }
 }

@@ -18,8 +18,8 @@ class SecurityControllerTest extends WebTestCase
     public function loginUser(): void
     {
         $crawler = $this->client->request('GET', '/login');
-        $form = $crawler->selectButton('Connexion')->form();
-        $this->client->submit($form, ['username' => 'Durand', 'password' => 'password']);
+        $form = $crawler->selectButton('Se connecter')->form();
+        $this->client->submit($form, ['_username' => 'Durand', '_password' => 'password']);
     }
 
     public function testLogin()

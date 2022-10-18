@@ -24,4 +24,9 @@ App\Entity\User:
         email: <email()>
         # roles: '<userRole()>'
         roles: [ROLE_USER]
+    user:
+        username: 'utilisateur'
+        password: <encodePassword('password')>
+        email: 'u@y.fr'
+        roles: [ROLE_USER]
 

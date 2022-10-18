@@ -9,10 +9,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class UserTest extends TestCase
 {
-    public function testGetId()
+    public function testSetGetId()
     {
         $user = new User();
-        static::assertEquals($user->getId(), null);
+        $user->setId('1000');
+        static::assertEquals($user->getId(), '1000');
     }
 
     public function testGetSetUsername()
