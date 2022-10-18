@@ -5,8 +5,13 @@ namespace App\Entity;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
+#[UniqueEntity(
+    fields: ["title"],
+    message: "Cette tâche existe déjà."
+)]
 class Task
 {
     #[ORM\Id]
@@ -17,7 +22,7 @@ class Task
     #[ORM\Column(type: 'datetime')]
     private \DateTime $createdAt;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', unique: true)]
     #[Assert\NotBlank(message: "Vous devez saisir un titre.")]
     private string $title;
 
