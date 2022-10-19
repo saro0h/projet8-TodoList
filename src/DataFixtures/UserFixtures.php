@@ -15,8 +15,11 @@ class UserFixtures extends Fixture
     {
     }
 
+    public const ANONYME_USER_REFERENCE = "anonymeUser";
+
     private function createUsers(ObjectManager $manager): array
     {
+        // création de plusieurs users pour tester l'authentification et les fonctionnalités
         $users =
             [
                 'Jean' => (new User())->setUsername('Jean')->setEmail('jean@sf.com'),
@@ -44,7 +47,16 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        // auteur anonyme pour les tâche déjà existantes
+        $anonymeUser = new User;
+        $anonymeUser->setUsername('anonyme')
+            ->setEmail('anonyme@sf.com')
+            ->setPassword($this->passwordHasher->hashPassword($anonymeUser, 'passworD1!'));
+        $manager->persist($anonymeUser);
+
         $users = $this->createUsers($manager);
         $manager->flush();
+
+        $this->addReference(self::ANONYME_USER_REFERENCE, $anonymeUser);
     }
 }
