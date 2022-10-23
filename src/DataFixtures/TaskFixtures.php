@@ -5,6 +5,8 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Task;
+use App\DataFixtures\UserFixtures;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class TaskFixtures extends Fixture
 {
@@ -23,11 +25,20 @@ class TaskFixtures extends Fixture
                  with the release of Letraset sheets containing Lorem Ipsum passages, and more
                  recently with desktop publishing software like Aldus PageMaker including
                  versions of Lorem Ipsum.")
-                ->setCreatedAt(new \DateTime('2022-01-01T10:00:00+00:00'));
+                ->setCreatedAt(new \DateTime('2022-01-01T10:00:00+00:00'))
+                ->setUser($this->getReference(UserFixtures::ANONYME_USER_REFERENCE));
 
             $manager->persist($task);
         }
 
         $manager->flush();
+    }
+
+    // return an array of the fixture classes that must be loaded before this one, here UserFixtures
+    public function getDependencies()
+    {
+        return [
+            UserFixtures::class,
+        ];
     }
 }

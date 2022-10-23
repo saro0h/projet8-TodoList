@@ -56,5 +56,7 @@ class UserFixtures extends Fixture
 
         $users = $this->createUsers($manager);
         $manager->flush();
+
+        $this->addReference(self::ANONYME_USER_REFERENCE, $anonymeUser);
     }
 }
