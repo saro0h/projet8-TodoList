@@ -20,7 +20,9 @@ class UserFixtures extends Fixture
         // création de plusieurs users pour tester l'authentification et les fonctionnalités
         $users =
             [
-                'Jean' => (new User())->setUsername('Jean')->setEmail('jean@sf.com'),
+                // donner le role ROLE_ADMIN (pour avoir accès aux infos user)
+                'Jean' => (new User())->setUsername('Jean')->setEmail('jean@sf.com')->setRoles(['ROLE_ADMIN']),
+                // donner le role ROLE_USER
                 'Loic' => (new User())->setUsername('Loic')->setEmail('loic@sf.com'),
                 'Antoine' => (new User())->setUsername('Antoine')->setEmail('antoine@sf.com'),
                 'Claire' => (new User())->setUsername('Claire')->setEmail('claire@sf.com'),
