@@ -31,7 +31,10 @@ class TaskController extends AbstractController
     #[Route('/tasks/create', name: 'task_create')]
     public function createAction(Request $request): Response
     {
+        $user = $this->getUser();
         $task = new Task();
+        $task->setUser($user);
+
         $form = $this->createForm(TaskType::class, $task)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

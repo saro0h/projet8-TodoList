@@ -17,6 +17,7 @@ class UserFixtures extends Fixture
 
     private function createUsers(ObjectManager $manager): array
     {
+        // création de plusieurs users pour tester l'authentification et les fonctionnalités
         $users =
             [
                 'Jean' => (new User())->setUsername('Jean')->setEmail('jean@sf.com'),
