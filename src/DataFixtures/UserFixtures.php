@@ -21,7 +21,7 @@ class UserFixtures extends Fixture
         $users =
             [
                 // donner le role ROLE_ADMIN (pour avoir accès aux infos user)
-                'Jean' => (new User())->setUsername('Jean')->setEmail('jean@sf.com')->setRoles(['ROLE_ADMIN']),
+                'Jean' => (new User())->setUsername('Jean')->setEmail('jean@sf.com')->setRole('ROLE_ADMIN'),
                 // donner le role ROLE_USER
                 'Loic' => (new User())->setUsername('Loic')->setEmail('loic@sf.com'),
                 'Antoine' => (new User())->setUsername('Antoine')->setEmail('antoine@sf.com'),

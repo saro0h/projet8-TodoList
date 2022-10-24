@@ -49,15 +49,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Email(message: "Le format de l'adresse n'est pas correcte.")]
     private string $email;
 
-    /**
-     * @var array<array-key, string>
-     */
-    #[ORM\Column(type: 'array')]
-    private array $roles;
+    #[ORM\Column(type: 'string')]
+    private string $role;
 
     public function __construct()
     {
-        $this->roles = ['ROLE_USER'];
+        $this->role = 'ROLE_USER';
     }
 
     public function getId(): ?int
@@ -135,25 +132,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
+    public function getRole(): string
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return $this->role;
     }
 
-    /**
-     * @param array<string> $roles
-     * @return $this
-     */
-    public function setRoles(array $roles): self
+    public function getRoles(): array
     {
-        $this->roles = $roles;
+        return [$this->role];
+    }
+
+    public function setRole(string $role): self
+    {
+        $this->role = $role;
 
         return $this;
     }
