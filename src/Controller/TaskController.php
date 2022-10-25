@@ -84,6 +84,9 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
     public function deleteTaskAction(Task $task): RedirectResponse
     {
+        // check for "delete" access: calls all voters
+        $this->denyAccessUnlessGranted('delete', $task);
+
         $this->manager->remove($task);
         $this->manager->flush();
 
