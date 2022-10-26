@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Security;
 
 class TaskVoter extends Voter
 {
-    const DELETE = 'delete';
+    const AUTHORIZE = 'authorize';
     private $security;
 
     public function __construct(Security $security)
@@ -21,7 +21,7 @@ class TaskVoter extends Voter
     protected function supports(string $attribute, mixed $subject): bool
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, [self::DELETE])) {
+        if (!in_array($attribute, [self::AUTHORIZE])) {
             return false;
         }
 
@@ -47,16 +47,16 @@ class TaskVoter extends Voter
         $task = $subject;
 
         return match ($attribute) {
-            self::DELETE => $this->canDelete($task, $user),
-            default => throw new \LogicException('Vous ne pouvez pas supprimer cette tâche.')
+            self::AUTHORIZE => $this->canHandle($task, $user),
+            default => throw new \LogicException('Vous n\'avez pas les droits.')
         };
     }
 
-    private function canDelete(Task $task, User $user): bool
+    // a task can be handled by their author or an admin
+    // and an anonyme task can be handle only by an admin
+    private function canHandle(Task $task, User $user): bool
     {
-        // check that the connected user is the same as the user that created the task
-        // and if the user is an admin
-        if ($user === $task->getUser() or $this->security->isGranted('ROLE_ADMIN')) {
+        if ($user === $task->getUser() || $this->security->isGranted('ROLE_ADMIN')) {
             return true;
         }
 
