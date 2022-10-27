@@ -5,8 +5,10 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Task;
+use App\DataFixtures\UserFixtures;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class TaskFixtures extends Fixture
+class TaskFixtures extends Fixture implements DependentFixtureInterface
 {
 
     public function load(ObjectManager $manager): void
@@ -28,6 +30,37 @@ class TaskFixtures extends Fixture
             $manager->persist($task);
         }
 
+        // création de 3 tâches (qui ne soient pas anonyme)
+        // reliées à des users (avec différents roles) pour les tests
+        $task = new Task();
+        $task->setTitle("Tâche test créée par admin")
+            ->setContent("Pour test les EDIT, TOGGLE et DELETE par d'autres users.")
+            ->setCreatedAt(new \DateTime('2022-01-01T10:00:00+00:00'))
+            ->setUser($this->getReference(UserFixtures::USER_ADMIN));
+        $manager->persist($task);
+
+        $task = new Task();
+        $task->setTitle("Tâche test créée par un user")
+            ->setContent("Pour test les EDIT, TOGGLE et DELETE par d'autres users.")
+            ->setCreatedAt(new \DateTime('2022-01-01T10:00:00+00:00'))
+            ->setUser($this->getReference(UserFixtures::USER_TEST_1));
+        $manager->persist($task);
+
+        $task = new Task();
+        $task->setTitle("Tâche test créée par un autre user")
+            ->setContent("Pour test les EDIT, TOGGLE et DELETE par d'autres users.")
+            ->setCreatedAt(new \DateTime('2022-01-01T10:00:00+00:00'))
+            ->setUser($this->getReference(UserFixtures::USER_TEST_2));
+
+        $manager->persist($task);
         $manager->flush();
+    }
+
+    // return an array of the fixture classes that must be loaded before this one, here UserFixtures
+    public function getDependencies()
+    {
+        return [
+            UserFixtures::class,
+        ];
     }
 }

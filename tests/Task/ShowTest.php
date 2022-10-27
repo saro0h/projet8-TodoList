@@ -36,6 +36,6 @@ class ShowTest extends WebTestCase
         );
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertCount(20, $crawler->filter('.thumbnail'));
+        $this->assertCount(23, $crawler->filter('.thumbnail'));
     }
 }

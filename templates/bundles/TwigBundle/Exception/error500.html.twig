@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Non autorisé{% endblock %}
+
+{% block body %}
+    <h1>Non autorisé</h1>
+    <p>Ce champ ne peut pas être vide.</p>
+    <p>Code: {{status_code}} {{status_text}}</p>
+{% endblock %}
+
+{# En mode développement, on ne peut pas voir les pages d'erreur personnalisées dans leur contexte, mais on peut les tester :
+https://127.0.0.1:8000/index.php/_error/500 #}
