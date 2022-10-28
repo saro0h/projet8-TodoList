@@ -8,15 +8,14 @@ use App\Repository\TaskRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use App\Service\HandleTask;
 
 class TaskController extends AbstractController
 {
     public function __construct(
-        private TaskRepository $taskRepository,
-        private EntityManagerInterface $manager
+        private TaskRepository $taskRepository
     ) {
     }
 
@@ -29,41 +28,46 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/create', name: 'task_create')]
-    public function createAction(Request $request): Response
-    {
+    public function createAction(
+        Request $request,
+        HandleTask $handleTask
+    ): Response {
         $user = $this->getUser();
         $task = new Task();
         $task->setUser($user);
 
-        $form = $this->createForm(TaskType::class, $task)->handleRequest($request);
+        $form = $this->createForm(
+            TaskType::class,
+            $task
+        )->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->manager->persist($task);
-            $this->manager->flush();
-
-            $this->addFlash('success', 'La tâche a été bien été ajoutée.');
-
+            $handleTask->createTask($task);
             return $this->redirectToRoute('task_list');
         }
 
-        return $this->renderForm('task/create.html.twig', ['form' => $form]);
+        return $this->renderForm(
+            'task/create.html.twig',
+            ['form' => $form]
+        );
     }
 
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
-    public function editAction(Task $task, Request $request): Response
-    {
+    public function editAction(
+        Task $task,
+        Request $request,
+        HandleTask $handleTask
+    ): Response {
         // check for "authorize" access: calls all voters
         $this->denyAccessUnlessGranted('authorize', $task);
 
-        $form = $this->createForm(TaskType::class, $task);
-
-        $form->handleRequest($request);
+        $form = $this->createForm(
+            TaskType::class,
+            $task
+        )->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->manager->flush();
-
-            $this->addFlash('success', 'La tâche a bien été modifiée.');
-
+            $handleTask->editTask();
             return $this->redirectToRoute('task_list');
         }
 
@@ -74,29 +78,25 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
-    public function toggleTaskAction(Task $task): RedirectResponse
-    {
+    public function toggleTaskAction(
+        Task $task,
+        HandleTask $handleTask
+    ): RedirectResponse {
         // check for "authorize" access: calls all voters
         $this->denyAccessUnlessGranted('authorize', $task);
 
-        $task->toggle(!$task->isDone());
-        $this->manager->flush();
-
-        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
-
+        $handleTask->toggleTask($task);
         return $this->redirectToRoute('task_list');
     }
 
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
-    public function deleteTaskAction(Task $task): RedirectResponse
-    {
+    public function deleteTaskAction(
+        Task $task,
+        HandleTask $handleTask
+    ): RedirectResponse {
         $this->denyAccessUnlessGranted('authorize', $task);
 
-        $this->manager->remove($task);
-        $this->manager->flush();
-
-        $this->addFlash('success', 'La tâche a bien été supprimée.');
-
+        $handleTask->deleteTask($task);
         return $this->redirectToRoute('task_list');
     }
 }

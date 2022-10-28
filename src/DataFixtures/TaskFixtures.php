@@ -57,7 +57,7 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
     }
 
     // return an array of the fixture classes that must be loaded before this one, here UserFixtures
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             UserFixtures::class,

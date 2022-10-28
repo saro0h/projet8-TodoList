@@ -18,8 +18,10 @@ class TaskVoter extends Voter
         $this->security = $security;
     }
 
-    protected function supports(string $attribute, mixed $subject): bool
-    {
+    protected function supports(
+        string $attribute,
+        mixed $subject
+    ): bool {
         // if the attribute isn't one we support, return false
         if (!in_array($attribute, [self::AUTHORIZE])) {
             return false;
@@ -33,8 +35,11 @@ class TaskVoter extends Voter
         return true;
     }
 
-    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
-    {
+    protected function voteOnAttribute(
+        string $attribute,
+        mixed $subject,
+        TokenInterface $token
+    ): bool {
         $user = $token->getUser();
 
         if (!$user instanceof User) {
@@ -48,7 +53,9 @@ class TaskVoter extends Voter
 
         return match ($attribute) {
             self::AUTHORIZE => $this->canHandle($task, $user),
-            default => throw new \LogicException('Vous n\'avez pas les droits.')
+            default => throw new \LogicException(
+                'Vous n\'avez pas les droits.'
+            )
         };
     }
 
