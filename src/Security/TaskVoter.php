@@ -56,10 +56,6 @@ class TaskVoter extends Voter
     // and an anonyme task can be handle only by an admin
     private function canHandle(Task $task, User $user): bool
     {
-        if ($user === $task->getUser() || $this->security->isGranted('ROLE_ADMIN')) {
-            return true;
-        }
-
-        return false;
+        return $user === $task->getUser() || $this->security->isGranted('ROLE_ADMIN');
     }
 }
