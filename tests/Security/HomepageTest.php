@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Generator;
 use App\Repository\UserRepository;
 
-class HoempageTest extends WebTestCase
+class HomepageTest extends WebTestCase
 {
     /**
      * @dataProvider provideUri

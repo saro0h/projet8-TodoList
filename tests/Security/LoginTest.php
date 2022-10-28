@@ -74,8 +74,9 @@ class LoginTest extends WebTestCase
 
         $client->submit($form);
 
-        // $this->assertSelectorTextContains('html', 'Invalid credentials.');
         $this->assertResponseRedirects('http://localhost/login');
+        $client->followRedirect();
+        $this->assertSelectorTextContains('html', 'Invalid credentials.');
     }
 
     /**
@@ -94,7 +95,8 @@ class LoginTest extends WebTestCase
 
         $client->submit($form);
 
-        // $this->assertSelectorTextContains('html', 'Invalid credentials.');
         $this->assertResponseRedirects('http://localhost/login');
+        $client->followRedirect();
+        $this->assertSelectorTextContains('html', 'Invalid credentials.');
     }
 }

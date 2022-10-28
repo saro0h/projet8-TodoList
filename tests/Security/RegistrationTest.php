@@ -48,6 +48,31 @@ class RegistrationTest extends WebTestCase
     /**
      * @test
      */
+    public function user_registration_should_not_be_displayed_for_non_admin()
+    {
+        $client = static::createClient();
+
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
+
+        // user w/ id 2 has ROLE_USER
+        $user = $entityManager->getRepository(User::class)->find(2);
+        $client->loginUser($user);
+
+        /** @var UrlGeneratorInterface $urlGenerator */
+        $urlGenerator = $client->getContainer()->get("router");
+
+        $client->request(
+            Request::METHOD_GET,
+            $urlGenerator->generate("user_create")
+        );
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * @test
+     */
     public function user_should_not_be_registered_due_to_blank_username_and_raise_form_error()
     {
         $client = static::createClient();

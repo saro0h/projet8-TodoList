@@ -52,6 +52,9 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
     public function editAction(Task $task, Request $request): Response
     {
+        // check for "authorize" access: calls all voters
+        $this->denyAccessUnlessGranted('authorize', $task);
+
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -73,6 +76,9 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
     public function toggleTaskAction(Task $task): RedirectResponse
     {
+        // check for "authorize" access: calls all voters
+        $this->denyAccessUnlessGranted('authorize', $task);
+
         $task->toggle(!$task->isDone());
         $this->manager->flush();
 
@@ -84,6 +90,8 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
     public function deleteTaskAction(Task $task): RedirectResponse
     {
+        $this->denyAccessUnlessGranted('authorize', $task);
+
         $this->manager->remove($task);
         $this->manager->flush();
 
