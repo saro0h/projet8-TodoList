@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use App\Service\UserData;
+use App\Service\UserDataInterface;
 
 /**
  * Require ROLE_ADMIN for all the actions of this controller
@@ -34,7 +34,7 @@ class UserController extends AbstractController
     #[Route('/users/create', name: 'user_create')]
     public function createAction(
         Request $request,
-        UserData $userData
+        UserDataInterface $userData
     ): Response {
         $user = new User();
         $form = $this->createForm(
@@ -44,6 +44,12 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userData->createUser($user);
+
+            $this->addFlash(
+                'success',
+                "L'utilisateur a bien été ajouté."
+            );
+
             return $this->redirectToRoute('user_list');
         }
 
@@ -57,7 +63,7 @@ class UserController extends AbstractController
     public function editAction(
         User $user,
         Request $request,
-        UserData $userData
+        UserDataInterface $userData
     ): Response {
         $form = $this->createForm(
             UserType::class,
@@ -66,6 +72,12 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userData->editUser($user);
+
+            $this->addFlash(
+                'success',
+                "L'utilisateur a bien été modifié"
+            );
+
             return $this->redirectToRoute('user_list');
         }
 

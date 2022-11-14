@@ -3,10 +3,10 @@
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Entity\User;
 
-class UserData
+class UserData implements UserDataInterface
 {
     public function __construct(
         private EntityManagerInterface $manager,
@@ -14,7 +14,11 @@ class UserData
     ) {
     }
 
-    public function createUser($user): void
+    /**
+     * @param User $user
+     * @return void
+     */
+    public function createUser(User $user): void
     {
         $user->setPassword($this->passwordHasher->hashPassword(
             $user,
@@ -23,15 +27,13 @@ class UserData
 
         $this->manager->persist($user);
         $this->manager->flush();
-
-        $session = new Session();
-        $session->getFlashbag()->add(
-            'success',
-            "L'utilisateur a bien été ajouté."
-        );
     }
 
-    public function editUser($user): void
+    /**
+     * @param User $user
+     * @return void
+     */
+    public function editUser(User $user): void
     {
         $user->setPassword($this->passwordHasher->hashPassword(
             $user,
@@ -39,11 +41,5 @@ class UserData
         ));
 
         $this->manager->flush();
-
-        $session = new Session();
-        $session->getFlashbag()->add(
-            'success',
-            "L'utilisateur a bien été modifié"
-        );
     }
 }

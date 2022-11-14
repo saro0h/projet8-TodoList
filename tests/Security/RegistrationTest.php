@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 
 class RegistrationTest extends WebTestCase
@@ -13,7 +14,7 @@ class RegistrationTest extends WebTestCase
     /**
      * @test
      */
-    public function user_should_be_registered_and_redirect_to_users_list()
+    public function user_should_be_registered_and_redirect_to_users_list(): void
     {
         $client = static::createClient();
 
@@ -23,6 +24,7 @@ class RegistrationTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
@@ -48,7 +50,7 @@ class RegistrationTest extends WebTestCase
     /**
      * @test
      */
-    public function user_registration_should_not_be_displayed_for_non_admin()
+    public function user_registration_should_not_be_displayed_for_non_admin(): void
     {
         $client = static::createClient();
 
@@ -56,6 +58,7 @@ class RegistrationTest extends WebTestCase
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
         // user w/ id 2 has ROLE_USER
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(2);
         $client->loginUser($user);
 
@@ -73,7 +76,7 @@ class RegistrationTest extends WebTestCase
     /**
      * @test
      */
-    public function user_should_not_be_registered_due_to_blank_username_and_raise_form_error()
+    public function user_should_not_be_registered_due_to_blank_username_and_raise_form_error(): void
     {
         $client = static::createClient();
 
@@ -83,6 +86,7 @@ class RegistrationTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
@@ -106,7 +110,7 @@ class RegistrationTest extends WebTestCase
     /**
      * @test
      */
-    public function user_should_not_be_registered_due_to_used_username_and_raise_form_error()
+    public function user_should_not_be_registered_due_to_used_username_and_raise_form_error(): void
     {
         $client = static::createClient();
 
@@ -116,6 +120,7 @@ class RegistrationTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
@@ -139,7 +144,7 @@ class RegistrationTest extends WebTestCase
     /**
      * @test
      */
-    public function user_should_not_be_registered_due_to_invalid_password_and_raise_form_error()
+    public function user_should_not_be_registered_due_to_invalid_password_and_raise_form_error(): void
     {
         $client = static::createClient();
 
@@ -149,6 +154,7 @@ class RegistrationTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
@@ -172,7 +178,7 @@ class RegistrationTest extends WebTestCase
     /**
      * @test
      */
-    public function user_should_not_be_registered_due_to_blank_password_and_raise_form_error()
+    public function user_should_not_be_registered_due_to_blank_password_and_raise_form_error(): void
     {
         $client = static::createClient();
 
@@ -182,6 +188,7 @@ class RegistrationTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
@@ -205,7 +212,7 @@ class RegistrationTest extends WebTestCase
     /**
      * @test
      */
-    public function user_should_not_be_registered_due_to_invalid_email_and_raise_form_error()
+    public function user_should_not_be_registered_due_to_invalid_email_and_raise_form_error(): void
     {
         $client = static::createClient();
 
@@ -215,6 +222,7 @@ class RegistrationTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
@@ -238,7 +246,7 @@ class RegistrationTest extends WebTestCase
     /**
      * @test
      */
-    public function user_should_not_be_registered_due_to_blank_email_and_raise_form_error()
+    public function user_should_not_be_registered_due_to_blank_email_and_raise_form_error(): void
     {
         $client = static::createClient();
 
@@ -248,6 +256,7 @@ class RegistrationTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
@@ -271,7 +280,7 @@ class RegistrationTest extends WebTestCase
     /**
      * @test
      */
-    public function user_should_not_be_registered_due_to_used_email_and_raise_form_error()
+    public function user_should_not_be_registered_due_to_used_email_and_raise_form_error(): void
     {
         $client = static::createClient();
 
@@ -281,6 +290,7 @@ class RegistrationTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 

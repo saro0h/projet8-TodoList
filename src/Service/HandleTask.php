@@ -3,62 +3,50 @@
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
+use App\Entity\Task;
 
-class HandleTask
+final class HandleTask implements HandleTaskInterface
 {
     public function __construct(
         private EntityManagerInterface $manager
     ) {
     }
 
-    public function createTask($task): void
+    /**
+     * @param Task $task
+     * @return void
+     */
+    public function createTask(Task $task): void
     {
         $this->manager->persist($task);
         $this->manager->flush();
-
-        $session = new Session();
-        $session->getFlashbag()->add(
-            'success',
-            'La tâche a été bien été ajoutée.'
-        );
     }
 
+    /**
+     * @return void
+     */
     public function editTask(): void
     {
         $this->manager->flush();
-
-        $session = new Session();
-        $session->getFlashbag()->add(
-            'success',
-            'La tâche a bien été modifiée.'
-        );
     }
 
-    public function toggleTask($task): void
+    /**
+     * @param Task $task
+     * @return void
+     */
+    public function toggleTask(Task $task): void
     {
         $task->toggle(!$task->isDone());
         $this->manager->flush();
-
-        $session = new Session();
-        $session->getFlashbag()->add(
-            'success',
-            sprintf(
-                'La tâche %s a bien été marquée comme faite.',
-                $task->getTitle()
-            )
-        );
     }
 
-    public function deleteTask($task): void
+    /**
+     * @param Task $task
+     * @return void
+     */
+    public function deleteTask(Task $task): void
     {
         $this->manager->remove($task);
         $this->manager->flush();
-
-        $session = new Session();
-        $session->getFlashbag()->add(
-            'success',
-            'La tâche a bien été supprimée.'
-        );
     }
 }

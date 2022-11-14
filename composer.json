@@ -23,6 +23,7 @@
         "symfony/form": "6.1.*",
         "symfony/framework-bundle": "6.1.*",
         "symfony/http-client": "6.1.*",
+        "symfony/http-foundation": "6.1.*",
         "symfony/intl": "6.1.*",
         "symfony/mailer": "6.1.*",
         "symfony/mime": "6.1.*",

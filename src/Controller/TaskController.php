@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use App\Entity\User;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use App\Service\HandleTask;
+use App\Service\HandleTaskInterface;
 
 class TaskController extends AbstractController
 {
@@ -30,8 +31,9 @@ class TaskController extends AbstractController
     #[Route('/tasks/create', name: 'task_create')]
     public function createAction(
         Request $request,
-        HandleTask $handleTask
+        HandleTaskInterface $handleTask
     ): Response {
+        /** @var User $user */
         $user = $this->getUser();
         $task = new Task();
         $task->setUser($user);
@@ -43,6 +45,12 @@ class TaskController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $handleTask->createTask($task);
+
+            $this->addFlash(
+                'success',
+                'La tâche a été bien été ajoutée.'
+            );
+
             return $this->redirectToRoute('task_list');
         }
 
@@ -56,7 +64,7 @@ class TaskController extends AbstractController
     public function editAction(
         Task $task,
         Request $request,
-        HandleTask $handleTask
+        HandleTaskInterface $handleTask
     ): Response {
         // check for "authorize" access: calls all voters
         $this->denyAccessUnlessGranted('authorize', $task);
@@ -68,6 +76,12 @@ class TaskController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $handleTask->editTask();
+
+            $this->addFlash(
+                'success',
+                'La tâche a bien été modifiée.'
+            );
+
             return $this->redirectToRoute('task_list');
         }
 
@@ -80,23 +94,38 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
     public function toggleTaskAction(
         Task $task,
-        HandleTask $handleTask
+        HandleTaskInterface $handleTask
     ): RedirectResponse {
         // check for "authorize" access: calls all voters
         $this->denyAccessUnlessGranted('authorize', $task);
 
         $handleTask->toggleTask($task);
+
+        $this->addFlash(
+            'success',
+            sprintf(
+                'La tâche %s a bien été marquée comme faite.',
+                $task->getTitle()
+            )
+        );
+
         return $this->redirectToRoute('task_list');
     }
 
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
     public function deleteTaskAction(
         Task $task,
-        HandleTask $handleTask
+        HandleTaskInterface $handleTask
     ): RedirectResponse {
         $this->denyAccessUnlessGranted('authorize', $task);
 
         $handleTask->deleteTask($task);
+
+        $this->addFlash(
+            'success',
+            'La tâche a bien été supprimée.'
+        );
+
         return $this->redirectToRoute('task_list');
     }
 }
