@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 
 class ShowTest extends WebTestCase
@@ -13,13 +14,14 @@ class ShowTest extends WebTestCase
     /**
      * @test
      */
-    public function users_management_should_be_displayed_for_admin()
+    public function users_management_should_be_displayed_for_admin(): void
     {
         $client = static::createClient();
 
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
@@ -38,7 +40,7 @@ class ShowTest extends WebTestCase
     /**
      * @test
      */
-    public function users_management_should_not_be_displayed_for_non_admin()
+    public function users_management_should_not_be_displayed_for_non_admin(): void
     {
         $client = static::createClient();
 
@@ -46,6 +48,7 @@ class ShowTest extends WebTestCase
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
         // user w/ id 2 has ROLE_USER
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(2);
         $client->loginUser($user);
 

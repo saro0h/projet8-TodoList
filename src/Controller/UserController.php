@@ -8,10 +8,9 @@ use App\Repository\UserRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Service\UserDataInterface;
 
 /**
  * Require ROLE_ADMIN for all the actions of this controller
@@ -20,9 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class UserController extends AbstractController
 {
     public function __construct(
-        private UserRepository $userRepository,
-        private EntityManagerInterface $manager,
-        private UserPasswordHasherInterface $passwordHasher
+        private UserRepository $userRepository
     ) {
     }
 
@@ -35,50 +32,58 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/create', name: 'user_create')]
-    public function createAction(Request $request): Response
-    {
+    public function createAction(
+        Request $request,
+        UserDataInterface $userData
+    ): Response {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-
-        $form->handleRequest($request);
+        $form = $this->createForm(
+            UserType::class,
+            $user
+        )->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($this->passwordHasher->hashPassword(
-                $user,
-                $user->getPlainPassword()
-            ));
+            $userData->createUser($user);
 
-            $this->manager->persist($user);
-            $this->manager->flush();
-
-            $this->addFlash('success', "L'utilisateur a bien été ajouté.");
+            $this->addFlash(
+                'success',
+                "L'utilisateur a bien été ajouté."
+            );
 
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('user/create.html.twig', ['form' => $form->createView()]);
+        return $this->render(
+            'user/create.html.twig',
+            ['form' => $form->createView()]
+        );
     }
 
     #[Route('/users/{id}/edit', name: 'user_edit')]
-    public function editAction(User $user, Request $request): Response
-    {
-        $form = $this->createForm(UserType::class, $user);
-
-        $form->handleRequest($request);
+    public function editAction(
+        User $user,
+        Request $request,
+        UserDataInterface $userData
+    ): Response {
+        $form = $this->createForm(
+            UserType::class,
+            $user
+        )->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($this->passwordHasher->hashPassword(
-                $user,
-                $user->getPlainPassword()
-            ));
+            $userData->editUser($user);
 
-            $this->manager->flush();
-
-            $this->addFlash('success', "L'utilisateur a bien été modifié");
+            $this->addFlash(
+                'success',
+                "L'utilisateur a bien été modifié"
+            );
 
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+        return $this->render(
+            'user/edit.html.twig',
+            ['form' => $form->createView(), 'user' => $user]
+        );
     }
 }

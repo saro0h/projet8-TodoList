@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Task;
 use App\Entity\User;
 
@@ -14,7 +15,7 @@ class CreateTest extends WebTestCase
     /**
      * @test
      */
-    public function added_task_should_be_displayed_and_redirect_to_tasks_list()
+    public function added_task_should_be_displayed_and_redirect_to_tasks_list(): void
     {
         $client = static::createClient();
 
@@ -24,15 +25,13 @@ class CreateTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
-        /** @var Task $task */
-        $task = $entityManager->getRepository(Task::class)->findOneBy([]);
-
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
         $crawler = $client->request(
             Request::METHOD_GET,
-            $urlGenerator->generate("task_create", ["id" => $task->getId()])
+            $urlGenerator->generate("task_create")
         );
 
         $form = $crawler->filter('form[name=task]')->form([
@@ -51,7 +50,7 @@ class CreateTest extends WebTestCase
     /**
      * @test
      */
-    public function task_should_not_be_registered_due_to_blank_title_and_raise_form_error()
+    public function task_should_not_be_registered_due_to_blank_title_and_raise_form_error(): void
     {
         $client = static::createClient();
 
@@ -64,6 +63,7 @@ class CreateTest extends WebTestCase
         /** @var Task $task */
         $task = $entityManager->getRepository(Task::class)->findOneBy([]);
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
@@ -85,7 +85,7 @@ class CreateTest extends WebTestCase
     /**
      * @test
      */
-    public function task_should_not_be_registered_due_to_blank_description_and_raise_form_error()
+    public function task_should_not_be_registered_due_to_blank_description_and_raise_form_error(): void
     {
         $client = static::createClient();
 
@@ -98,6 +98,7 @@ class CreateTest extends WebTestCase
         /** @var Task $task */
         $task = $entityManager->getRepository(Task::class)->findOneBy([]);
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
@@ -119,7 +120,7 @@ class CreateTest extends WebTestCase
     /**
      * @test
      */
-    public function task_should_not_be_registered_due_to_existed_title_and_raise_form_error()
+    public function task_should_not_be_registered_due_to_existed_title_and_raise_form_error(): void
     {
         $client = static::createClient();
 
@@ -132,6 +133,7 @@ class CreateTest extends WebTestCase
         /** @var Task $task */
         $task = $entityManager->getRepository(Task::class)->findOneBy([]);
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 

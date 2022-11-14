@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Generator;
 use App\Repository\UserRepository;
+use App\Entity\User;
 
 class HomepageTest extends WebTestCase
 {
@@ -19,6 +20,7 @@ class HomepageTest extends WebTestCase
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
 
+        /** @var User $testUser */
         $testUser = $userRepository->findOneByEmail('jean@sf.com');
         $client->loginUser($testUser);
 

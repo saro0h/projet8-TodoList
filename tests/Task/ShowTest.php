@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 
 class ShowTest extends WebTestCase
@@ -13,13 +14,14 @@ class ShowTest extends WebTestCase
     /**
      * @test
      */
-    public function task_should_be_displayed()
+    public function task_should_be_displayed(): void
     {
         $client = static::createClient();
 
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 

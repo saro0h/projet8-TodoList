@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 
 class UpdateTest extends WebTestCase
@@ -13,7 +14,7 @@ class UpdateTest extends WebTestCase
     /**
      * @test
      */
-    public function existant_user_should_be_edited_by_admin()
+    public function existant_user_should_be_edited_by_admin(): void
     {
         $client = static::createClient();
 
@@ -23,12 +24,13 @@ class UpdateTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(1);
         $client->loginUser($user);
 
         $crawler = $client->request(
             Request::METHOD_GET,
-            $urlGenerator->generate("user_edit", ["id" => $user->getId(1)])
+            $urlGenerator->generate("user_edit", ["id" => $user->getId()])
         );
 
         $form = $crawler->filter('form[name=user]')->form([
@@ -40,6 +42,7 @@ class UpdateTest extends WebTestCase
 
         $client->submit($form);
 
+        /** @var User $editedUser */
         $editedUser = $entityManager->getRepository(User::class)->find(1);
 
         //comparer le changement d'état
@@ -53,7 +56,7 @@ class UpdateTest extends WebTestCase
     /**
      * @test
      */
-    public function existant_user_should_not_be_edited_by_admin_due_to_blank_username_and_raise_form_error()
+    public function existant_user_should_not_be_edited_by_admin_due_to_blank_username_and_raise_form_error(): void
     {
         $client = static::createClient();
 
@@ -63,12 +66,13 @@ class UpdateTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(1);
         $client->loginUser($user);
 
         $crawler = $client->request(
             Request::METHOD_GET,
-            $urlGenerator->generate("user_edit", ["id" => $user->getId(1)])
+            $urlGenerator->generate("user_edit", ["id" => $user->getId()])
         );
 
         $form = $crawler->filter('form[name=user]')->form([
@@ -86,7 +90,7 @@ class UpdateTest extends WebTestCase
     /**
      * @test
      */
-    public function existant_user_should_not_be_edited_by_admin_due_to_blank_password()
+    public function existant_user_should_not_be_edited_by_admin_due_to_blank_password(): void
     {
         $client = static::createClient();
 
@@ -96,12 +100,13 @@ class UpdateTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(1);
         $client->loginUser($user);
 
         $crawler = $client->request(
             Request::METHOD_GET,
-            $urlGenerator->generate("user_edit", ["id" => $user->getId(1)])
+            $urlGenerator->generate("user_edit", ["id" => $user->getId()])
         );
 
         $form = $crawler->filter('form[name=user]')->form([
@@ -119,7 +124,7 @@ class UpdateTest extends WebTestCase
     /**
      * @test
      */
-    public function existant_user_should_not_be_edited_by_admin_due_to_blank_email()
+    public function existant_user_should_not_be_edited_by_admin_due_to_blank_email(): void
     {
         $client = static::createClient();
 
@@ -129,12 +134,13 @@ class UpdateTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(1);
         $client->loginUser($user);
 
         $crawler = $client->request(
             Request::METHOD_GET,
-            $urlGenerator->generate("user_edit", ["id" => $user->getId(1)])
+            $urlGenerator->generate("user_edit", ["id" => $user->getId()])
         );
 
         $form = $crawler->filter('form[name=user]')->form([

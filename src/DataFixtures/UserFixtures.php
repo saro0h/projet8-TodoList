@@ -18,6 +18,10 @@ class UserFixtures extends Fixture
     {
     }
 
+    /**
+     * @param ObjectManager $manager
+     * @return array<string, User>
+     */
     private function createUsers(ObjectManager $manager): array
     {
         // création de plusieurs users pour tester l'authentification et les fonctionnalités
@@ -45,6 +49,10 @@ class UserFixtures extends Fixture
         return $users;
     }
 
+    /**
+     * @param ObjectManager $manager
+     * @return void
+     */
     public function load(ObjectManager $manager): void
     {
         // ajout de 3 users utilisés dans TaskFixtures pour les tests
@@ -67,7 +75,7 @@ class UserFixtures extends Fixture
             ->setPassword($this->passwordHasher->hashPassword($userTest2, 'passworD1!'));
         $manager->persist($userTest2);
 
-        $users = $this->createUsers($manager);
+        $this->createUsers($manager);
         $manager->flush();
 
         $this->addReference(self::USER_ADMIN, $userAdmin);

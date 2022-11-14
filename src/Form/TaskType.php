@@ -20,9 +20,7 @@ class TaskType extends AbstractType
             ])
             ->add('content', TextareaType::class, [
                 'empty_data' => '',
-            ])
-            //->add('author') ===> must be the user authenticated
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

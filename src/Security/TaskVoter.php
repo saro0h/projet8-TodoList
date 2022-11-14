@@ -11,15 +11,22 @@ use Symfony\Component\Security\Core\Security;
 class TaskVoter extends Voter
 {
     const AUTHORIZE = 'authorize';
-    private $security;
+    private Security $security;
 
     public function __construct(Security $security)
     {
         $this->security = $security;
     }
 
-    protected function supports(string $attribute, mixed $subject): bool
-    {
+    /**
+     * @param string $attribute
+     * @param mixed $subject
+     * @return boolean
+     */
+    protected function supports(
+        string $attribute,
+        mixed $subject
+    ): bool {
         // if the attribute isn't one we support, return false
         if (!in_array($attribute, [self::AUTHORIZE])) {
             return false;
@@ -27,19 +34,28 @@ class TaskVoter extends Voter
 
         // only vote on `Task` objects
         if (!$subject instanceof Task) {
-            return false;
+            return false; // @codeCoverageIgnore
         }
 
         return true;
     }
 
-    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
-    {
+    /**
+     * @param string $attribute
+     * @param mixed $subject
+     * @param TokenInterface $token
+     * @return boolean
+     */
+    protected function voteOnAttribute(
+        string $attribute,
+        mixed $subject,
+        TokenInterface $token
+    ): bool {
         $user = $token->getUser();
 
         if (!$user instanceof User) {
             // the user must be logged in; if not, deny access
-            return false;
+            return false; // @codeCoverageIgnore
         }
 
         // you know $subject is a Task object, thanks to `supports()`
@@ -48,12 +64,19 @@ class TaskVoter extends Voter
 
         return match ($attribute) {
             self::AUTHORIZE => $this->canHandle($task, $user),
-            default => throw new \LogicException('Vous n\'avez pas les droits.')
+            default => throw new \LogicException( // @codeCoverageIgnore
+                'Vous n\'avez pas les droits.'
+            )
         };
     }
 
     // a task can be handled by their author or an admin
     // and an anonyme task can be handle only by an admin
+    /**
+     * @param Task $task
+     * @param User $user
+     * @return boolean
+     */
     private function canHandle(Task $task, User $user): bool
     {
         return $user === $task->getUser() || $this->security->isGranted('ROLE_ADMIN');

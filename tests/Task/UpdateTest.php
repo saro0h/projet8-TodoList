@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Task;
 use App\Entity\User;
 
@@ -14,7 +15,7 @@ class UpdateTest extends WebTestCase
     /**
      * @test
      */
-    public function task_should_be_edited_by_author_and_redirect_to_tasks_list()
+    public function task_should_be_edited_by_author_and_redirect_to_tasks_list(): void
     {
         $client = static::createClient();
 
@@ -24,9 +25,10 @@ class UpdateTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
-        /** @var Task $task */
+        /** @var Task $originalTask */
         $originalTask = $entityManager->getRepository(Task::class)->findOneBy([]);
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
@@ -56,7 +58,7 @@ class UpdateTest extends WebTestCase
     /**
      * @test
      */
-    public function edit_task_should_not_be_available_to_other_user_and_raise_message_error()
+    public function edit_task_should_not_be_available_to_other_user_and_raise_message_error(): void
     {
         $client = static::createClient();
 
@@ -67,6 +69,7 @@ class UpdateTest extends WebTestCase
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
         // user id 2 Morgane has ROLE_USER
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(2);
         $client->loginUser($user);
 
@@ -80,7 +83,7 @@ class UpdateTest extends WebTestCase
     /**
      * @test
      */
-    public function user_task_can_be_update_by_admin()
+    public function user_task_can_be_update_by_admin(): void
     {
         $client = static::createClient();
 
@@ -91,16 +94,17 @@ class UpdateTest extends WebTestCase
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
         // task id 23 has been created by user id 3 Clement (ROLE_USER)
-        /** @var Task $task */
+        /** @var Task $originalTask */
         $originalTask = $entityManager->getRepository(Task::class)->find(23);
 
         // user id 1 Audrey has ROLE_ADMIN
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(1);
         $client->loginUser($user);
 
         $crawler = $client->request(
             Request::METHOD_GET,
-            $urlGenerator->generate("task_edit", ["id" => $originalTask->getId(23)])
+            $urlGenerator->generate("task_edit", ["id" => $originalTask->getId()])
         );
 
         $form = $crawler->filter('form[name=task]')->form([
@@ -110,6 +114,7 @@ class UpdateTest extends WebTestCase
 
         $client->submit($form);
 
+        /** @var Task $editedTask */
         $editedTask = $entityManager->getRepository(Task::class)->find(23);
 
         $this->assertNotSame($originalTask, $editedTask);
@@ -122,7 +127,7 @@ class UpdateTest extends WebTestCase
     /**
      * @test
      */
-    public function anonyme_task_can_be_update_by_admin_only()
+    public function anonyme_task_can_be_update_by_admin_only(): void
     {
         $client = static::createClient();
 
@@ -133,16 +138,17 @@ class UpdateTest extends WebTestCase
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
         // task id 1 is 'anonyme' -> no related user
-        /** @var Task $task */
+        /** @var Task $originalTask */
         $originalTask = $entityManager->getRepository(Task::class)->find(1);
 
         // user id 1 Audrey has ROLE_ADMIN
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(1);
         $client->loginUser($user);
 
         $crawler = $client->request(
             Request::METHOD_GET,
-            $urlGenerator->generate("task_edit", ["id" => $originalTask->getId(1)])
+            $urlGenerator->generate("task_edit", ["id" => $originalTask->getId()])
         );
 
         $form = $crawler->filter('form[name=task]')->form([
@@ -152,6 +158,7 @@ class UpdateTest extends WebTestCase
 
         $client->submit($form);
 
+        /** @var Task $editedTask */
         $editedTask = $entityManager->getRepository(Task::class)->find(1);
 
         $this->assertNotSame($originalTask, $editedTask);
@@ -164,7 +171,7 @@ class UpdateTest extends WebTestCase
     /**
      * @test
      */
-    public function anonyme_task_can_not_be_available_by_non_admin_and_raise_message_error()
+    public function anonyme_task_can_not_be_available_by_non_admin_and_raise_message_error(): void
     {
         $client = static::createClient();
 
@@ -175,6 +182,7 @@ class UpdateTest extends WebTestCase
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
         // user id 2 Morgane has ROLE_USER
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(2);
         $client->loginUser($user);
 
@@ -188,7 +196,7 @@ class UpdateTest extends WebTestCase
     /**
      * @test
      */
-    public function edited_task_should_be_displayed()
+    public function edited_task_should_be_displayed(): void
     {
         $client = static::createClient();
 
@@ -201,6 +209,7 @@ class UpdateTest extends WebTestCase
         /** @var Task $task */
         $task = $entityManager->getRepository(Task::class)->findOneBy([]);
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
@@ -215,7 +224,7 @@ class UpdateTest extends WebTestCase
     /**
      * @test
      */
-    public function task_should_not_be_edited_due_to_blank_title_and_raise_form_error()
+    public function task_should_not_be_edited_due_to_blank_title_and_raise_form_error(): void
     {
         $client = static::createClient();
 
@@ -225,9 +234,10 @@ class UpdateTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
-        /** @var Task $task */
+        /** @var Task $originalTask */
         $originalTask = $entityManager->getRepository(Task::class)->findOneBy([]);
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
@@ -249,7 +259,7 @@ class UpdateTest extends WebTestCase
     /**
      * @test
      */
-    public function task_should_not_be_edited_due_to_blank_content_and_raise_form_error()
+    public function task_should_not_be_edited_due_to_blank_content_and_raise_form_error(): void
     {
         $client = static::createClient();
 
@@ -259,9 +269,10 @@ class UpdateTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
-        /** @var Task $task */
+        /** @var Task $originalTask */
         $originalTask = $entityManager->getRepository(Task::class)->findOneBy([]);
 
+        /** @var User $user */
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
