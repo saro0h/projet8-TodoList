@@ -24,8 +24,23 @@ services:
         - '9000:9000'
       volumes:
         - .:/var/www
+        - ./php/mysql-config.yml:/etc/newrelic-infra/integrations.d/mysql-config.yml
       depends_on:
         - database
+  
+  newrelic:
+    container_name: newrelic-infra
+    build:
+      context: ./newrelic
+    cap_add:
+      - SYS_PTRACE
+    network_mode: host
+    pid: host
+    privileged: true
+    volumes:
+      - "/:/host:ro"
+      - "//var//run//docker.sock:/var/run/docker.sock"
+    restart: unless-stopped
 
   nginx:
       container_name: nginx
@@ -33,11 +48,21 @@ services:
       ports:
         - '8080:80'
       volumes:
-        - ./app:/var/www
+        - .:/var/www
         - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       depends_on:
         - php
         - database
+  phpmyadmin:
+        depends_on:
+          - database
+        image: phpmyadmin/phpmyadmin:latest
+        restart: always
+        environment:
+          PMA_HOST: database
+          MYSQL_ROOT_PASSWORD: secret
+        ports:
+          - "8088:80"
 volumes:
 ###> doctrine/doctrine-bundle ###
   db-data:
