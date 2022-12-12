@@ -32,7 +32,7 @@ class UserController extends AbstractController
      * @Route("/users/create", name="user_create")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function createAction(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $hacher):Response
+    public function createAction(Request $request, EntityManagerInterface $emi, UserPasswordHasherInterface $hacher):Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -40,12 +40,12 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $emi = $this->getDoctrine()->getManager();
             $password = $hacher->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
 
-            $em->persist($user);
-            $em->flush();
+            $emi->persist($user);
+            $emi->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
@@ -61,7 +61,6 @@ class UserController extends AbstractController
      */
     public function editAction(User $user, 
     Request $request,
-    EntityManagerInterface $em,
     UserPasswordHasherInterface $hacher
     ):Response
     {
