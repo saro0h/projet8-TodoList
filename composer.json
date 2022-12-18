@@ -1,4 +1,6 @@
 {
+    "name" : "jean/todo-app",
+    "description" : "todo application",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
@@ -41,6 +43,7 @@
         "symfony/twig-bundle": "6.1.*",
         "symfony/validator": "6.1.*",
         "symfony/web-link": "6.1.*",
+        "symfony/webpack-encore-bundle": "^1.16",
         "symfony/yaml": "6.1.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"

@@ -17,9 +17,14 @@ class TaskType extends AbstractType
                 // ajout de empty_data pour test le blank pour l'edit
                 //(et ne pas avoir l'erreur de sf)
                 'empty_data' => '',
+                'label' => 'Titre de la tâche',
             ])
             ->add('content', TextareaType::class, [
                 'empty_data' => '',
+                'label' => 'Contenu',
+                'attr' => [
+                    'rows' => '8'
+                ],
             ]);
     }
 

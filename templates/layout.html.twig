@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <nav class="navbar navbar-light navbar-expand-lg" style="background-color: #e3f2fd;" role="navigation">
+        <div class="container">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">To Do List app</a>
+                <img src="{{ asset('build/images/Logo_OpenClassrooms.png') }}" alt="OpenClassrooms" />
+            </div>
+
+            <div class="navbar" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('homepage') }}">Acceuil</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('user_create') }}#user-create">Créer un utilisateur</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('user_list') }}">Utilisateurs</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_USER') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                        </li>
+                    {% endif %}
+                </ul>   
+            </div>
+        </div><!-- /.container -->
+    </nav><!-- /.navbar -->
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mt-5">
+                <div class="d-flex justify-content-center">
+                    {% for flash_message in app.flashes('success') %}
+                        <div class="alert alert-success" role="alert">
+                            <strong>Superbe !</strong> {{ flash_message }}
+                        </div>
+                    {% endfor %}
+
+                    {% for flash_message in app.flashes('error') %}
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Oops !</strong> {{ flash_message }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {% block header_img %}
+                    <img class="slide-image mt-5" src="{{ asset('build/images/todolist_homepage.jpg') }}" alt="todo list" style="width: 100%;">
+                {% endblock %}
+
+                {% block header_title %}{% endblock %}
+            </div>
+        </div><!-- /.row -->
+
+        <div class="row">
+            <div >
+                {% block container %}{% endblock %}
+            </div>
+        </div>
+
+        <footer class="my-4">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            </ul>
+            <p class="text-center text-muted">Copyright &copy; OpenClassrooms</p>
+        </footer>
+
+    </div><!-- /.container -->
+{% endblock %}
