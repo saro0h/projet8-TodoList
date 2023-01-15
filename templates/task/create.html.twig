@@ -1,12 +1,12 @@
 {% extends 'layout.html.twig' %}
 
 {% block header_title %}
-    <h1 id="task-create" class="my-5">Créer une nouvelle tâche</h1>
+    <h1 id="task-create" class="d-flex justify-content-center my-5">Créer une nouvelle tâche</h1>
 {% endblock %}
 
 {% block container %}
     <div class="d-flex justify-content-center align-items-center">
-        <div class="row" style="width: 600px;">
+        <div class="w-50">
             {{ form_start(form, {'action' : path('task_create')}) }}
                 {{ form_widget(form) }}
                 <div class="d-flex justify-content-center align-items-center">

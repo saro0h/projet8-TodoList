@@ -1,32 +1,31 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <nav class="navbar navbar-light navbar-expand-lg" style="background-color: #e3f2fd;" role="navigation">
+    <nav class="navbar navbar-expand-lg bg-info bg-opacity-25" role="navigation" >
         <div class="container">
-
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">To Do List app</a>
-                <img src="{{ asset('build/images/Logo_OpenClassrooms.png') }}" alt="OpenClassrooms" />
-            </div>
-
-            <div class="navbar" id="navbarSupportedContent">
-                <ul class="navbar-nav">
+            <a class="navbar-brand fs-3" href="#">To Do List app</a>
+            <img src="{{ asset('build/images/Logo_OpenClassrooms.png') }}" alt="OpenClassrooms" />
+            <button class="navbar-toggler" type"button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggler">
+                <ul class="navbar-nav ms-auto">
                     {% if is_granted('ROLE_USER') %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('homepage') }}">Acceuil</a>
+                            <a class="nav-link mx-2 fs-5 text-black" aria-current="page" href="{{ path('homepage') }}">Acceuil</a>
                         </li>
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('user_create') }}#user-create">Créer un utilisateur</a>
+                            <a class="nav-link mx-2 fs-5 text-black" href="{{ path('user_create') }}#user-create">Créer un utilisateur</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('user_list') }}">Utilisateurs</a>
+                            <a class="nav-link mx-2 fs-5 text-black" href="{{ path('user_list') }}">Utilisateurs</a>
                         </li>
                     {% endif %}
                     {% if is_granted('ROLE_USER') %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                            <a class="nav-link mx-2 fs-5 text-black" href="{{ path('app_logout') }}">Se déconnecter</a>
                         </li>
                     {% endif %}
                 </ul>   
@@ -53,17 +52,15 @@
                 </div>
 
                 {% block header_img %}
-                    <img class="slide-image mt-5" src="{{ asset('build/images/todolist_homepage.jpg') }}" alt="todo list" style="width: 100%;">
+                    <img class="col-12 slide-image mt-5" src="{{ asset('build/images/todolist_homepage.jpg') }}" alt="todo list">
                 {% endblock %}
 
                 {% block header_title %}{% endblock %}
             </div>
         </div><!-- /.row -->
 
-        <div class="row">
-            <div >
-                {% block container %}{% endblock %}
-            </div>
+        <div>
+            {% block container %}{% endblock %}
         </div>
 
         <footer class="my-4">

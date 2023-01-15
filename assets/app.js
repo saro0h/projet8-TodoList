@@ -6,14 +6,6 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
+import './styles/app.scss';
 import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-// // start the Stimulus application
-// import './bootstrap';
-
-import logo from '../assets/img/Logo_OpenClassrooms.png';
-import content from '../assets/img/todolist_content.jpg';
-import homepage from '../assets/img/todolist_homepage.jpg';
-
+import * as bootstrap from 'bootstrap';

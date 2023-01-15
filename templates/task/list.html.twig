@@ -1,0 +1,63 @@
+{% extends 'layout.html.twig' %}
+
+{% block header_img %}{% endblock %}
+
+{% block header_title %}
+    {# <h1 class="mt-4">Créer une nouvelle tâche</h1> #}
+    <div class="dropdown">
+        <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Tâches
+        </button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ path('task_create') }}">Créer une tâche</a></li>
+            <li><a class="dropdown-item {% if app.request.attributes.get('_route') == 'task_list_todo' %}active{% endif %}" href="{{ path('task_list_todo') }}" aria-current="">Tâches à faire</a></li>
+            <li><a class="dropdown-item {% if app.request.attributes.get('_route') == 'task_list_done' %}active{% endif %}" href="{{ path('task_list_done') }}">Tâches terminées</a></li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block container %}
+    <div class="row">
+        {# Création de variables utilisées _pagination #}
+        {% set path = app.request.attributes.get('_route') %}
+        {% set pages = tasks.pages %}
+        {% set currentPage = tasks.page %}
+        {% include "_partials/_pagination.html.twig" %}
+
+        {% for task in tasks.data %}
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 mt-4">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <a class="task-title" href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a>
+                    </div>
+                    <div class="card-body">
+                        {% if task.user is null %}
+                            <div>
+                                <p class="pull-right">Auteur : anonyme</p>
+                            </div>
+                        {% else %}
+                            <div>
+                                <p class="pull-right">Auteur : {{ task.user.username }}</p>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <p class="pull-right">Ajouté le : {{ task.createdAt|date("d/m/Y") }}</p>
+                        </div>
+                        <p class="card-text">{{ task.content }}</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="{{ path('task_delete', {'id' : task.id }) }}" class="btn btn-danger">Supprimer</a>
+                        <a href="{{ path('task_toggle', {'id' : task.id }) }}" class="btn btn-success">
+                            {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                Il n'y a pas encore de tâche enregistrée. <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
+            </div>
+        {% endfor %}
+        {% include "_partials/_pagination.html.twig" %}
+    </div>
+{% endblock %}
