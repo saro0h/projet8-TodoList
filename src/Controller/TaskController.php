@@ -98,9 +98,8 @@ class TaskController extends AbstractController
 
             if ($task->isDone() === true) {
                 return $this->redirectToRoute('task_list_done');
-            } else {
-                return $this->redirectToRoute('task_list_todo');
             }
+            return $this->redirectToRoute('task_list_todo');
         }
 
         return $this->render('task/edit.html.twig', [
@@ -131,9 +130,8 @@ class TaskController extends AbstractController
 
         if ($task->isDone() === true) {
             return $this->redirectToRoute('task_list_done');
-        } else {
-            return $this->redirectToRoute('task_list_todo');
         }
+        return $this->redirectToRoute('task_list_todo');
     }
 
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
@@ -152,8 +150,7 @@ class TaskController extends AbstractController
 
         if ($task->isDone() === true) {
             return $this->redirectToRoute('task_list_done');
-        } else {
-            return $this->redirectToRoute('task_list_todo');
         }
+        return $this->redirectToRoute('task_list_todo');
     }
 }

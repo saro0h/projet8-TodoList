@@ -3,13 +3,12 @@
 {% block header_img %}{% endblock %}
 
 {% block header_title %}
-    {# <h1 class="mt-4">Créer une nouvelle tâche</h1> #}
     <div class="dropdown">
+        <a class="btn btn-info" href="{{ path('task_create') }}">Créer une tâche</a>
         <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Tâches
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{ path('task_create') }}">Créer une tâche</a></li>
             <li><a class="dropdown-item {% if app.request.attributes.get('_route') == 'task_list_todo' %}active{% endif %}" href="{{ path('task_list_todo') }}" aria-current="">Tâches à faire</a></li>
             <li><a class="dropdown-item {% if app.request.attributes.get('_route') == 'task_list_done' %}active{% endif %}" href="{{ path('task_list_done') }}">Tâches terminées</a></li>
         </ul>
