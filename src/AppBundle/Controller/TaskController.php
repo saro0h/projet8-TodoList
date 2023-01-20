@@ -15,7 +15,9 @@ class TaskController extends Controller
      */
     public function listAction()
     {
-        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository('AppBundle:Task')->findAll()]);
+        // On récupère la liste des tasks lié à l'id de l'utilisateur
+        $user = $this->getUser()->getId();
+        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository('AppBundle:Task')->findTasksByUserId($user)]);
     }
 
     /**
@@ -28,8 +30,17 @@ class TaskController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            // On récupère le user et on l'assigne à la task avant le persist
+            $user = $this->getUser();
+            if($user === false)
+            {
+                $task->setuser(null);
+            } else {
+                $task->setUser($user);
+            }
 
             $em->persist($task);
             $em->flush();
@@ -51,7 +62,7 @@ class TaskController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
