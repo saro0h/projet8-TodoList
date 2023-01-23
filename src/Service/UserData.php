@@ -42,4 +42,14 @@ class UserData implements UserDataInterface
 
         $this->manager->flush();
     }
+
+    /**
+     * @param User $user
+     * @return void
+     */
+    public function deleteUser(User $user): void
+    {
+        $this->manager->remove($user);
+        $this->manager->flush();
+    }
 }

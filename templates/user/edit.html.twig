@@ -1,14 +1,29 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block header_title %}<h1>Modifier <strong>{{ user.username }}</strong></h1>{% endblock %}
-{% block header_img %}{% endblock %}
+{% block header_img %}
+    <img class="col-12 slide-image mt-5" src="{{ asset('build/images/todolist_content.jpg') }}" alt="todo list">
+{% endblock %}
 
-{% block body %}
-    <div class="row">
+{% block header_title %}
+    <h1 id="user-modif" class="d-flex justify-content-center my-5">Modifier un utilisateur</h1>
+{% endblock %}
+
+{% block container %}
+    <div class="d-flex justify-content-center">
         {{ form_start(form, {'action' : path('user_edit', {'id' : user.id})}) }}
-        {{ form_widget(form) }}
-
-        <button type="submit" class="btn btn-success pull-right">Modifier</button>
+            {{ form_row(form.username) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.plainPassword.first) }}
+            {{ form_row(form.plainPassword.second) }}
+            <div id="passwordHelpBlock" class="form-text mb-4">
+                Votre mot de passe doit contenir au minimum 8 caractères</br>
+                des lettres avec minuscles et majuscules</br> 
+                des chiffres et caractères spéciaux.
+            </div>
+            {{ form_row(form.role) }}
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-success mt-4">Modifier</button>
+            </div>
         {{ form_end(form) }}
     </div>
 {% endblock %}

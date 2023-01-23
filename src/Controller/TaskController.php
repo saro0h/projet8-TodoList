@@ -20,11 +20,25 @@ class TaskController extends AbstractController
     ) {
     }
 
-    #[Route('/tasks', name: 'task_list')]
-    public function listAction(): Response
+    #[Route('/tasks/todo', name: 'task_list_todo')]
+    public function listAction(Request $request): Response
     {
+        // On va chercher le numéro de la page dans l'url
+        $page = $request->query->getInt('page', 1);
+
         return $this->render('task/list.html.twig', [
-            'tasks' => $this->taskRepository->findAll(),
+            'tasks' => $this->taskRepository->getTasksToDo($page, 9),
+        ]);
+    }
+
+    #[Route('/tasks/done', name: 'task_list_done')]
+    public function listTaskDoneAction(Request $request): Response
+    {
+        // On va chercher le numéro de la page dans l'url
+        $page = $request->query->getInt('page', 1);
+
+        return $this->render('task/list.html.twig', [
+            'tasks' => $this->taskRepository->getTasksDone($page, 9),
         ]);
     }
 
@@ -51,7 +65,7 @@ class TaskController extends AbstractController
                 'La tâche a été bien été ajoutée.'
             );
 
-            return $this->redirectToRoute('task_list');
+            return $this->redirectToRoute('task_list_todo');
         }
 
         return $this->renderForm(
@@ -82,7 +96,10 @@ class TaskController extends AbstractController
                 'La tâche a bien été modifiée.'
             );
 
-            return $this->redirectToRoute('task_list');
+            if ($task->isDone() === true) {
+                return $this->redirectToRoute('task_list_done');
+            }
+            return $this->redirectToRoute('task_list_todo');
         }
 
         return $this->render('task/edit.html.twig', [
@@ -94,7 +111,7 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
     public function toggleTaskAction(
         Task $task,
-        HandleTaskInterface $handleTask
+        HandleTaskInterface $handleTask,
     ): RedirectResponse {
         // check for "authorize" access: calls all voters
         $this->denyAccessUnlessGranted('authorize', $task);
@@ -104,12 +121,17 @@ class TaskController extends AbstractController
         $this->addFlash(
             'success',
             sprintf(
-                'La tâche %s a bien été marquée comme faite.',
+                $task->isDone()
+                    ? 'La tâche %s a bien été marquée comme faite.'
+                    : 'La tâche %s a bien été marquée comme non terminée.',
                 $task->getTitle()
             )
         );
 
-        return $this->redirectToRoute('task_list');
+        if ($task->isDone() === true) {
+            return $this->redirectToRoute('task_list_done');
+        }
+        return $this->redirectToRoute('task_list_todo');
     }
 
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
@@ -126,6 +148,9 @@ class TaskController extends AbstractController
             'La tâche a bien été supprimée.'
         );
 
-        return $this->redirectToRoute('task_list');
+        if ($task->isDone() === true) {
+            return $this->redirectToRoute('task_list_done');
+        }
+        return $this->redirectToRoute('task_list_todo');
     }
 }

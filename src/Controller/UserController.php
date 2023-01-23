@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Service\UserDataInterface;
 
@@ -85,5 +86,20 @@ class UserController extends AbstractController
             'user/edit.html.twig',
             ['form' => $form->createView(), 'user' => $user]
         );
+    }
+
+    #[Route('/users/{id}/delete', name: 'user_delete')]
+    public function deleteUserAction(
+        User $user,
+        UserDataInterface $userData
+    ): RedirectResponse {
+        $userData->deleteUser($user);
+
+        $this->addFlash(
+            'success',
+            'L\'utilisateur a bien été supprimée.'
+        );
+
+        return $this->redirectToRoute('user_list');
     }
 }

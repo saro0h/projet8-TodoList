@@ -26,8 +26,18 @@ class UserType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les deux mots de passe doivent correspondre.',
                 'required' => true,
-                'first_options'  => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Tapez le mot de passe à nouveau'],
+                'first_options'  => [
+                    'label' => 'Mot de passe',
+                    'attr' => [
+                        'placeholder' => 'Mot de passe ...',
+                    ],
+                ],
+                'second_options' => [
+                    'label' => 'Tapez le mot de passe à nouveau',
+                    'attr' => [
+                        'placeholder' => 'Confirmer le mot de passe ...',
+                    ],
+                ],
                 'empty_data' => '',
             ])
             ->add('email', EmailType::class, [
@@ -37,9 +47,13 @@ class UserType extends AbstractType
             ->add('role', ChoiceType::class, [
                 'required' => true,
                 'multiple' => false,
+                'label' => 'Rôle de l\'utilisateur',
                 'choices' => [
                     'User' => 'ROLE_USER',
                     'Admin' => 'ROLE_ADMIN',
+                ],
+                'attr' => [
+                    'class' => 'w-25',
                 ],
             ]);
     }

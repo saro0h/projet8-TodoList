@@ -1,13 +1,19 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block body %}
-    <div class="row">
-        {{ form_start(form, {'action' : path('task_create')}) }}
-            {{ form_widget(form) }}
+{% block header_title %}
+    <h1 id="task-create" class="d-flex justify-content-center my-5">Créer une nouvelle tâche</h1>
+{% endblock %}
 
-            <button type="submit" class="btn btn-success pull-right">Ajouter</button>
-        {{ form_end(form) }}
-
-        <a href="{{ path('task_list') }}" class="btn btn-primary">Retour à la liste des tâches</a>
+{% block container %}
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="w-50">
+            {{ form_start(form, {'action' : path('task_create')}) }}
+                {{ form_widget(form) }}
+                <div class="d-flex justify-content-center align-items-center">
+                    <button type="submit" class="btn btn-success me-5">Ajouter</button>
+                    <a href="{{ path('task_list_todo') }}" class="btn btn-primary">Retour à la liste des tâches</a>
+                </div>
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}
