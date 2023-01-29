@@ -5,6 +5,9 @@ namespace App\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Task;
 
+/**
+ * HandleTaskInterface interface
+ */
 interface HandleTaskInterface
 {
     public function __construct(EntityManagerInterface $manager);

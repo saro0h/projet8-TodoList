@@ -18,8 +18,8 @@ class UserType extends AbstractType
         $builder
             ->add('username', TextType::class, [
                 'label' => "Nom d'utilisateur",
-                // ajout de empty_data pour test le blank pour l'edit
-                //(et ne pas avoir l'erreur de sf)
+                /* ajout de empty_data pour test le blank pour l'edit
+                (et ne pas avoir l'erreur de sf) */
                 'empty_data' => '',
             ])
             ->add('plainPassword', RepeatedType::class, [
@@ -62,7 +62,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'attr' => [
-                'novalidate' => 'novalidate', // comment me to reactivate the html5 validation!  🚥
+                'novalidate' => 'novalidate', // Comment me to reactivate the html5 validation!  🚥
             ]
         ]);
     }

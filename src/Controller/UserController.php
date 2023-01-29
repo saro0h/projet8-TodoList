@@ -14,11 +14,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Service\UserDataInterface;
 
 /**
+ * UserController class
+ * 
  * Require ROLE_ADMIN for all the actions of this controller
  */
 #[IsGranted('ROLE_ADMIN')]
 class UserController extends AbstractController
 {
+    /**
+     * UserController constructor
+     *
+     * @param UserRepository $userRepository
+     */
     public function __construct(
         private UserRepository $userRepository
     ) {

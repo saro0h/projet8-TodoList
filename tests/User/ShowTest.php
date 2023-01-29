@@ -47,7 +47,7 @@ class ShowTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
-        // user w/ id 2 has ROLE_USER
+        // User w/ id 2 has ROLE_USER
         /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(2);
         $client->loginUser($user);

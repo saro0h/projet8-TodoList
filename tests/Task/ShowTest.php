@@ -25,10 +25,8 @@ class ShowTest extends WebTestCase
         $user = $entityManager->getRepository(User::class)->findOneBy([]);
         $client->loginUser($user);
 
-        /*
-            on récupère le router pour générer directement une url
-            car plus tard l'url peut évolué donc on ne veut pas l'écrire en dure
-        */
+        /* On récupère le router pour générer directement une url
+        car plus tard l'url peut évolué donc on ne veut pas l'écrire en dure */
         /** @var UrlGeneratorInterface $urlGenerator */
         $urlGenerator = $client->getContainer()->get("router");
 

@@ -12,6 +12,11 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class TaskRepository extends ServiceEntityRepository
 {
+    /**
+     * TaskRepository constructor
+     *
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Task::class);
@@ -28,8 +33,6 @@ class TaskRepository extends ServiceEntityRepository
             ->orderBy('t.id', 'asc')
             ->setFirstResult(($page - 1) * $length)
             ->setMaxResults($length);
-
-        // return $queryBuilder->getQuery()->getResult();
 
         $paginator = new Paginator($queryBuilder);
         // On va chercher les données
@@ -63,8 +66,6 @@ class TaskRepository extends ServiceEntityRepository
             ->orderBy('t.id', 'asc')
             ->setFirstResult(($page - 1) * $length)
             ->setMaxResults($length);
-
-        // return $queryBuilder->getQuery()->getResult();
 
         $paginator = new Paginator($queryBuilder);
         // On va chercher les données

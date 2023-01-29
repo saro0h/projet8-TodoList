@@ -36,27 +36,42 @@ class Task
     #[ORM\ManyToOne]
     private ?User $user = null;
 
+    /**
+     * Task constructor
+     */
     public function __construct()
     {
         $this->createdAt = new \Datetime();
         $this->isDone = false;
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return DateTime
+     */
     public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
     }
 
+    /**
+     * @return string
+     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -64,11 +79,17 @@ class Task
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getContent(): string
     {
         return $this->content;
     }
 
+    /**
+     * @param string $content
+     */
     public function setContent(string $content): self
     {
         $this->content = $content;
@@ -76,11 +97,17 @@ class Task
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function isDone(): bool
     {
         return $this->isDone;
     }
 
+    /**
+     * @param bool $flag
+     */
     public function toggle(bool $flag): self
     {
         $this->isDone = $flag;
@@ -88,11 +115,17 @@ class Task
         return $this;
     }
 
+    /**
+     * @return User|null
+     */
     public function getUser(): ?User
     {
         return $this->user;
     }
 
+    /**
+     * @param User|null $user
+     */
     public function setUser(?User $user): self
     {
         $this->user = $user;

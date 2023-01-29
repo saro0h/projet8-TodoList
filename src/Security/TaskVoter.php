@@ -8,11 +8,19 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 
+/**
+ * TaskVoter class
+ */
 class TaskVoter extends Voter
 {
     const AUTHORIZE = 'authorize';
     private Security $security;
 
+    /**
+     * TaskVoter constructor
+     *
+     * @param Security $security
+     */
     public function __construct(Security $security)
     {
         $this->security = $security;
@@ -27,12 +35,12 @@ class TaskVoter extends Voter
         string $attribute,
         mixed $subject
     ): bool {
-        // if the attribute isn't one we support, return false
+        // If the attribute isn't one we support, return false
         if (!in_array($attribute, [self::AUTHORIZE])) {
             return false;
         }
 
-        // only vote on `Task` objects
+        // Only vote on `Task` objects
         if (!$subject instanceof Task) {
             return false; // @codeCoverageIgnore
         }
@@ -54,11 +62,11 @@ class TaskVoter extends Voter
         $user = $token->getUser();
 
         if (!$user instanceof User) {
-            // the user must be logged in; if not, deny access
+            // The user must be logged in; if not, deny access
             return false; // @codeCoverageIgnore
         }
 
-        // you know $subject is a Task object, thanks to `supports()`
+        // You know $subject is a Task object, thanks to `supports()`
         /** @var Task $task */
         $task = $subject;
 
@@ -70,8 +78,8 @@ class TaskVoter extends Voter
         };
     }
 
-    // a task can be handled by their author or an admin
-    // and an anonyme task can be handle only by an admin
+    /* A task can be handled by their author or an admin
+    and an anonyme task can be handle only by an admin */
     /**
      * @param Task $task
      * @param User $user

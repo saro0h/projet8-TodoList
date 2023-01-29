@@ -59,12 +59,12 @@ class DeleteTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
-        // user id 2 Morgane has ROLE_USER
+        // User id 2 Morgane has ROLE_USER
         /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(2);
         $client->loginUser($user);
 
-        // task id 23 has been created by user id 3 Clement (ROLE_USER)
+        // Task id 23 has been created by user id 3 Clement (ROLE_USER)
         $client->request(Request::METHOD_GET, '/tasks/23/delete');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -84,12 +84,12 @@ class DeleteTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
-        // user id 1 Audrey has ROLE_ADMIN
+        // User id 1 Audrey has ROLE_ADMIN
         /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(1);
         $client->loginUser($user);
 
-        // task id 23 has been created by user id 3 Clement (ROLE_USER)
+        // Task id 23 has been created by user id 3 Clement (ROLE_USER)
         /** @var Task $task */
         $task = $entityManager->getRepository(Task::class)->find(23);
 
@@ -98,7 +98,6 @@ class DeleteTest extends WebTestCase
             $urlGenerator->generate("task_delete", ["id" => $task->getId()])
         );
 
-        // $this->assertResponseIsSuccessful();
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $client->followRedirect();
         $this->assertSelectorTextContains('html', 'Superbe ! La tâche a bien été supprimée.');
@@ -120,12 +119,12 @@ class DeleteTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
-        // user id 1 Audrey has ROLE_ADMIN
+        // User id 1 Audrey has ROLE_ADMIN
         /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(1);
         $client->loginUser($user);
 
-        // task id 1 is 'anonyme' -> no related user
+        // Task id 1 is 'anonyme' -> no related user
         /** @var Task $task */
         $task = $entityManager->getRepository(Task::class)->find(1);
 
@@ -134,7 +133,6 @@ class DeleteTest extends WebTestCase
             $urlGenerator->generate("task_delete", ["id" => $task->getId()])
         );
 
-        // $this->assertResponseIsSuccessful();
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $client->followRedirect();
         $this->assertSelectorTextContains('html', 'Superbe ! La tâche a bien été supprimée.');
@@ -156,12 +154,12 @@ class DeleteTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
-        // user id 2 Morgane has ROLE_USER
+        // User id 2 Morgane has ROLE_USER
         /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(2);
         $client->loginUser($user);
 
-        // task id 1 is 'anonyme' -> no related user
+        // Task id 1 is 'anonyme' -> no related user
         $client->request(Request::METHOD_GET, '/tasks/1/delete');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);

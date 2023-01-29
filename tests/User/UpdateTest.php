@@ -45,7 +45,7 @@ class UpdateTest extends WebTestCase
         /** @var User $editedUser */
         $editedUser = $entityManager->getRepository(User::class)->find(1);
 
-        //comparer le changement d'état
+        // Comparer le changement d'état
         $this->assertNotSame($user, $editedUser);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);

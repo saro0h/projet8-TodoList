@@ -32,20 +32,20 @@ class ToggleTest extends WebTestCase
 
         /** @var Task $task */
         $task = $entityManager->getRepository(Task::class)->find(2);
-        /* on stock la valeur de $task->isDone() plutôt que de $task car task
-        est modifié par la requête et on se retrouve à comparer 2 true après*/
+        /* On stock la valeur de $task->isDone() plutôt que de $task car task
+        est modifié par la requête et on se retrouve à comparer 2 true après */
         $originalTask = $task->isDone(); // isDone return bool(false)
 
-        // requête du toggle
+        // Requête du toggle
         $client->request(
             Request::METHOD_GET,
             $urlGenerator->generate("task_toggle", ["id" => $task->getId()])
         ); // isDone return bool(true)
 
-        // récupère la nouvelle tâche toggled stocké dans $toggleTask
+        // Récupère la nouvelle tâche toggled stocké dans $toggleTask
         /** @var Task $toggleTask */
         $toggleTask = $entityManager->getRepository(Task::class)->find(2);
-        // comparaison des 2 états
+        // Comparaison des 2 états
         $this->assertNotSame($originalTask, $toggleTask->isDone());
     }
 
@@ -62,12 +62,12 @@ class ToggleTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
-        // user id 2 Morgane has ROLE_USER
+        // User id 2 Morgane has ROLE_USER
         /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(2);
         $client->loginUser($user);
 
-        // task id 23 has been created by user id 3 Clement (ROLE_USER)
+        // Task id 23 has been created by user id 3 Clement (ROLE_USER)
         $client->request(Request::METHOD_GET, '/tasks/23/toggle');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
@@ -87,12 +87,12 @@ class ToggleTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
-        // user id 1 Audrey has ROLE_ADMIN
+        // User id 1 Audrey has ROLE_ADMIN
         /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(1);
         $client->loginUser($user);
 
-        // task id 23 has been created by user id 3 Clement (ROLE_USER)
+        // Task id 23 has been created by user id 3 Clement (ROLE_USER)
         /** @var Task $task */
         $task = $entityManager->getRepository(Task::class)->find(23);
         $originalTask = $task->isDone();
@@ -121,12 +121,12 @@ class ToggleTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
-        // user id 1 Audrey has ROLE_ADMIN
+        // User id 1 Audrey has ROLE_ADMIN
         /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(1);
         $client->loginUser($user);
 
-        // task id 1 is 'anonyme' -> no related user
+        // Task id 1 is 'anonyme' -> no related user
         /** @var Task $task */
         $task = $entityManager->getRepository(Task::class)->find(1);
         $originalTask = $task->isDone();
@@ -155,12 +155,12 @@ class ToggleTest extends WebTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
-        // user id 2 Morgane has ROLE_USER
+        // User id 2 Morgane has ROLE_USER
         /** @var User $user */
         $user = $entityManager->getRepository(User::class)->find(2);
         $client->loginUser($user);
 
-        // task id 1 is 'anonyme' -> no related user
+        // Task id 1 is 'anonyme' -> no related user
         $client->request(Request::METHOD_GET, '/tasks/1/toggle');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);

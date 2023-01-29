@@ -9,6 +9,9 @@ use App\Entity\User;
 use App\DataFixtures\UserFixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
+/**
+ * TaskFixtures class
+ */
 class TaskFixtures extends Fixture implements DependentFixtureInterface
 {
     /**
@@ -33,8 +36,8 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($task);
         }
 
-        // création de 3 tâches (qui ne soient pas anonyme)
-        // reliées à des users (avec différents roles) pour les tests
+        /* Création de 3 tâches (qui ne soient pas anonyme)
+        reliées à des users (avec différents roles) pour les tests */
         /** @var User $userAdmin */
         $userAdmin = $this->getReference(UserFixtures::USER_ADMIN);
         $task = new Task();
@@ -62,7 +65,7 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    // return an array of the fixture classes that must be loaded before this one, here UserFixtures
+    // Return an array of the fixture classes that must be loaded before this one, here UserFixtures
     /**
      * @return array<int, string>
      */

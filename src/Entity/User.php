@@ -52,21 +52,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private string $role;
 
+    /**
+     * User constructor
+     */
     public function __construct()
     {
         $this->role = 'ROLE_USER';
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
+    /**
+     * @param string $username
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
@@ -84,11 +96,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->username;
     }
 
+    /**
+     * @return string
+     */
     public function getPlainPassword(): string
     {
         return $this->plainPassword;
     }
 
+    /**
+     * @param string $password
+     */
     public function setPlainPassword(string $password): self
     {
         $this->plainPassword = $password;
@@ -111,20 +129,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @see UserInterface
+     */
     public function getSalt(): ?string
     {
         return null;
     }
 
+    /**
+     * @see UserInterface
+     */
     public function eraseCredentials(): void
     {
     }
 
+    /**
+     * @return string
+     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -132,11 +162,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getRole(): string
     {
         return $this->role;
     }
 
+    /**
+     * @see UserInterface
+     */
     public function getRoles(): array
     {
         return [$this->role];

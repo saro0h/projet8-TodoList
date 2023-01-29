@@ -14,8 +14,8 @@ class TaskType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                // ajout de empty_data pour test le blank pour l'edit
-                //(et ne pas avoir l'erreur de sf)
+                /* Ajout de empty_data pour test le blank pour l'edit
+                (et ne pas avoir l'erreur de sf) */
                 'empty_data' => '',
                 'label' => 'Titre de la tâche',
             ])
@@ -32,7 +32,7 @@ class TaskType extends AbstractType
     {
         $resolver->setDefaults([
             'attr' => [
-                'novalidate' => 'novalidate', // comment me to reactivate the html5 validation!  🚥
+                'novalidate' => 'novalidate', // Comment me to reactivate the html5 validation!  🚥
             ]
         ]);
     }

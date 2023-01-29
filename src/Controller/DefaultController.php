@@ -6,7 +6,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-
+/**
+ * DefaultController class
+ */
 class DefaultController extends AbstractController
 {
     #[Route('/', name: 'homepage')]

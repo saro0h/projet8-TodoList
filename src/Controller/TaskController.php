@@ -13,8 +13,16 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\HandleTaskInterface;
 
+/**
+ * TaskController class
+ */
 class TaskController extends AbstractController
 {
+    /**
+     * TaskController constructor
+     *
+     * @param TaskRepository $taskRepository
+     */
     public function __construct(
         private TaskRepository $taskRepository
     ) {
@@ -68,7 +76,7 @@ class TaskController extends AbstractController
             return $this->redirectToRoute('task_list_todo');
         }
 
-        return $this->renderForm(
+        return $this->render(
             'task/create.html.twig',
             ['form' => $form]
         );

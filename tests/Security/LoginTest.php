@@ -16,12 +16,12 @@ class LoginTest extends WebTestCase
     {
         // simule l'envoie d'une requête HTTP
         $client = static::createClient();
-        // on récupère le crawler & on souhaite accéder à la page de connexion
+        // On récupère le crawler & on souhaite accéder à la page de connexion
         $crawler = $client->request(Request::METHOD_GET, '/login');
-        // on test d'abord si on arrive bien sur notre page
+        // On test d'abord si on arrive bien sur notre page
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
-        // crawler pertmet de récupérer le contenu d'une page
+        // Crawler pertmet de récupérer le contenu d'une page
         $form = $crawler->filter("form[name=login]")->form([
             "_username" => "Jean",
             "_password" => "password"
@@ -29,11 +29,11 @@ class LoginTest extends WebTestCase
 
         $client->submit($form);
 
-        // on test so on est bien en FOUND (code 302 redirection)
+        // On test so on est bien en FOUND (code 302 redirection)
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
 
         $client->followRedirect();
-        // on test si on est bien redirigé vers notre page d'accueil
+        // On test si on est bien redirigé vers notre page d'accueil
         $this->assertRouteSame('homepage');
     }
 
