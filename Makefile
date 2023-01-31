@@ -1,17 +1,23 @@
 # Commands
 BLACKFIRE = $(EXEC) blackfire
-CONSOLE	= $(EXEC) $(CONTAINER-NAME) bin/console
+CONSOLE	= $(EXEC) $(CONTAINER_NAME) bin/console
 DOCKER = docker
-DOCKER-COMPOSE = $(DOCKER)-compose
-EXEC = $(DOCKER-COMPOSE) exec -T
+DOCKER_COMPOSE = $(DOCKER)-compose
+EXEC = $(DOCKER_COMPOSE) exec
 TESTS = vendor/bin/phpunit
 
 # Default values
-CONTAINER-NAME ?= php
-DEPLOY_HOST ?= localhost
-DEPLOY_USER ?= $(USER)
-ENV ?= dev
-GIT_BRANCH ?= dev
+CONTAINER_NAME ?= php
+APP_ENV ?= dev
+
+# Install
+.PHONY: install
+
+install:				## Install the project for dev environment
+install:				.env.local dc-up db-reset
+
+.env.local:
+						@test ! -f .env.local && cp .env .env.local && echo .env.local file created
 
 # Blackfire
 .PHONY: blackfire
@@ -20,55 +26,58 @@ blackfire:				## Run blackfire
 						$(BLACKFIRE) blackfire curl http://caddy/$(URL)
 
 # Database
-.PHONY: db-create db-drop db-fixtures db-migrations
+.PHONY: db-create db-drop db-fixtures db-migrations db-reset
 db-create:				## Create Database
-						$(CONSOLE) doctrine:database:create --if-not-exists --env=$(ENV)
+						$(CONSOLE) doctrine:database:create --if-not-exists --env=$(APP_ENV)
 
 db-drop:				## Delete Database
-						$(CONSOLE) doctrine:database:drop --if-exists --force --env=$(ENV)
+						$(CONSOLE) doctrine:database:drop --if-exists --force --env=$(APP_ENV)
 
 db-fixtures:			## Launch fixtures
-						$(CONSOLE) doctrine:fixtures:load --no-interaction --env=$(ENV)
+						$(CONSOLE) doctrine:fixtures:load --no-interaction --env=$(APP_ENV)
 
 db-migrations:			## Execute Doctrine migrations
-						$(CONSOLE) doctrine:migrations:migrate --no-interaction --env=$(ENV)
+						$(CONSOLE) doctrine:migrations:migrate --no-interaction --env=$(APP_ENV)
+
+db-reset:				## Reset Database
+db-reset:				db-drop db-create db-migrations db-fixtures
 
 # Docker Compose commands
 .PHONY: dc-build dc-down dc-exec dc-start dc-stop dc-up dc-prod
 dc-build:				## Build docker images
-						$(DOCKER-COMPOSE) build --pull
+						$(DOCKER_COMPOSE) build --pull
 
 dc-build-debug:			## Build docker images
-						$(DOCKER-COMPOSE) -f docker-compose.yaml -f docker-compose.debug.yaml build --pull
+						$(DOCKER_COMPOSE) -f docker-compose.yaml -f docker-compose.debug.yaml build --pull
 
 dc-debug:				## Initialize the project with Docker in debug mode
-						$(DOCKER-COMPOSE) -f docker-compose.yaml -f docker-compose.debug.yaml up -d
+						$(DOCKER_COMPOSE) -f docker-compose.yaml -f docker-compose.debug.yaml up -d
 
 dc-down:				## Delete containers and volumes
-						$(DOCKER-COMPOSE) down --remove-orphans --volumes
+						$(DOCKER_COMPOSE) down --remove-orphans --volumes
 
 dc-exec:				## Interact with a container
-						$(DOCKER) exec -it $(CONTAINER-NAME) sh
+						$(DOCKER_COMPOSE) exec $(CONTAINER_NAME) sh
 
 dc-start:				## Start docker containers
-						$(DOCKER-COMPOSE) start
+						$(DOCKER_COMPOSE) start
 
 dc-stop:				## Stop docker containers
-						$(DOCKER-COMPOSE) stop
+						$(DOCKER_COMPOSE) stop
 
 dc-up:					## Initialize the project with Docker
-						$(DOCKER-COMPOSE) up -d
+						$(DOCKER_COMPOSE) up -d
 
-dc-prod:				## Initialize the project with Docker in prod environment
-						$(DOCKER-COMPOSE) -f docker-compose.yaml -f docker-compose.prod.yaml up -d
+dc-prod:				## Initialize the project with Docker in prod APP_ENVironment
+						$(DOCKER_COMPOSE) -f docker-compose.yaml -f docker-compose.prod.yaml up -d
 
 # Symfony Commands
 .PHONY: sf-cc sf-cw
 sf-cc:					## Clear Symfony cache
-						$(CONSOLE) cache:clear --env=$(ENV)
+						$(CONSOLE) cache:clear --env=$(APP_ENV)
 
 sf-cw:					## Warmup Symfony cache
-						$(CONSOLE) cache:warmup --env=$(ENV)
+						$(CONSOLE) cache:warmup --env=$(APP_ENV)
 
 # Checks
 .PHONY: php-cs-fixer phpstan twig-cs yaml-lint rector
@@ -88,31 +97,28 @@ rector:					## Run rector
 						vendor/bin/rector --dry-run
 
 # Tests
-.PHONY: coverage tests reset-coverage reset-tests
-coverage: 				## Run the tests with the Code coverage report
-						$(EXEC) --env XDEBUG_MODE=coverage $(CONTAINER-NAME) $(TESTS) --coverage-html vendor/coverage
+.PHONY: tests tests-reset coverage coverage-reset
 
+tests:		   			export APP_ENV=test
 tests: 					## Run the tests
-						$(EXEC) $(CONTAINER-NAME) $(TESTS)
+						$(EXEC) $(CONTAINER_NAME) $(TESTS)
 
-reset-coverage:			## Recreate database, launch migrations, load fixtures and execute tests with code coverage
-						ENV=test make db-drop
-						ENV=test make db-create
-						ENV=test make db-migrations
-						ENV=test make db-fixtures
-						make coverage
+tests-reset:			export APP_ENV=test
+tests-reset: 			## Recreate database, launch migrations, load fixtures and execute tests
+tests-reset: 			db-reset tests
 
-reset-tests: 			## Recreate database, launch migrations, load fixtures and execute tests
-						ENV=test make db-drop
-						ENV=test make db-create
-						ENV=test make db-migrations
-						ENV=test make db-fixtures
-						make tests
+coverage:   			export APP_ENV=test
+coverage: 				## Run the tests with the Code coverage report
+						$(EXEC) --env XDEBUG_MODE=coverage $(CONTAINER_NAME) $(TESTS) --coverage-html vendor/coverage
+
+coverage-reset:			export APP_ENV=test
+coverage-reset:			## Recreate database, launch migrations, load fixtures and execute tests with code coverage
+coverage-reset: 		db-reset coverage
 
 # Help
 .PHONY: help
 
 help:					## Display help
-						grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-20s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
+						@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-20s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
 .DEFAULT_GOAL := 	help
