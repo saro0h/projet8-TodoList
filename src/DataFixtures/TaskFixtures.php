@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class TaskFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $task1 = new Task();
         $task1->setTitle('task one');
@@ -30,7 +30,7 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             UserFixtures::class,
