@@ -13,7 +13,7 @@ class TaskVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, ['TASK_DELETE'], true)
+        return 'TASK_DELETE' === $attribute
             && $subject instanceof Task;
     }
 
@@ -25,15 +25,12 @@ class TaskVoter extends Voter
             return false;
         }
 
-        // ... (check conditions and return true to grant permission) ...
-        switch ($attribute) {
-            case 'TASK_DELETE':
-                // logic to determine if the user can VIEW
-                /** @var Task $subject */
-                if ($subject->getUser() === $user) {
-                    return true;
-                }
-                break;
+        if ('TASK_DELETE' === $attribute) {
+            // logic to determine if the user can VIEW
+            /** @var Task $subject */
+            if ($subject->getUser() === $user) {
+                return true;
+            }
         }
 
         return false;

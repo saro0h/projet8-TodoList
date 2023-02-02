@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class UserRepositoryTest extends KernelTestCase
 {
     private $entityManager;
+
     private $userRepository;
 
     protected function setUp(): void
@@ -23,7 +24,7 @@ class UserRepositoryTest extends KernelTestCase
 
     public function testUserRepositoryFindAllMethod(): void
     {
-        self::assertEquals(2, count($this->userRepository->findAll()));
+        self::assertEquals(2, is_countable($this->userRepository->findAll()) ? count($this->userRepository->findAll()) : 0);
     }
 
     protected function tearDown(): void

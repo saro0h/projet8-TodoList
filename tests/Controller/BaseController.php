@@ -7,8 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BaseController extends WebTestCase
 {
-    public const ADMIN_EMAIL = 'admin@todolist.com';
-    public const USER_EMAIL = 'user@todolist.com';
+    final public const ADMIN_EMAIL = 'admin@todolist.com';
+    final public const USER_EMAIL = 'user@todolist.com';
 
     protected function login($email)
     {

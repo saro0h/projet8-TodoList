@@ -14,11 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TaskController extends AbstractController
 {
-    private TaskRepository $taskRepository;
-
-    public function __construct(TaskRepository $taskRepository)
+    public function __construct(private readonly TaskRepository $taskRepository)
     {
-        $this->taskRepository = $taskRepository;
     }
 
     #[Route(path: '/tasks', name: 'task_list', methods: 'GET')]

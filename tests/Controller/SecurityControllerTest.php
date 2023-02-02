@@ -2,15 +2,13 @@
 
 namespace App\Tests\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
-
 class SecurityControllerTest extends BaseController
 {
-    public function testLoginpage()
+    public function testLoginpage(): void
     {
         $client = static::createClient();
         $client->request('GET', '/login');
 
-        self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        self::assertResponseIsSuccessful();
     }
 }

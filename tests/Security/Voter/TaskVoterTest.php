@@ -19,7 +19,7 @@ class TaskVoterTest extends WebTestCase
         return $user;
     }
 
-    private function createTask($user = null): Task
+    private function createTask(?User $user = null): Task
     {
         $task = new Task();
         $task->setUser($user);
@@ -27,7 +27,7 @@ class TaskVoterTest extends WebTestCase
         return $task;
     }
 
-    public function provideCases(): ?\Generator
+    public function provideCases(): \Generator
     {
         yield 'Utilisateur peut supprimer sa tâche' => [
             $user = $this->createUser(),
@@ -62,7 +62,7 @@ class TaskVoterTest extends WebTestCase
      * @dataProvider provideCases
      */
     public function testVote(
-        $user,
+        ?User $user,
         Task $task,
         string $attribute,
         int $expectedVote): void
@@ -70,7 +70,7 @@ class TaskVoterTest extends WebTestCase
         $voter = new TaskVoter();
 
         $token = new NullToken();
-        if ($user) {
+        if (null !== $user) {
             $token = new UsernamePasswordToken(
                 $user, 'password', []
             );

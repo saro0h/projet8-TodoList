@@ -5,53 +5,35 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
- *
- * @ORM\Table(name="todolist_task")
- */
+#[ORM\Table(name: 'todolist_task')]
+#[ORM\Entity(repositoryClass: \App\Repository\TaskRepository::class)]
 class Task
 {
-    /**
-     * @ORM\Column(type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private \DateTime $createdAt;
 
-    /**
-     * @ORM\Column(type="string")
-     */
     #[Assert\NotBlank(message: 'Vous devez saisir un titre.')]
+    #[ORM\Column(type: 'string')]
     private string $title;
 
-    /**
-     * @ORM\Column(type="text")
-     */
     #[Assert\NotBlank(message: 'Vous devez saisir du contenu.')]
+    #[ORM\Column(type: 'text')]
     private string $content;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private bool $isDone;
+    #[ORM\Column(type: 'boolean')]
+    private bool $isDone = false;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tasks")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\User::class, inversedBy: 'tasks')]
     private ?User $user = null;
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->isDone = false;
     }
 
     public function getId(): ?int
