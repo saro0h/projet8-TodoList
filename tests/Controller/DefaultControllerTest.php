@@ -6,27 +6,27 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DefaultControllerTest extends BaseController
 {
-    public function testHomepage()
+    public function testHomepage(): void
     {
         $client = static::createClient();
         $client->request('GET', '/');
 
-        self::assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
-    public function testHomepageWithLoggedUser()
+    public function testHomepageWithLoggedUser(): void
     {
         $client = $this->login('user@todolist.com');
         $client->request('GET', '/');
 
-        self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        self::assertResponseIsSuccessful();
     }
 
-    public function testHomepageWithLoggedAdmin()
+    public function testHomepageWithLoggedAdmin(): void
     {
         $client = $this->login(BaseController::ADMIN_EMAIL);
         $client->request('GET', '/');
 
-        self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        self::assertResponseIsSuccessful();
     }
 }

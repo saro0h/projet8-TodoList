@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class TaskRepositoryTest extends KernelTestCase
 {
     private $entityManager;
+
     private $taskRepository;
 
     protected function setUp(): void
@@ -23,7 +24,7 @@ class TaskRepositoryTest extends KernelTestCase
 
     public function testTaskRepositoryFindAllMethod(): void
     {
-        self::assertEquals(2, count($this->taskRepository->findAll()));
+        self::assertEquals(2, is_countable($this->taskRepository->findAll()) ? count($this->taskRepository->findAll()) : 0);
     }
 
     protected function tearDown(): void

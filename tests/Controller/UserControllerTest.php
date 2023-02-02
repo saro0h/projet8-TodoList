@@ -6,15 +6,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserControllerTest extends BaseController
 {
-    public function testUserListpageWithAnonymousUser()
+    public function testUserListpageWithAnonymousUser(): void
     {
         $client = static::createClient();
         $client->request('GET', '/users');
 
-        self::assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
     }
 
-    public function testUserListpageWithLoggedUser()
+    public function testUserListpageWithLoggedUser(): void
     {
         $client = $this->login(BaseController::USER_EMAIL);
         $client->request('GET', '/users');
@@ -22,15 +22,15 @@ class UserControllerTest extends BaseController
         self::assertSame(Response::HTTP_FORBIDDEN, $client->getResponse()->getStatusCode());
     }
 
-    public function testUserListpageWithLoggedAdmin()
+    public function testUserListpageWithLoggedAdmin(): void
     {
         $client = $this->login(BaseController::ADMIN_EMAIL);
         $client->request('GET', '/users');
 
-        self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        self::assertResponseIsSuccessful();
     }
 
-    public function testUserCreatepageWithLoggedAdminWithFakeData()
+    public function testUserCreatepageWithLoggedAdminWithFakeData(): void
     {
         $client = $this->login(BaseController::ADMIN_EMAIL);
         $client->request('GET', '/users/create');
@@ -43,10 +43,10 @@ class UserControllerTest extends BaseController
             'user[roles]' => 'ROLE_USER',
         ]);
 
-        self::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        self::assertResponseIsSuccessful();
     }
 
-    public function testUserCreatepageWithLoggedAdminWithGoodData()
+    public function testUserCreatepageWithLoggedAdminWithGoodData(): void
     {
         $client = $this->login(BaseController::ADMIN_EMAIL);
         $client->request('GET', '/users/create');
@@ -62,7 +62,7 @@ class UserControllerTest extends BaseController
         self::assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 
-    public function testUserEditpageWithLoggedAdminWithGoodData()
+    public function testUserEditpageWithLoggedAdminWithGoodData(): void
     {
         $client = $this->login(BaseController::ADMIN_EMAIL);
         $client->request('GET', '/users/2/edit');

@@ -11,50 +11,32 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=UserRepository::class)
- *
- * @ORM\Table(name="todolist_user")
- *
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
- */
+#[ORM\Table(name: 'todolist_user')]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * @ORM\Column(type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=60, unique=true)
-     */
     #[Assert\NotBlank(message: 'Vous devez saisir une adresse email.')]
     #[Assert\Email(message: "Le format de l'adresse n'est pas correcte.")]
+    #[ORM\Column(type: 'string', length: 60, unique: true)]
     private ?string $email = null;
 
-    /**
-     * @ORM\Column(type="string", length=25, unique=true)
-     */
     #[Assert\NotBlank(message: "Vous devez saisir un nom d'utilisateur.")]
+    #[ORM\Column(type: 'string', length: 25, unique: true)]
     private ?string $username = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $password = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Task", mappedBy="user")
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\Task::class, mappedBy: 'user')]
     private Collection $tasks;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     public function __construct()
@@ -177,7 +159,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
     }
 }

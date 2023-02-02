@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class TaskTest extends TestCase
 {
-    public function testTaskDateIsValid()
+    public function testTaskDateIsValid(): void
     {
         $task = new Task();
         $date = new \DateTime();
