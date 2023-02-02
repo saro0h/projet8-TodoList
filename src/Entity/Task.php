@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,7 +24,7 @@ class Task
     /**
      * @ORM\Column(type="datetime")
      */
-    private DateTime $createdAt;
+    private \DateTime $createdAt;
 
     /**
      * @ORM\Column(type="string")
@@ -51,7 +50,7 @@ class Task
 
     public function __construct()
     {
-        $this->createdAt = new DateTime();
+        $this->createdAt = new \DateTime();
         $this->isDone = false;
     }
 
@@ -60,12 +59,12 @@ class Task
         return $this->id;
     }
 
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTime $createdAt): self
+    public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
 
