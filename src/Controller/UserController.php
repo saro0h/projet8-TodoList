@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,16 +27,16 @@ class UserController extends AbstractController
         $this->passwordHasher = $passwordHasher;
     }
 
-    #[Route(path: '/users', name: 'user_list')]
-    public function list(UserRepository $userRepository)
+    #[Route(path: '/users', name: 'user_list', methods: 'GET')]
+    public function list(UserRepository $userRepository): Response
     {
         return $this->render('user/list.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
     }
 
-    #[Route(path: '/users/create', name: 'user_create')]
-    public function create(Request $request)
+    #[Route(path: '/users/create', name: 'user_create', methods: ['GET', 'POST'])]
+    public function create(Request $request): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -59,8 +60,8 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/users/{id}/edit', name: 'user_edit')]
-    public function edit(User $user, Request $request)
+    #[Route(path: '/users/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
+    public function edit(User $user, Request $request): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);

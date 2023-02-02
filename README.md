@@ -1,4 +1,4 @@
-[![SymfonyInsight](https://insight.symfony.com/projects/f40d8b12-3acd-4f62-ace2-44cbd43f011c/big.svg)](https://insight.symfony.com/projects/f40d8b12-3acd-4f62-ace2-44cbd43f011c)
+[![SymfonyInsight](https://insight.symfony.com/projects/60289bf8-e076-43ea-b4a9-ed7dc5a21bb2/big.svg)](https://insight.symfony.com/projects/60289bf8-e076-43ea-b4a9-ed7dc5a21bb2)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/9bfd853e2d634bc3dbc9/maintainability)](https://codeclimate.com/github/Casrime/todolist/maintainability)
 

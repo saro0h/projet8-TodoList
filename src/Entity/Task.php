@@ -24,19 +24,19 @@ class Task
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    private \DateTime $createdAt;
 
     /**
      * @ORM\Column(type="string")
      */
     #[Assert\NotBlank(message: 'Vous devez saisir un titre.')]
-    private $title;
+    private string $title;
 
     /**
      * @ORM\Column(type="text")
      */
     #[Assert\NotBlank(message: 'Vous devez saisir du contenu.')]
-    private $content;
+    private string $content;
 
     /**
      * @ORM\Column(type="boolean")
@@ -59,34 +59,40 @@ class Task
         return $this->id;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle($title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
     }
 
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
 
-    public function setContent($content)
+    public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
     }
 
     public function isDone(): bool
@@ -94,9 +100,11 @@ class Task
         return $this->isDone;
     }
 
-    public function toggle($flag)
+    public function toggle(bool $flag): self
     {
         $this->isDone = $flag;
+
+        return $this;
     }
 
     public function getUser(): ?User
