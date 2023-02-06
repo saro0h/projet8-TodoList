@@ -11,7 +11,7 @@ PHP 7.2
 
 Project installation :
 ```
-git clone https://github.com/jonatanocr/P8_todo_list.git
+git clone https://github.com/jonatanocr/projet8-TodoList.git
           
 cd projet8-TodoList
 
