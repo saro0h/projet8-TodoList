@@ -53,4 +53,4 @@ jobs:
               run: composer install
 
             - name: Run php-cs-fixer
-              run: vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --diff --dry-run --verbose
+              run: PHP_CS_FIXER_IGNORE_ENV=true vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --diff --dry-run --verbose

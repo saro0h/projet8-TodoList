@@ -82,7 +82,7 @@ sf-cw:					## Warmup Symfony cache
 # Checks
 .PHONY: php-cs-fixer phpstan twig-cs yaml-lint rector
 php-cs-fixer:			## Run php-cs-fixer
-						vendor/bin/php-cs-fixer fix --diff --dry-run --verbose
+						PHP_CS_FIXER_IGNORE_ENV=true vendor/bin/php-cs-fixer fix --diff --dry-run --verbose
 
 phpstan:				## Run phpstan
 						vendor/bin/phpstan analyse --memory-limit=1G
