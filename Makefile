@@ -71,6 +71,16 @@ dc-up:					## Initialize the project with Docker
 dc-prod:				## Initialize the project with Docker in prod APP_ENVironment
 						$(DOCKER_COMPOSE) -f docker-compose.yaml -f docker-compose.prod.yaml up -d
 
+dc-logs:				CONTAINER_NAME := $(word 2, $(MAKECMDGOALS))
+dc-logs:				## Interact with a container
+						@$(DOCKER_COMPOSE) logs -f $(CONTAINER_NAME)
+
+dc-ps:					## Show running containers
+						@$(DOCKER_COMPOSE) ps
+
+dc-trust-certificate:	## Trust SSL certificate for Caddy Server
+						@$(DOCKER) cp $$($(DOCKER_COMPOSE) ps -q caddy):/data/caddy/pki/authorities/local/root.crt /tmp/root.crt && sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /tmp/root.crt
+
 # Symfony Commands
 .PHONY: sf-cc sf-cw
 sf-cc:					## Clear Symfony cache
@@ -80,7 +90,11 @@ sf-cw:					## Warmup Symfony cache
 						$(CONSOLE) cache:warmup --env=$(APP_ENV)
 
 # Checks
-.PHONY: php-cs-fixer phpstan twig-cs yaml-lint rector
+.PHONY: php-cs-fixer phpstan twigcs yaml-lint rector
+
+checks: 				## Run checks
+checks: 				php-cs-fixer twigcs yaml-lint phpstan rector
+
 php-cs-fixer:			## Run php-cs-fixer
 						PHP_CS_FIXER_IGNORE_ENV=true vendor/bin/php-cs-fixer fix --diff --dry-run --verbose
 
