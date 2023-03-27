@@ -52,7 +52,7 @@ $ make tests
 Code coverage
 ------------
 ```bash
-$ make coverage
+$ make dc-build-debug && make dc-up && make coverage-reset
 ```
 
 [1]: https://symfony.com/doc/current/reference/requirements.html
