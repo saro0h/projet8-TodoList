@@ -31,6 +31,10 @@ class TaskVoter extends Voter
             if ($subject->getUser() === $user) {
                 return true;
             }
+
+            if (null === $subject->getUser() && in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+                return true;
+            }
         }
 
         return false;
