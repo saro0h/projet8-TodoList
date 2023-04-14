@@ -7,7 +7,8 @@
 
             <button type="submit" class="btn btn-success pull-right">Ajouter</button>
         {{ form_end(form) }}
-
-        <a href="{{ path('task_list') }}" class="btn btn-primary">Retour à la liste des tâches</a>
+        <div class="col">
+            <a href="{{ path('task_list') }}" class="btn btn-primary">Retour à la liste des tâches</a>
+        </div>
     </div>
 {% endblock %}
