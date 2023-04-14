@@ -15,7 +15,6 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
         $task1->setTitle('task one');
         $task1->setContent('my great content');
         $task1->setCreatedAt(new \DateTime());
-        $task1->setUser($this->getReference('admin'));
 
         $manager->persist($task1);
 
