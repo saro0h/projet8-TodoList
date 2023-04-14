@@ -111,7 +111,11 @@ class TaskController extends AbstractController
     {
         $this->taskRepository->remove($task, true);
 
-        $this->addFlash('success', 'La tâche a bien été supprimée.');
+        $this->addFlash('error', 'La tâche a bien été supprimée.');
+
+        if ($task->isDone()) {
+            return $this->redirectToRoute('task_finished');
+        }
 
         return $this->redirectToRoute('task_list');
     }
