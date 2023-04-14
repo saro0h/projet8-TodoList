@@ -14,6 +14,14 @@ class TaskControllerTest extends BaseController
         self::assertResponseIsSuccessful();
     }
 
+    public function testFinishedPage(): void
+    {
+        $client = $this->login(BaseController::USER_EMAIL);
+        $client->request('GET', '/tasks/finished');
+
+        self::assertResponseIsSuccessful();
+    }
+
     public function testTaskPage(): void
     {
         $client = $this->login(BaseController::USER_EMAIL);
