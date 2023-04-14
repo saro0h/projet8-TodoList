@@ -9,20 +9,23 @@
         </div>
     </div>
     <br />
-    <div class="row">
+    <div class="row d-flex justify-content-center justify-content-md-start">
         {% for task in tasks %}
-        <div class="col-sm-4 col-lg-4 col-md-4">
-            <div class="thumbnail">
-                <div class="caption">
-                    <h4 class="pull-right">
-                        {% if task.isDone %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}
-                    </h4>
-                    <h4><a href="{{ path('task_edit', {'id': task.id}) }}">{{ task.title }}</a></h4>
-                    <p>{{ task.content }}</p>
-                </div>
-                <div>
-                    <form action="{{ path('task_toggle', {'id': task.id}) }}">
-                        <button class="btn btn-success btn-sm pull-right">
+            <div class="card text-bg-light m-3" style="width: 18rem;">
+                <div class="card-body">
+                    <p class="text-end">
+                        {% if task.isDone %}
+                            <i class="bi-check-circle text-success" style="font-size: 2rem;"></i>
+                        {% else %}
+                            <i class="bi-x-circle text-danger" style="font-size: 2rem;"></i>
+                        {% endif %}
+                    </p>
+                    <h2 class="card-title">
+                        <a href="{{ path('task_edit', {'id': task.id}) }}">{{ task.title }}</a>
+                    </h2>
+                    <p class="card-text">{{ task.content|slice(0, 150) }}...</p>
+                    <form class="mb-3" action="{{ path('task_toggle', {'id': task.id}) }}">
+                        <button class="btn btn-{% if not task.isDone %}success{% else%}warning{% endif%} btn-sm pull-right">
                             {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
                         </button>
                     </form>
@@ -38,7 +41,6 @@
                     {% endif %}
                 </div>
             </div>
-        </div>
         {% else %}
             <div class="alert alert-warning" role="alert">
                 Il n'y a pas encore de tâche enregistrée.
