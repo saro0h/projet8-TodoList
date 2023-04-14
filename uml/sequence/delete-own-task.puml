@@ -1,0 +1,24 @@
+@startuml
+autonumber
+title       "User or Admin" delete his own task
+actor       "User or Admin"
+participant Application
+database    Database
+
+ref over "User or Admin", Application, Database
+    /login
+end ref
+ref over "User or Admin", Application, Database
+    /tasks
+end ref
+"User or Admin" -> Application: GET /tasks/1/delete
+Application -> Database: Find task with id 1
+Database -> Application: Task with id 1 or null
+alt task exists and belongs to "User or Admin" logged in
+    Application -> "User or Admin": Redirect to /tasks
+alt task exists and does not belong to "User or Admin" logged in
+    Application -> "User or Admin": Render 403
+else task does not exist
+    Application -> "User or Admin": Render 404
+end
+@enduml

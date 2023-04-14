@@ -1,0 +1,9 @@
+@startuml
+autonumber
+title       User accessing to /
+actor       "User or Admin"
+participant Application
+
+"User or Admin" -> Application: GET /
+"User or Admin" <-- Application: Redirect to /login
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+autonumber
+title       Admin editing a user
+actor       Admin
+participant Application
+database    Database
+
+ref over Admin, Application, Database
+    /login
+end ref
+ref over Admin, Application, Database
+    /users
+end ref
+Admin -> Application: GET /users/1/edit
+Application -> Database: Find user with id 1
+Database -> Application: user with id 1 or null
+alt user exists
+    Application -> Admin: Render /users/1/edit
+else user does not exist
+    Application -> Admin: Render 404
+end
+Admin -> Application: POST /users/1/edit
+Application -> Application: check submitted form
+
+alt form is valid
+    Application -> Database: Update user
+    Database -> Application: user updated
+    Application -> Admin: Redirect to /users
+else form errors
+    Application -> Application: Add errors to form
+    Application -> Admin: Render /users/1/edit with errors
+end
+@enduml

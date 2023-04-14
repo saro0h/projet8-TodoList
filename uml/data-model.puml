@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+object task {
+   -id: INTEGER [PK]
+   -createdAt: TIMESTAMP
+   -title: VARCHAR [255]
+   -content: TEXT
+   -isDone: BOOLEAN
+   -user_id: INTEGER [FK]
+}
+
+object user {
+   -id: INTEGER [PK]
+   -email: VARCHAR [255]
+   -username: VARCHAR [25]
+   -password: VARCHAR [60]
+   -roles: JSON
+}
+
+user - task
+
+@enduml

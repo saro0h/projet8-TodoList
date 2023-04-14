@@ -1,0 +1,14 @@
+@startuml
+autonumber
+title       "User or Admin" wants to log out
+actor       "User or Admin"
+participant Application
+database    Database
+
+ref over "User or Admin", Application, Database
+    /login
+end ref
+"User or Admin" -> Application: GET /logout
+"User or Admin" <-- Application: Redirect to /login
+
+@enduml

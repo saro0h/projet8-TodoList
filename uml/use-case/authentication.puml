@@ -1,0 +1,15 @@
+@startuml
+left to right direction
+actor User as user #limegreen;line:limegreen;line.bold;text:black
+actor Admin as admin #dodgerblue;line:dodgerblue;line.bold;text:black
+
+package Authentication #springgreen;line:darkgreen;line.bold;text:black {
+  usecase "Login" as login
+  usecase "Logout" as logout
+}
+
+admin --> user
+
+user --> login
+user --> logout
+@enduml

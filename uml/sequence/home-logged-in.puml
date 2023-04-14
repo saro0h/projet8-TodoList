@@ -1,0 +1,13 @@
+@startuml
+autonumber
+title       User accessing to /
+actor       "User or Admin"
+participant Application
+database    Database
+
+ref over "User or Admin", Application, Database
+    /login
+end ref
+"User or Admin" -> Application: GET /
+"User or Admin" <-- Application: Render /
+@enduml

@@ -1,0 +1,27 @@
+@startuml
+autonumber
+title       Admin create user
+actor       Admin
+participant Application
+database    Database
+
+ref over Admin, Application, Database
+    /login
+end ref
+ref over Admin, Application, Database
+    /users
+end ref
+Admin -> Application: GET /users/create
+Admin <-- Application: Render /users/create
+Admin -> Application: POST /users/create
+Application -> Application: check submitted form
+
+alt form is valid
+    Application -> Database: Create user
+    Database -> Application: User created
+    Application -> Admin: Redirect to /users
+else form errors
+    Application -> Application: Add errors to form
+    Application -> Admin: Render /users/create with errors
+end
+@enduml
