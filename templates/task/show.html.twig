@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+    <div class="row">
+        <div class="col-12">
+        <h1>{{ task.title }}</h1>
+        <p>{{ task.content }}</p>
+
+        <div class="actions d-flex justify-content-between align-items-center mb-3">
+            <form class="mb-3" action="{{ path('task_edit', {'id': task.id}) }}">
+                <button class="btn btn-warning btn-sm pull-right">
+                    Modifier
+                </button>
+            </form>
+            {% if app.user is same as (task.user) %}
+                <form action="{{ path('task_delete', {'id': task.id}) }}">
+                    <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
+                </form>
+            {% endif %}
+            {% if task.user is same as (null) and is_granted('ROLE_ADMIN') %}
+                <form action="{{ path('task_delete', {'id': task.id}) }}">
+                    <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
+                </form>
+            {% endif %}
+        </div>
+        <p class="text-center">
+            <a class="btn btn-primary" href="{{ path('homepage') }}">Accueil</a>
+        </p>
+        </div>
+    </div>
+    </div>
+{% endblock %}
