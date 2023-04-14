@@ -14,14 +14,22 @@
                 </button>
             </form>
             {% if app.user is same as (task.user) %}
-                <form action="{{ path('task_delete', {'id': task.id}) }}">
-                    <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
-                </form>
+                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Supprimer
+                </button>
+
+                {{ include('_inc/_modal.html.twig', {
+                    task: task
+                }) }}
             {% endif %}
             {% if task.user is same as (null) and is_granted('ROLE_ADMIN') %}
-                <form action="{{ path('task_delete', {'id': task.id}) }}">
-                    <button class="btn btn-danger btn-sm pull-right">Supprimer</button>
-                </form>
+                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Supprimer
+                </button>
+
+                {{ include('_inc/_modal.html.twig', {
+                    task: task
+                }) }}
             {% endif %}
         </div>
         <p class="text-center">
