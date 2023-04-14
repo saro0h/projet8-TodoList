@@ -52,7 +52,7 @@ $ make tests
 Code coverage
 ------------
 ```bash
-$ make coverage
+$ make dc-build-debug && make dc-up && make coverage-reset
 ```
 
 Diagrams
