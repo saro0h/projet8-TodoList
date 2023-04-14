@@ -23,14 +23,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Assert\NotBlank(message: 'Vous devez saisir une adresse email.')]
     #[Assert\Email(message: "Le format de l'adresse n'est pas correcte.")]
+    #[Assert\Length(
+        min: 3,
+        max: 60,
+        minMessage: 'L\'adresse email doit faire au moins {{ limit }} caractères.',
+        maxMessage: 'L\'adresse email ne peut pas faire plus de {{ limit }} caractères.',
+    )]
     #[ORM\Column(type: 'string', length: 60, unique: true)]
     private ?string $email = null;
 
     #[Assert\NotBlank(message: "Vous devez saisir un nom d'utilisateur.")]
+    #[Assert\Length(
+        min: 3,
+        max: 25,
+        minMessage: 'Le nom d\'utilisateur doit faire au moins {{ limit }} caractères.',
+        maxMessage: 'Le nom d\'utilisateur ne peut pas faire plus de {{ limit }} caractères.',
+    )]
     #[ORM\Column(type: 'string', length: 25, unique: true)]
     private ?string $username = null;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'Vous devez saisir un mot de passe.')]
+    #[Assert\Length(
+        min: 4,
+        max: 255,
+        minMessage: 'Le mot de passe doit faire au moins {{ limit }} caractères.',
+        maxMessage: 'Le mot de passe ne peut pas faire plus de {{ limit }} caractères.',
+    )]
     private ?string $password = null;
 
     #[ORM\OneToMany(targetEntity: \App\Entity\Task::class, mappedBy: 'user')]
