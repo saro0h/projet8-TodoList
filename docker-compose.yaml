@@ -2,14 +2,12 @@ version: "3.4"
 
 services:
     blackfire:
-        container_name: blackfire
         env_file: .env.local
         image: blackfire/blackfire:2
         ports:
             - "8307:8307"
 
     database:
-        container_name: postgresql
         image: postgres:${POSTGRES_VERSION:-13}-alpine
         environment:
             POSTGRES_DB: ${POSTGRES_DB:-app}
@@ -20,7 +18,6 @@ services:
             - db-data:/var/lib/postgresql/data:rw
 
     php:
-        container_name: php
         build:
             context: .
             target: symfony_php
@@ -31,7 +28,6 @@ services:
             - php_socket:/var/run/php
 
     caddy:
-        container_name: caddy
         build:
             context: .
             target: symfony_caddy
