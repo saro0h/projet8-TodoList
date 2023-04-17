@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="fr" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="app.password.invalid.message">
+                <source>app.password.invalid.message</source>
+                <target>Les deux mots de passe doivent correspondre.</target>
+            </trans-unit>
+            <trans-unit id="app.task.content.not.blank">
+                <source>app.task.content.not.blank</source>
+                <target>Vous devez saisir du contenu.</target>
+            </trans-unit>
+            <trans-unit id="app.task.title.max.length">
+                <source>app.task.title.max.length</source>
+                <target>Le titre ne peut pas faire plus de {limit} caractères.</target>
+            </trans-unit>
+            <trans-unit id="app.task.title.min.length">
+                <source>app.task.title.min.length</source>
+                <target>Le titre doit faire au moins {limit} caractères.</target>
+            </trans-unit>
+            <trans-unit id="app.task.title.not.blank">
+                <source>app.task.title.not.blank</source>
+                <target>Vous devez saisir un titre.</target>
+            </trans-unit>
+            <trans-unit id="app.user.email.max.length">
+                <source>app.user.email.max.length</source>
+                <target>L'adresse email ne peut pas faire plus de {limit} caractères.</target>
+            </trans-unit>
+            <trans-unit id="app.user.email.min.length">
+                <source>app.user.email.min.length</source>
+                <target>L'adresse email doit faire au moins {limit} caractères.</target>
+            </trans-unit>
+            <trans-unit id="app.user.email.not.blank">
+                <source>app.user.email.not.blank</source>
+                <target>Vous devez saisir une adresse email.</target>
+            </trans-unit>
+            <trans-unit id="app.user.email.not.valid">
+                <source>app.user.email.not.valid</source>
+                <target>Le format de l'email est invalide.</target>
+            </trans-unit>
+            <trans-unit id="app.user.email.unique">
+                <source>app.user.email.unique</source>
+                <target>Un compte avec cet email existe déjà.</target>
+            </trans-unit>
+            <trans-unit id="app.user.password.max.length">
+                <source>app.user.password.max.length</source>
+                <target>Le mot de passe ne peut pas faire plus de {limit} caractères.</target>
+            </trans-unit>
+            <trans-unit id="app.user.password.min.length">
+                <source>app.user.password.min.length</source>
+                <target>Le mot de passe doit faire au moins {limit} caractères.</target>
+            </trans-unit>
+            <trans-unit id="app.user.password.not.blank">
+                <source>app.user.password.not.blank</source>
+                <target>Vous devez saisir un mot de passe.</target>
+            </trans-unit>
+            <trans-unit id="app.user.username.max.length">
+                <source>app.user.username.max.length</source>
+                <target>Le nom d'utilisateur ne peut pas faire plus de {limit} caractères.</target>
+            </trans-unit>
+            <trans-unit id="app.user.username.min.length">
+                <source>app.user.username.min.length</source>
+                <target>Le nom d'utilisateur doit faire au moins {limit} caractères.</target>
+            </trans-unit>
+            <trans-unit id="app.user.username.not.blank">
+                <source>app.user.username.not.blank</source>
+                <target>Vous devez saisir un nom d'utilisateur.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

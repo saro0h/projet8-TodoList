@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block header_title %}<h1>Modifier <strong>{{ user.username }}</strong></h1>{% endblock %}
+{% block header_title %}<h1>{{ 'app.edit'|trans }} <strong>{{ user.username }}</strong></h1>{% endblock %}
 {% block header_img %}{% endblock %}
 
 {% block body %}
@@ -11,7 +11,7 @@
             {{ form_row(form.email) }}
 
             <div class="form-group">
-                <label class="control-label required" for="{{ form.roles.vars.id }}">Roles</label>
+                <label class="control-label required" for="{{ form.roles.vars.id }}">{{ 'app.roles'|trans }}</label>
                 <select id="{{ form.roles.vars.id }}" name="{{ form.roles.vars.full_name }}" class="form-control">
                     {% for choice in form.children.roles.vars.choices %}
                         <option value="{{ choice.value }}" {% if choice.value is same as (user.roles[0]) %}selected{% endif %}>{{ choice.label }}</option>
@@ -21,7 +21,7 @@
 
             {% do form.roles.setRendered() %}
 
-            <button type="submit" class="btn btn-success pull-right">Modifier</button>
+            <button type="submit" class="btn btn-success pull-right">{{ 'app.edit'|trans }}</button>
         {{ form_end(form) }}
     </div>
 {% endblock %}

@@ -5,10 +5,10 @@
         {{ form_start(form, {'action': path('task_create')}) }}
             {{ form_widget(form) }}
 
-            <button type="submit" class="btn btn-success pull-right">Ajouter</button>
+            <button type="submit" class="btn btn-success pull-right">{{ 'app.add'|trans }}</button>
         {{ form_end(form) }}
         <div class="col">
-            <a href="{{ path('task_list') }}" class="btn btn-primary">Retour à la liste des tâches</a>
+            <a href="{{ path('task_list') }}" class="btn btn-primary">{{ 'app.back.to.task.list'|trans }}</a>
         </div>
     </div>
 {% endblock %}

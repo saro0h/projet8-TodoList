@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'todolist_user')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'app.user.email.unique')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Column(type: 'integer')]
@@ -21,34 +21,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private ?int $id = null;
 
-    #[Assert\NotBlank(message: 'Vous devez saisir une adresse email.')]
-    #[Assert\Email(message: "Le format de l'adresse n'est pas correcte.")]
+    #[Assert\NotBlank(message: 'app.user.email.not.blank')]
+    #[Assert\Email(message: 'app.user.email.not.valid')]
     #[Assert\Length(
         min: 3,
         max: 60,
-        minMessage: 'L\'adresse email doit faire au moins {{ limit }} caractères.',
-        maxMessage: 'L\'adresse email ne peut pas faire plus de {{ limit }} caractères.',
+        minMessage: 'app.user.email.min.length',
+        maxMessage: 'app.user.email.max.length',
     )]
     #[ORM\Column(type: 'string', length: 60, unique: true)]
     private ?string $email = null;
 
-    #[Assert\NotBlank(message: "Vous devez saisir un nom d'utilisateur.")]
+    #[Assert\NotBlank(message: 'app.user.username.not.blank')]
     #[Assert\Length(
         min: 3,
         max: 25,
-        minMessage: 'Le nom d\'utilisateur doit faire au moins {{ limit }} caractères.',
-        maxMessage: 'Le nom d\'utilisateur ne peut pas faire plus de {{ limit }} caractères.',
+        minMessage: 'app.user.username.min.length',
+        maxMessage: 'app.user.username.max.length',
     )]
     #[ORM\Column(type: 'string', length: 25, unique: true)]
     private ?string $username = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: 'Vous devez saisir un mot de passe.')]
+    #[Assert\NotBlank(message: 'app.user.password.not.blank')]
     #[Assert\Length(
         min: 4,
         max: 255,
-        minMessage: 'Le mot de passe doit faire au moins {{ limit }} caractères.',
-        maxMessage: 'Le mot de passe ne peut pas faire plus de {{ limit }} caractères.',
+        minMessage: 'app.user.password.min.length',
+        maxMessage: 'app.user.password.max.length',
     )]
     private ?string $password = null;
 
