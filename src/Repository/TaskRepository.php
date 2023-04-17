@@ -36,4 +36,16 @@ class TaskRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findTasksWithAssociatedCategory(bool $isDone): array
+    {
+        return $this->createQueryBuilder('t')
+            ->innerJoin('t.category', 'c')
+            ->addSelect('c')
+            ->andWhere('t.isDone = :isDone')
+            ->setParameter('isDone', $isDone)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

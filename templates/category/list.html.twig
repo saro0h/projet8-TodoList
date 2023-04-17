@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block header_img %}{% endblock %}
+
+{% block header_title %}<h1>Liste des catégories</h1>{% endblock %}
+
+{% block body %}
+    {% if categories|length == 0 %}
+        <div class="alert alert-warning" role="alert">
+            Il n'y a pas encore de catégorie enregistrée. <a href="{{ path('category_create') }}" class="btn btn-warning pull-right">Créer une catégorie</a>
+        </div>
+    {% else %}
+        <div class="row">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Titre</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ category.title }}</td>
+                        <td>
+                            <a href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-success btn-sm">Modifier</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}
