@@ -59,6 +59,7 @@ class TaskControllerTest extends BaseController
         $client->submitForm('Ajouter', [
             'task[title]' => 'a new task',
             'task[content]' => 'a new content',
+            'task[category]' => 1,
         ]);
 
         self::assertSame(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
