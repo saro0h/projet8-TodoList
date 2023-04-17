@@ -2,9 +2,17 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="fr" datatype="plaintext" original="file.ext">
         <body>
+            <trans-unit id="app.category.title.not.blank">
+                <source>app.category.title.not.blank</source>
+                <target>Vous devez saisir un titre.</target>
+            </trans-unit>
             <trans-unit id="app.password.invalid.message">
                 <source>app.password.invalid.message</source>
                 <target>Les deux mots de passe doivent correspondre.</target>
+            </trans-unit>
+            <trans-unit id="app.task.category.not.blank">
+                <source>app.task.category.not.blank</source>
+                <target>Vous devez sélectionner une catégorie.</target>
             </trans-unit>
             <trans-unit id="app.task.content.not.blank">
                 <source>app.task.content.not.blank</source>

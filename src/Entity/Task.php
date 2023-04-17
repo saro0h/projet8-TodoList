@@ -25,11 +25,11 @@ class Task
         maxMessage: 'app.task.title.max.length',
     )]
     #[ORM\Column(type: 'string')]
-    private string $title;
+    private ?string $title = null;
 
     #[Assert\NotBlank(message: 'app.task.content.not.blank')]
     #[ORM\Column(type: 'text')]
-    private string $content;
+    private ?string $content = null;
 
     #[ORM\Column(type: 'boolean')]
     private bool $isDone = false;
@@ -37,6 +37,7 @@ class Task
     #[ORM\ManyToOne(targetEntity: \App\Entity\User::class, inversedBy: 'tasks')]
     private ?User $user = null;
 
+    #[Assert\NotBlank(message: 'app.task.category.not.blank')]
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     private ?Category $category = null;
 
@@ -62,24 +63,24 @@ class Task
         return $this;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    public function getContent(): string
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    public function setContent(?string $content): self
     {
         $this->content = $content;
 

@@ -26,7 +26,7 @@ class UserType extends AbstractType
                 'second_options' => ['label' => 'app.password.second'],
             ])
             ->add('email', EmailType::class, [
-                'label' => 'app.email'
+                'label' => 'app.email',
             ])
             ->add('roles', ChoiceType::class, [
                 'choices' => [
