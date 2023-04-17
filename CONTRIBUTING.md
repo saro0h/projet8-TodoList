@@ -33,7 +33,7 @@ Commit the changes once you are happy with them. Don't forget to run the checks 
 ```bash
 $ make php-cs-fixer
 $ make phpstan
-$ make twigcs
+$ make twig-cs-fixer
 $ make yaml-lint
 ```
 

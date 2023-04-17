@@ -90,10 +90,10 @@ sf-cw:					## Warmup Symfony cache
 						$(CONSOLE) cache:warmup --env=$(APP_ENV)
 
 # Checks
-.PHONY: php-cs-fixer phpstan twigcs yaml-lint rector
+.PHONY: php-cs-fixer phpstan twig-cs-fixer yaml-lint rector
 
 checks: 				## Run checks
-checks: 				php-cs-fixer twigcs yaml-lint phpstan rector
+checks: 				php-cs-fixer twig-cs-fixer yaml-lint phpstan rector
 
 php-cs-fixer:			## Run php-cs-fixer
 						PHP_CS_FIXER_IGNORE_ENV=true vendor/bin/php-cs-fixer fix --diff --dry-run --verbose
@@ -101,8 +101,8 @@ php-cs-fixer:			## Run php-cs-fixer
 phpstan:				## Run phpstan
 						vendor/bin/phpstan analyse --memory-limit=1G
 
-twigcs:					## Run twig-cs
-						vendor/bin/twigcs templates
+twig-cs-fixer:			## Run twig-cs-fixer
+						vendor/bin/twig-cs-fixer
 
 yaml-lint:	            ## Run yaml-lint
 						bin/console lint:yaml config translations

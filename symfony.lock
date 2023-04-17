@@ -134,9 +134,6 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
-    "friendsoftwig/twigcs": {
-        "version": "v5.1.0"
-    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
@@ -668,6 +665,15 @@
     },
     "twig/twig": {
         "version": "v3.0.3"
+    },
+    "vincentlanglet/twig-cs-fixer": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "0.6",
+            "ref": "e4da12a48e8138479bd24a675321bcfd84950266"
+        }
     },
     "webimpress/safe-writer": {
         "version": "2.0.1"
