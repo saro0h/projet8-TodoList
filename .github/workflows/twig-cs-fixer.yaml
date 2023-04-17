@@ -1,4 +1,4 @@
-name: TwigCS
+name: Twig-CS-Fixer
 on: [push]
 
 env:
@@ -6,7 +6,7 @@ env:
 
 jobs:
     tests:
-        name: TwigCS
+        name: Twig-CS-Fixer
         # https://hub.docker.com/_/ubuntu/
         runs-on: ubuntu-18.04
         services:
@@ -52,5 +52,5 @@ jobs:
             - name: Install Composer dependencies
               run: composer install
 
-            - name: Run twigcs
-              run: vendor/bin/twigcs templates
+            - name: Run twig-cs-fixer
+              run: vendor/bin/twig-cs-fixer
