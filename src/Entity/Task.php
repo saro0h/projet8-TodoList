@@ -37,6 +37,9 @@ class Task
     #[ORM\ManyToOne(targetEntity: \App\Entity\User::class, inversedBy: 'tasks')]
     private ?User $user = null;
 
+    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    private ?Category $category = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -103,6 +106,18 @@ class Task
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
