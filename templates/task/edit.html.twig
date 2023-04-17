@@ -5,7 +5,7 @@
         {{ form_start(form, {'action': path('task_edit', {'id': task.id})}) }}
             {{ form_widget(form) }}
 
-            <button type="submit" class="btn btn-success pull-right">Modifier</button>
+            <button type="submit" class="btn btn-success pull-right">{{ 'app.edit'|trans }}</button>
         {{ form_end(form) }}
     </div>
 {% endblock %}

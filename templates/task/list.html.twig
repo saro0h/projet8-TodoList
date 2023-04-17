@@ -5,7 +5,7 @@
 {% block body %}
     <div class="row">
         <div class="col">
-            <a href="{{ path('task_create') }}" class="btn btn-info pull-right">Créer une tâche</a>
+            <a href="{{ path('task_create') }}" class="btn btn-info pull-right">{{ 'app.task.create'|trans }}</a>
         </div>
     </div>
     <br />
@@ -66,7 +66,7 @@
                     <div class="text-center mt-2">
                         <form class="mb-3" action="{{ path('task_toggle', {'id': task.id}) }}">
                             <button class="btn btn-{% if not task.isDone %}success{% else %}warning{% endif %} btn-sm pull-right">
-                                {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
+                                {% if not task.isDone %}{{ 'app.mark.as.done'|trans }}{% else %}{{ 'app.mark.as.not.done'|trans }}{% endif %}
                             </button>
                         </form>
                     </div>
@@ -74,9 +74,7 @@
                 </div>
             </div>
         {% else %}
-            <div class="alert alert-warning" role="alert">
-                Il n'y a pas encore de tâche enregistrée.
-            </div>
+            <div class="alert alert-warning" role="alert">{{ 'app.task.list.empty'|trans }}</div>
         {% endfor %}
     </div>
 {% endblock %}

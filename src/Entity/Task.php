@@ -17,17 +17,17 @@ class Task
     #[ORM\Column(type: 'datetime')]
     private \DateTime $createdAt;
 
-    #[Assert\NotBlank(message: 'Vous devez saisir un titre.')]
+    #[Assert\NotBlank(message: 'app.task.title.not.blank')]
     #[Assert\Length(
         min: 3,
         max: 255,
-        minMessage: 'Le titre doit faire au moins {{ limit }} caractères.',
-        maxMessage: 'Le titre ne peut pas faire plus de {{ limit }} caractères.',
+        minMessage: 'app.task.title.min.length',
+        maxMessage: 'app.task.title.max.length',
     )]
     #[ORM\Column(type: 'string')]
     private string $title;
 
-    #[Assert\NotBlank(message: 'Vous devez saisir du contenu.')]
+    #[Assert\NotBlank(message: 'app.task.content.not.blank')]
     #[ORM\Column(type: 'text')]
     private string $content;
 

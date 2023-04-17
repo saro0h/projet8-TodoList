@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block header_title %}<h1>Modifier <strong>{{ category.title }}</strong></h1>{% endblock %}
+{% block header_title %}<h1>{{ 'app.edit'|trans }} <strong>{{ category.title }}</strong></h1>{% endblock %}
 {% block header_img %}{% endblock %}
 
 {% block body %}
@@ -8,7 +8,7 @@
         {{ form_start(form, {'action': path('category_edit', {'id': category.id})}) }}
             {{ form_widget(form) }}
 
-            <button type="submit" class="btn btn-success pull-right">Modifier</button>
+            <button type="submit" class="btn btn-success pull-right">{{ 'app.edit'|trans }}</button>
         {{ form_end(form) }}
     </div>
 {% endblock %}

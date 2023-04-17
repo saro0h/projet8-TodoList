@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="fr" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="app.add">
+                <source>app.add</source>
+                <target>Ajouter</target>
+            </trans-unit>
+            <trans-unit id="app.actions">
+                <source>app.actions</source>
+                <target>Actions</target>
+            </trans-unit>
+            <trans-unit id="app.admin">
+                <source>app.admin</source>
+                <target>Administrateur</target>
+            </trans-unit>
+            <trans-unit id="app.back.to.task.list">
+                <source>app.back.to.task.list</source>
+                <target>Retour à la liste des tâches</target>
+            </trans-unit>
+            <trans-unit id="app.cancel">
+                <source>app.cancel</source>
+                <target>Annuler</target>
+            </trans-unit>
+            <trans-unit id="app.delete">
+                <source>app.delete</source>
+                <target>Supprimer</target>
+            </trans-unit>
+            <trans-unit id="app.edit">
+                <source>app.edit</source>
+                <target>Modifier</target>
+            </trans-unit>
+            <trans-unit id="app.category">
+                <source>app.category</source>
+                <target>Catégorie</target>
+            </trans-unit>
+            <trans-unit id="app.category.create">
+                <source>app.category.create</source>
+                <target>Créer une catégorie</target>
+            </trans-unit>
+            <trans-unit id="app.category.create.success">
+                <source>app.category.create.success</source>
+                <target>La catégorie a bien été ajoutée.</target>
+            </trans-unit>
+            <trans-unit id="app.category.edit.success">
+                <source>app.category.edit.success</source>
+                <target>La catégorie a bien été modifiée.</target>
+            </trans-unit>
+            <trans-unit id="app.category.list">
+                <source>app.category.list</source>
+                <target>Liste des catégories</target>
+            </trans-unit>
+            <trans-unit id="app.category.list.empty">
+                <source>app.category.list.empty</source>
+                <target>Il n'y a pas encore de catégorie enregistrée.</target>
+            </trans-unit>
+            <trans-unit id="app.content">
+                <source>app.content</source>
+                <target>Contenu</target>
+            </trans-unit>
+            <trans-unit id="app.email">
+                <source>app.email</source>
+                <target>Adresse email</target>
+            </trans-unit>
+            <trans-unit id="app.homepage">
+                <source>app.homepage</source>
+                <target>Accueil</target>
+            </trans-unit>
+            <trans-unit id="app.login">
+                <source>app.login</source>
+                <target>Se connecter</target>
+            </trans-unit>
+            <trans-unit id="app.logout">
+                <source>app.logout</source>
+                <target>Se déconnecter</target>
+            </trans-unit>
+            <trans-unit id="app.mark.as.done">
+                <source>app.mark.as.done</source>
+                <target>Marquer comme faite</target>
+            </trans-unit>
+            <trans-unit id="app.mark.as.not.done">
+                <source>app.mark.as.not.done</source>
+                <target>Marquer non terminée</target>
+            </trans-unit>
+            <trans-unit id="app.page.not.found">
+                <source>app.page.not.found</source>
+                <target>Page non trouvée</target>
+            </trans-unit>
+            <trans-unit id="app.password.first">
+                <source>app.password.first</source>
+                <target>Mot de passe</target>
+            </trans-unit>
+            <trans-unit id="app.password.second">
+                <source>app.password.second</source>
+                <target>Tapez le mot de passe à nouveau</target>
+            </trans-unit>
+            <trans-unit id="app.roles">
+                <source>app.roles</source>
+                <target>Rôles</target>
+            </trans-unit>
+            <trans-unit id="app.task.create.success">
+                <source>app.task.create.success</source>
+                <target>La tâche a été bien été ajoutée.</target>
+            </trans-unit>
+            <trans-unit id="app.task.delete.success">
+                <source>app.task.delete.success</source>
+                <target>La tâche a bien été supprimée.</target>
+            </trans-unit>
+            <trans-unit id="app.task.edit.success">
+                <source>app.task.edit.success</source>
+                <target>La tâche a bien été modifiée.</target>
+            </trans-unit>
+            <trans-unit id="app.task.list.done">
+                <source>app.task.list.done</source>
+                <target>Consulter la liste des tâches terminées</target>
+            </trans-unit>
+            <trans-unit id="app.task.list.not.done">
+                <source>app.task.list.not.done</source>
+                <target>Consulter la liste des tâches à faire</target>
+            </trans-unit>
+            <trans-unit id="app.title">
+                <source>app.title</source>
+                <target>Titre</target>
+            </trans-unit>
+            <trans-unit id="app.user">
+                <source>app.user</source>
+                <target>Utilisateur</target>
+            </trans-unit>
+            <trans-unit id="app.user.create">
+                <source>app.user.create</source>
+                <target>Créer un utilisateur</target>
+            </trans-unit>
+            <trans-unit id="app.user.create.success">
+                <source>app.user.create.success</source>
+                <target>L'utilisateur a bien été ajouté.</target>
+            </trans-unit>
+            <trans-unit id="app.user.edit.success">
+                <source>app.user.edit.success</source>
+                <target>L'utilisateur a bien été modifié.</target>
+            </trans-unit>
+            <trans-unit id="app.user.list">
+                <source>app.user.list</source>
+                <target>Liste des utilisateurs</target>
+            </trans-unit>
+            <trans-unit id="app.user.list.empty">
+                <source>app.user.list.empty</source>
+                <target>Il n'y a pas encore d'utilisateur enregistré.</target>
+            </trans-unit>
+            <trans-unit id="app.username">
+                <source>app.username</source>
+                <target>Nom d'utilisateur</target>
+            </trans-unit>
+            <trans-unit id="app.task.delete.question">
+                <source>app.task.delete.question</source>
+                <target>Êtes-vous certain de vouloir supprimer la tâche ?</target>
+            </trans-unit>
+            <trans-unit id="app.task.create">
+                <source>app.task.create</source>
+                <target>Créer une nouvelle tâche</target>
+            </trans-unit>
+            <trans-unit id="app.task.list.empty">
+                <source>app.task.list.empty</source>
+                <target>Il n'y a pas encore de tâche enregistrée.</target>
+            </trans-unit>
+            <trans-unit id="app.task.toggle.done">
+                <source>app.task.toggle.done</source>
+                <target>La tâche {taskTitle} a bien été marquée comme terminée.</target>
+            </trans-unit>
+            <trans-unit id="app.task.toggle.not.done">
+                <source>app.task.toggle.not.done</source>
+                <target>La tâche {taskTitle} a bien été marquée comme à réaliser.</target>
+            </trans-unit>
+            <trans-unit id="app.todolist.welcome">
+                <source>app.todolist.welcome</source>
+                <target>Bienvenue sur Todo List, l'application vous permettant de gérer l'ensemble de vos tâches sans effort !</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

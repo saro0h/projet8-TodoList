@@ -14,12 +14,17 @@ class TaskType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class)
-            ->add('content', TextareaType::class)
+            ->add('title', TextType::class, [
+                'label' => 'app.title',
+            ])
+            ->add('content', TextareaType::class, [
+                'label' => 'app.content',
+            ])
             ->add('category', EntityType::class, [
                 'choice_label' => 'title',
                 'class' => Category::class,
                 'expanded' => true,
+                'label' => 'app.category',
                 'multiple' => false,
             ])
         ;

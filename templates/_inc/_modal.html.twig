@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">
-                    <i>Êtes-vous certain de vouloir supprimer la tâche ?</i>
+                    <i>{{ 'app.task.delete.question'|trans }}</i>
                     {{ task.title }}
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -16,10 +16,10 @@
                 {% endif %}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'app.cancel'|trans }}</button>
                 <form action="{{ path('task_delete', {'id': task.id}) }}">
                     <button class="btn btn-danger">
-                        Supprimer
+                        {{ 'app.delete'|trans }}
                     </button>
                 </form>
             </div>

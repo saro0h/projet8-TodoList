@@ -2,12 +2,12 @@
 
 {% block header_img %}{% endblock %}
 
-{% block header_title %}<h1>Liste des catégories</h1>{% endblock %}
+{% block header_title %}<h1>{{ 'app.category.list'|trans }}</h1>{% endblock %}
 
 {% block body %}
     {% if categories|length == 0 %}
         <div class="alert alert-warning" role="alert">
-            Il n'y a pas encore de catégorie enregistrée. <a href="{{ path('category_create') }}" class="btn btn-warning pull-right">Créer une catégorie</a>
+            {{ 'app.category.list.empty'|trans }} <a href="{{ path('category_create') }}" class="btn btn-warning pull-right">{{ 'app.category.create'|trans }}</a>
         </div>
     {% else %}
         <div class="row">
@@ -15,8 +15,8 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Titre</th>
-                    <th>Actions</th>
+                    <th>{{ 'app.title'|trans }}</th>
+                    <th>{{ 'app.actions'|trans }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -25,7 +25,7 @@
                         <th scope="row">{{ loop.index }}</th>
                         <td>{{ category.title }}</td>
                         <td>
-                            <a href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-success btn-sm">Modifier</a>
+                            <a href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-success btn-sm">{{ 'app.edit'|trans }}</a>
                         </td>
                     </tr>
                 {% endfor %}
