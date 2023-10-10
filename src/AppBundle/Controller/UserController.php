@@ -11,14 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * @Route("/users", name="user_list")
-     */
-    public function listAction()
-    {
-        return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository('AppBundle:User')->findAll()]);
-    }
-
-    /**
      * @Route("/users/create", name="user_create")
      */
     public function createAction(Request $request)

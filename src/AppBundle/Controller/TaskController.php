@@ -3,10 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Task;
+use AppBundle\Entity\User;
 use AppBundle\Form\TaskType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
 class TaskController extends Controller
 {
@@ -15,7 +16,13 @@ class TaskController extends Controller
      */
     public function listAction()
     {
-        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository('AppBundle:Task')->findAll()]);
+        //dump($this->getUser());die();
+        $tasks = $this->getDoctrine()->getRepository('AppBundle:Task')->findByUser($this->getUser());
+
+        return $this->render('task/list.html.twig',
+        [
+            'tasks' => $tasks
+        ]);
     }
 
     /**
@@ -29,6 +36,8 @@ class TaskController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $task->setUser($this->getUser());
+
             $em = $this->getDoctrine()->getManager();
 
             $em->persist($task);
