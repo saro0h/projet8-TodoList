@@ -30,9 +30,15 @@
             </div>
         </div>
         {% else %}
-            <div class="alert alert-warning" role="alert">
-                Il n'y a pas encore de tâche enregistrée. <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
-            </div>
+            {% if 'done' %}
+                <div class="alert alert-warning" role="alert">
+                    Il n'y a pas encore de tâche terminée. <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
+                </div>
+            {% else %}
+                <div class="alert alert-warning" role="alert">
+                    Il n'y a pas encore de tâche enregistrée. <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}

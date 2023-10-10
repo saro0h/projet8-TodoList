@@ -22,7 +22,17 @@ class TaskRepository extends \Doctrine\ORM\EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT t FROM AppBundle:Task t WHERE t.user = :user '
+                'SELECT t FROM AppBundle:Task t WHERE t.user = :user and t.isDone = 0'
+            )
+            ->setParameter('user', $user)
+            ->getResult();
+    }
+
+    public function doneTaskByUser(User $user)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t FROM AppBundle:Task t WHERE t.user = :user and t.isDone = 1'
             )
             ->setParameter('user', $user)
             ->getResult();

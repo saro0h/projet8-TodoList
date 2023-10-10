@@ -16,8 +16,20 @@ class TaskController extends Controller
      */
     public function listAction()
     {
-        //dump($this->getUser());die();
         $tasks = $this->getDoctrine()->getRepository('AppBundle:Task')->findByUser($this->getUser());
+
+        return $this->render('task/list.html.twig',
+        [
+            'tasks' => $tasks
+        ]);
+    }
+
+    /**
+     * @Route("/done", name="done_task_list")
+     */
+    public function doneListAction()
+    {
+        $tasks = $this->getDoctrine()->getRepository('AppBundle:Task')->doneTaskByUser($this->getUser());
 
         return $this->render('task/list.html.twig',
         [
