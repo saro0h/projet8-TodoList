@@ -28,6 +28,8 @@ class UserController extends Controller
 
         $form->handleRequest($request);
 
+        $user->setRoles(['ROLE_USER']);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
