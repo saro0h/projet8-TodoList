@@ -38,7 +38,9 @@
         <!-- Page Content -->
         <div class="container">
             <div class="row">
+                {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
                 <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
+                {% endif %}
 
                 {% if app.user %}
                 <a href="{{ path('logout') }}" class="pull-right btn btn-danger">Se déconnecter</a>
@@ -63,7 +65,11 @@
                         </div>
                     {% endfor %}
 
-                    {% block header_title %}{% endblock %}
+                    {% block header_title %}
+                        {% if not app.user %}
+                            <h1>Bienvenue sur Todo List, l'application vous permettant de gérer l'ensemble de vos tâches sans effort !</h1>
+                        {% endif %}
+                    {% endblock %}
                     {% block header_img %}<img class="slide-image" src="{{ asset('img/todolist_homepage.jpg') }}" alt="todo list">{% endblock %}
                 </div>
             </div>
