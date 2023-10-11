@@ -18,6 +18,7 @@ class AdminController extends Controller
     {
         $tasks = $this->getDoctrine()->getRepository('AppBundle:Task')->findAll();
 
+        //sdump($tasks);die();
         return $this->render('admin/tasks_list.html.twig',
         [
             'tasks' => $tasks

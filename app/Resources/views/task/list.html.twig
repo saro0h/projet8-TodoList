@@ -30,13 +30,13 @@
             </div>
         </div>
         {% else %}
-            {% if 'done' %}
+            {% if 'done' in app.request.attributes.get('_route') %}
                 <div class="alert alert-warning" role="alert">
-                    Il n'y a pas encore de tâche terminée. <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
+                    Il n'y a pas encore de tâche terminée.
                 </div>
             {% else %}
                 <div class="alert alert-warning" role="alert">
-                    Il n'y a pas encore de tâche enregistrée. <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
+                    Il n'y a pas encore de tâche enregistrée.
                 </div>
             {% endif %}
         {% endfor %}

@@ -16,6 +16,12 @@
                     </h4>
                     <h4><a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a></h4>
                     <p>{{ task.content }}</p>
+                    {% if task.user %}
+                        <p>user : {{ task.user }}</p>
+                    {% else %}
+                        <p>user : anonyme</p>
+                    {% endif %}
+                    
                 </div>
                 <div>
                     <form action="{{ path('task_toggle', {'id' : task.id }) }}">
