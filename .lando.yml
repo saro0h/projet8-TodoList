@@ -1,0 +1,5 @@
+name: todolist
+recipe: lamp
+config:
+  webroot: web
+  php: '5.5'
