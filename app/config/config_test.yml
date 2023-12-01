@@ -14,3 +14,10 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+parameters:
+    database_host: database_test
+    database_port: null
+    database_name: database
+    database_user: mysql
+    database_password: mysql
