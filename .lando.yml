@@ -3,3 +3,8 @@ recipe: lamp
 config:
   webroot: web
   php: '7.0'
+
+services:
+  database_test:
+    type: mysql
+    portforward: true
