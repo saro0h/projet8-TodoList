@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit;
+namespace App\Tests\Unit;
 
-use AppBundle\Entity\Task;
+use App\Entity\Task;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -12,13 +12,12 @@ class TaskRepositoryTest extends KernelTestCase
     /** @var EntityManager */
     private $entityManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $kernel = self::bootKernel();
-        $this->entityManager = $kernel->getContainer()->get('doctrine')->getManager();
+        $this->entityManager = self::getContainer()->get('doctrine')->getManager();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         $this->entityManager->close();

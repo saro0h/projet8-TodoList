@@ -1,15 +1,13 @@
 <?php
 
-namespace Fonctional;
+namespace App\Tests\Fonctional;
 
-use AppBundle\Entity\Task;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Tests\Fonctional\DefaultControllerTest;
+use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
 class SecurityControllerTest extends WebTestCase
 {
@@ -19,7 +17,7 @@ class SecurityControllerTest extends WebTestCase
     /** @var EntityManager */
     private $entityManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = static::createClient();
         $this->entityManager = $this->client->getContainer()->get('doctrine')->getManager();
@@ -41,20 +39,11 @@ class SecurityControllerTest extends WebTestCase
         ];
         $this->client->submit($form, $formValues);
 
+        $this->assertResponseRedirects('/');
+
         $this->client->followRedirect();
 
-        $this->assertEquals('/', $this->client->getRequest()->getPathInfo());
-
-        /** @var Session $session */
-        $session = $this->client->getContainer()->get('session');
-        $securityToken = $session->get('_security_main');
-
-        $this->assertNotNull($securityToken);
-
-        /** @var UsernamePasswordToken $token */
-        $token = unserialize($securityToken);
-
-        $this->assertTrue($token->getUsername() == 'nonoland');
+        $this->assertTrue($this->client->getContainer()->get('security.helper')->isGranted('ROLE_USER'));
     }
 
     public function testLoginFailed()
@@ -68,19 +57,14 @@ class SecurityControllerTest extends WebTestCase
 
         $form = $crawler->selectButton('Se connecter')->form();
         $formValues = [
-            '_username' => 'nonolandd',
-            '_password' => 'test'
+            '_username' => 'nonoland',
+            '_password' => 'testt'
         ];
         $this->client->submit($form, $formValues);
 
         $this->client->followRedirect();
 
         $this->assertEquals('/login', $this->client->getRequest()->getPathInfo());
-
-        /** @var Session $session */
-        $session = $this->client->getContainer()->get('session');
-        $securityToken = $session->get('_security_main');
-
-        $this->assertNull($securityToken);
+        $this->assertFalse($this->client->getContainer()->get('security.helper')->isGranted('ROLE_USER'));
     }
 }

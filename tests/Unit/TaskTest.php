@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit;
+namespace App\Tests\Unit;
 
-use AppBundle\Entity\Task;
+use App\Entity\Task;
 use PHPUnit\Framework\TestCase;
 
 class TaskTest extends TestCase
@@ -10,7 +10,7 @@ class TaskTest extends TestCase
 
     private $task;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->task = new Task();

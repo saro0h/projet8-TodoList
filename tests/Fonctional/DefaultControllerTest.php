@@ -1,13 +1,16 @@
 <?php
 
-namespace Tests\Fonctional;
+namespace App\Tests\Fonctional;
 
+use App\Repository\UserRepository;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class DefaultControllerTest extends WebTestCase
 {
-    public function testIndexForAnonymousUser()
+    public function testIndexForAnonymousUser(): void
     {
         $client = static::createClient();
 
@@ -16,7 +19,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
     }
 
-    public function testIndexForAuthenticatedUser()
+    public function testIndexForAuthenticatedUser(): void
     {
         $client = self::createAuthenticationClient();
 
@@ -25,13 +28,14 @@ class DefaultControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 
-    //TODO Test de connexion avec le formulaire
-
-    public static function createAuthenticationClient($username = "nonoland", $password = "test")
+    public static function createAuthenticationClient($username = "nonoland"): KernelBrowser
     {
-        return static::createClient([], [
-            'PHP_AUTH_USER' => $username,
-            'PHP_AUTH_PW'   => $password
-        ]);
+        $client = self::createClient();
+        /** @var UserRepository $userRepository */
+        $userRepository = self::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneBy(['username' => $username]);
+        $client->loginUser($testUser);
+
+        return $client;
     }
 }

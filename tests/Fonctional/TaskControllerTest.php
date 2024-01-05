@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Fonctional;
+namespace App\Tests\Fonctional;
 
-use AppBundle\Entity\Task;
+use App\Entity\Task;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -16,7 +16,7 @@ class TaskControllerTest extends WebTestCase
     /** @var EntityManager */
     private $entityManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = DefaultControllerTest::createAuthenticationClient();
         $this->entityManager = $this->client->getContainer()->get('doctrine')->getManager();
@@ -26,7 +26,7 @@ class TaskControllerTest extends WebTestCase
     {
         $query = $this->entityManager->createQuery(
             'SELECT t
-            FROM AppBundle\Entity\Task t'
+            FROM App\Entity\Task t'
         )->setMaxResults(1);
         return $query->getOneOrNullResult();
     }
@@ -56,7 +56,7 @@ class TaskControllerTest extends WebTestCase
 
         $crawler = $this->client->followRedirect();
 
-        $this->assertContains('Superbe !', $crawler->filter('body')->text());
+        $this->assertStringContainsString('Superbe !', $crawler->filter('body')->text());
 
         $repository = $this->entityManager->getRepository(Task::class);
         $newTask = $repository->findOneBy([
@@ -87,7 +87,7 @@ class TaskControllerTest extends WebTestCase
 
         $crawler = $this->client->followRedirect();
 
-        $this->assertContains('Superbe !', $crawler->filter('body')->text());
+        $this->assertStringContainsString('Superbe !', $crawler->filter('body')->text());
 
         $repository = $this->entityManager->getRepository(Task::class);
         $editTask = $repository->findOneBy([
@@ -110,7 +110,7 @@ class TaskControllerTest extends WebTestCase
 
         $crawler = $this->client->followRedirect();
 
-        $this->assertContains('Superbe !', $crawler->filter('body')->text());
+        $this->assertStringContainsString('Superbe !', $crawler->filter('body')->text());
 
         $currentTask = $repository->find($lastTask->getId());
 
@@ -125,7 +125,7 @@ class TaskControllerTest extends WebTestCase
 
         $this->client->request('GET', '/tasks/'.$task->getId().'/delete');
         $crawler = $this->client->followRedirect();
-        $this->assertContains('Superbe !', $crawler->filter('body')->text());
+        $this->assertStringContainsString('Superbe !', $crawler->filter('body')->text());
 
         $this->assertNull($repository->findOneBy(['id' => $task->getId()]));
     }

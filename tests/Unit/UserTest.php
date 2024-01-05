@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit;
+namespace App\Tests\Unit;
 
-use AppBundle\Entity\User;
+use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
@@ -10,7 +10,7 @@ class UserTest extends TestCase
     /** @var User */
     private $user;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user = new User();

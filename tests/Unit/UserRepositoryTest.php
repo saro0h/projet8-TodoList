@@ -1,40 +1,40 @@
 <?php
 
-namespace Tests\Unit;
+namespace App\Tests\Unit;
 
-use AppBundle\Entity\User;
+use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserRepositoryTest extends KernelTestCase
 {
 
     /** @var EntityManager */
     private $entityManager;
-    private $passwordEncoder;
+    private null|UserPasswordHasherInterface $passwordEncoder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $kernel = self::bootKernel();
-        $this->entityManager = $kernel->getContainer()->get('doctrine')->getManager();
-        $this->passwordEncoder = $kernel->getContainer()->get('security.password_encoder');
+        $this->entityManager = self::getContainer()->get('doctrine')->getManager();
+        $this->passwordEncoder = self::getContainer()->get(UserPasswordHasherInterface::class);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         $this->entityManager->close();
         $this->entityManager = null;
     }
 
-    public function testCreateTask()
+    public function testCreateUser()
     {
         $username = substr(md5(time()), 0, 25);
 
         $user = new User();
         $user->setUsername($username);
         $user->setEmail($username.'@gmail.com');
-        $user->setPassword($this->passwordEncoder->encodePassword($user, 'test'));
+        $user->setPassword($this->passwordEncoder->hashPassword($user, 'test'));
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
