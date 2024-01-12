@@ -30,8 +30,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/users/create, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER }
-        - { path: ^/users, roles: PUBLIC_ACCESS }
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER

@@ -5,29 +5,15 @@ namespace App\Tests\Fonctional;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
 class SecurityControllerTest extends WebTestCase
 {
-
-    private $client;
-
-    /** @var EntityManager */
-    private $entityManager;
-
-    protected function setUp(): void
-    {
-        $this->client = static::createClient();
-        $this->entityManager = $this->client->getContainer()->get('doctrine')->getManager();
-    }
-
     public function testLoginSuccess()
     {
-        $crawler = $this->client->request('GET', '/login');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/login');
 
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
 
         $this->assertGreaterThan(0, $crawler->filter('input[name="_username"]')->count());
         $this->assertGreaterThan(0, $crawler->filter('input[name="_password"]')->count());
@@ -37,20 +23,24 @@ class SecurityControllerTest extends WebTestCase
             '_username' => 'nonoland',
             '_password' => 'test'
         ];
-        $this->client->submit($form, $formValues);
+        $client->submit($form, $formValues);
 
         $this->assertResponseRedirects('/');
 
-        $this->client->followRedirect();
+        $client->followRedirect();
 
-        $this->assertTrue($this->client->getContainer()->get('security.helper')->isGranted('ROLE_USER'));
+        $this->assertTrue($client->getContainer()->get('security.helper')->isGranted('ROLE_USER'));
+
+        $client->request('GET', '/login');
+        $this->assertResponseRedirects('/');
     }
 
     public function testLoginFailed()
     {
-        $crawler = $this->client->request('GET', '/login');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/login');
 
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
 
         $this->assertGreaterThan(0, $crawler->filter('input[name="_username"]')->count());
         $this->assertGreaterThan(0, $crawler->filter('input[name="_password"]')->count());
@@ -60,11 +50,20 @@ class SecurityControllerTest extends WebTestCase
             '_username' => 'nonoland',
             '_password' => 'testt'
         ];
-        $this->client->submit($form, $formValues);
+        $client->submit($form, $formValues);
 
-        $this->client->followRedirect();
+        $client->followRedirect();
 
-        $this->assertEquals('/login', $this->client->getRequest()->getPathInfo());
-        $this->assertFalse($this->client->getContainer()->get('security.helper')->isGranted('ROLE_USER'));
+        $this->assertEquals('/login', $client->getRequest()->getPathInfo());
+        $this->assertFalse($client->getContainer()->get('security.helper')->isGranted('ROLE_USER'));
+    }
+
+    public function testLogout()
+    {
+        $client = DefaultControllerTest::createAuthenticationClient();
+
+        $client->request('GET','/logout');
+
+        $this->assertResponseRedirects('/login');
     }
 }

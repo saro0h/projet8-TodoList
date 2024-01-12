@@ -3,6 +3,7 @@ recipe: lamp
 config:
   webroot: public
   php: '8.1'
+  xdebug: 'develop,debug'
 
 services:
   appserver:
