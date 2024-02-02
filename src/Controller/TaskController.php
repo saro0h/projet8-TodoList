@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Security;
+use App\Security\TaskVoter;
 
 class TaskController extends AbstractController
 {
@@ -26,6 +27,9 @@ class TaskController extends AbstractController
     public function createAction(Request $request, ManagerRegistry $doctrine, Security $security)
     {
         $task = new Task();
+
+        $this->denyAccessUnlessGranted(TaskVoter::ADD, $task);
+
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -54,6 +58,8 @@ class TaskController extends AbstractController
      */
     public function editAction(Request $request, ManagerRegistry $doctrine, Task $task)
     {
+        $this->denyAccessUnlessGranted(TaskVoter::EDIT, $task);
+
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -77,6 +83,8 @@ class TaskController extends AbstractController
      */
     public function toggleTaskAction(ManagerRegistry $doctrine, Task $task)
     {
+        $this->denyAccessUnlessGranted(TaskVoter::EDIT, $task);
+
         $task->toggle(!$task->isDone());
         $doctrine->getManager()->flush();
 
@@ -90,6 +98,8 @@ class TaskController extends AbstractController
      */
     public function deleteTaskAction(ManagerRegistry $doctrine, Task $task)
     {
+        $this->denyAccessUnlessGranted(TaskVoter::DELETE, $task);
+
         $em = $doctrine->getManager();
         $em->remove($task);
         $em->flush();
