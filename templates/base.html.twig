@@ -10,26 +10,15 @@
 
 		<title>To Do List app</title>
 
-		<!-- Bootstrap Core CSS -->
-		<link
-		href="/assets/css/bootstrap.min.css" rel="stylesheet">
-
-		<!-- Custom CSS -->
+		<link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 		<link href="/assets/css/shop-homepage.css" rel="stylesheet">
-
-	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-																				        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-																				        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-																				        <![endif]-->
 	</head>
 
 	<body>
 		<nav class="navbar navbar-light navbar-fixed-top" style="background-color: #e3f2fd;" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#">To Do List app</a>
+					<a class="navbar-brand" href="{{ path('homepage') }}">To Do List app</a>
 
 					<img src="/assets/img/Logo_OpenClassrooms.png" alt="OpenClassrooms"/>
 				</div>
@@ -39,13 +28,15 @@
 		<!-- Page Content -->
 		<div class="container">
 			<div class="row">
-				<a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
+				{% endif %}
 
-				{% if app.user %}
+				{% if is_granted('ROLE_USER') %}
 					<a href="{{ path('logout') }}" class="pull-right btn btn-danger">Se déconnecter</a>
 				{% endif %}
 
-				{% if not app.user and 'login' != app.request.attributes.get('_route') %}
+				{% if not is_granted('ROLE_USER') and 'login' != app.request.attributes.get('_route') %}
 					<a href="{{ path('login') }}" class="btn btn-success">Se connecter</a>
 				{% endif %}
 			</div>
