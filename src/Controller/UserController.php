@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Security\UserVoter;
 
 class UserController extends AbstractController
 {
@@ -17,7 +18,11 @@ class UserController extends AbstractController
      */
     public function listAction(ManagerRegistry $doctrine)
     {
-        return $this->render('user/list.html.twig', ['users' => $doctrine->getRepository(User::class)->findAll()]);
+        $this->denyAccessUnlessGranted(UserVoter::VIEW, new User());
+
+        $users = $doctrine->getRepository(User::class)->findAll();
+
+        return $this->render('user/list.html.twig', ['users' => $users]);
     }
 
     /**
@@ -26,6 +31,9 @@ class UserController extends AbstractController
     public function createAction(Request $request, ManagerRegistry $doctrine, UserPasswordHasherInterface $userPasswordHasher)
     {
         $user = new User();
+
+        $this->denyAccessUnlessGranted(UserVoter::ADD, $user);
+
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
@@ -56,6 +64,8 @@ class UserController extends AbstractController
      */
     public function editAction(Request $request, ManagerRegistry $doctrine, UserPasswordHasherInterface $userPasswordHasher, User $user)
     {
+        $this->denyAccessUnlessGranted(UserVoter::EDIT, $user);
+
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
