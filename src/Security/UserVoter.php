@@ -5,20 +5,12 @@ namespace App\Security;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\Security;
 
 class UserVoter extends Voter
 {
     const VIEW = 'view';
     const ADD = 'add';
     const EDIT = 'edit';
-
-    private $security;
-
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
 
     protected function supports(string $attribute, mixed $subject): bool
     {
@@ -41,16 +33,11 @@ class UserVoter extends Voter
             return false;
         }
 
-        return match($attribute) {
-            self::VIEW => $this->isAdmin(),
-            self::ADD => $this->isAdmin(),
-            self::EDIT => $this->isAdmin(),
-            default => throw new \LogicException('This code should not be reached!')
-        };
+        return $this->isAdmin($user);
     }
 
-    private function isAdmin(): bool
+    private function isAdmin($user): bool
     {
-        return $this->security->isGranted('ROLE_ADMIN');
+        return in_array('ROLE_ADMIN', $user->getRoles());
     }
 }

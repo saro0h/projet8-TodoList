@@ -6,20 +6,12 @@ use App\Entity\User;
 use App\Entity\Task;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\Security;
 
 class TaskVoter extends Voter
 {
     const ADD = 'add';
     const EDIT = 'edit';
     const DELETE = 'delete';
-
-    private $security;
-
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
 
     protected function supports(string $attribute, mixed $subject): bool
     {
@@ -44,26 +36,16 @@ class TaskVoter extends Voter
 
         $task = $subject;
 
-        return match($attribute) {
-            self::ADD => $this->canAdd(),
-            self::EDIT => $this->canEdit($task, $user),
-            self::DELETE => $this->canDelete($task, $user),
-            default => throw new \LogicException('This code should not be reached!')
-        };
+        return $attribute === self::ADD ? $this->canAdd($user) : $this->canEditOrDelete($task, $user);
     }
 
-    private function canAdd(): bool
+    private function canAdd($user): bool
     {
-        return $this->security->isGranted('ROLE_USER');
+        return in_array('ROLE_USER', $user->getRoles());
     }
 
-    private function canEdit(Task $task, User $user): bool
+    private function canEditOrDelete(Task $task, User $user): bool
     {
-        return $user === $task->getUser() || ($this->security->isGranted('ROLE_ADMIN') && $task->getUser()->getUsername() === 'anonyme');
-    }
-
-    private function canDelete(Task $task, User $user): bool
-    {
-        return $user === $task->getUser() || ($this->security->isGranted('ROLE_ADMIN') && $task->getUser()->getUsername() === 'anonyme');
+        return $user === $task->getUser() || (in_array('ROLE_ADMIN', $user->getRoles()) && $task->getUser()->getUsername() === 'anonyme');
     }
 }
