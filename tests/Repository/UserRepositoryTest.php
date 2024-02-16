@@ -3,6 +3,8 @@
 namespace App\Tests\Repository;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UserRepositoryTest extends KernelTestCase
@@ -16,6 +18,12 @@ class UserRepositoryTest extends KernelTestCase
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+    }
+
+    public function testConstruct()
+    {
+        $repo = new UserRepository($this->createMock(ManagerRegistry::class));
+        $this->assertInstanceOf(UserRepository::class, $repo);
     }
 
     public function testFindAll()

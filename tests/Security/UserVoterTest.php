@@ -19,7 +19,7 @@ class UserVoterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider provideCases
      */
-    public function testVote(string $attribute, User $userSubject, ?User $user, $expected)
+    public function testVote(string $attribute, ?User $userSubject, ?User $user, $expected)
     {
         $token = new AnonymousToken('secret', 'anonymous');
         if ($user) {
@@ -34,6 +34,18 @@ class UserVoterTest extends \PHPUnit\Framework\TestCase
     public function provideCases()
     {
         return [
+            [
+                'false',
+                new User(),
+                null,
+                0
+            ],
+            [
+                'view',
+                null,
+                null,
+                0
+            ],
             [
                 'view',
                 new User(),

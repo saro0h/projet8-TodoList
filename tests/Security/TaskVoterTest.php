@@ -23,7 +23,7 @@ class TaskVoterTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider provideCases
      */
-    public function testVote(string $attribute, Task $task, ?User $user, $expected)
+    public function testVote(string $attribute, ?Task $task, ?User $user, $expected)
     {
         $token = new AnonymousToken('secret', 'anonymous');
         if ($user) {
@@ -38,6 +38,18 @@ class TaskVoterTest extends \PHPUnit\Framework\TestCase
     public function provideCases()
     {
         return [
+            [
+                'false',
+                new Task(),
+                null,
+                0
+            ],
+            [
+                'add',
+                null,
+                null,
+                0
+            ],
             [
                 'add',
                 new Task(),

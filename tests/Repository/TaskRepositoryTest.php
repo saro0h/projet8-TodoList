@@ -3,6 +3,8 @@
 namespace App\Tests\Repository;
 
 use App\Entity\Task;
+use App\Repository\TaskRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class TaskRepositoryTest extends KernelTestCase
@@ -16,6 +18,12 @@ class TaskRepositoryTest extends KernelTestCase
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+    }
+
+    public function testConstruct()
+    {
+        $repo = new TaskRepository($this->createMock(ManagerRegistry::class));
+        $this->assertInstanceOf(TaskRepository::class, $repo);
     }
 
     public function testFindAll()
