@@ -3,8 +3,7 @@
 namespace App\Tests\Security;
 
 use App\Security\UserVoter;
-use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use App\Entity\User;
 
 class UserVoterTest extends \PHPUnit\Framework\TestCase
@@ -21,11 +20,11 @@ class UserVoterTest extends \PHPUnit\Framework\TestCase
      */
     public function testVote(string $attribute, ?User $userSubject, ?User $user, $expected)
     {
-        $token = new AnonymousToken('secret', 'anonymous');
+        $token = $this->createMock(TokenInterface::class);
         if ($user) {
-            $token = new UsernamePasswordToken(
-                $user, 'password', 'memory'
-            );
+            $token->method('getUser')->willReturn($user);
+        } else {
+            $token->method('getUser')->willReturn(null);
         }
 
         $this->assertSame($expected, $this->voter->vote($token, $userSubject, [$attribute]));

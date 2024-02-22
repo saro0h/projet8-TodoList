@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class AccessDeniedListener implements EventSubscriberInterface
 {
@@ -18,11 +18,11 @@ class AccessDeniedListener implements EventSubscriberInterface
     private $security;
     private $session;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, Security $security, SessionInterface $session)
+    public function __construct(UrlGeneratorInterface $urlGenerator, Security $security, RequestStack $request)
     {
         $this->urlGenerator = $urlGenerator;
         $this->security = $security;
-        $this->session = $session;
+        $this->session = $request->getSession();
     }
 
     public static function getSubscribedEvents(): array
