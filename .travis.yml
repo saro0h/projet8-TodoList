@@ -1,0 +1,6 @@
+language: php
+php:
+  - '8.2'
+script:
+  - composer install
+  - vendor/bin/phpunit

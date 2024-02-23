@@ -21,59 +21,31 @@ class SecurityControllerTest extends WebTestCase
         $this->hasher = $this->client->getContainer()->get('security.user_password_hasher');
     }
 
-    public function testLogin()
+    /**
+     * @dataProvider provideCases
+     */
+    public function testLogin($createUser, $password, $expectedLogin)
     {
-        $user = $this->createUser('user');
+        if ($createUser) {
+            $user = $this->createUser('user');
+        }
         $crawler = $this->client->request('GET', '/login');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $form = $crawler->selectButton('Se connecter')->form();
         $form['_username'] = 'user';
-        $form['_password'] = 'secret';
+        $form['_password'] = $password;
         $this->client->submit($form);
 
         $crawler = $this->client->followRedirect();
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertSame('Se déconnecter', $crawler->filter('a.pull-right.btn.btn-danger')->text());
-
-        $this->cleanDb();
-    }
-
-    public function testLoginBadUsername()
-    {
-        $crawler = $this->client->request('GET', '/login');
-
-        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-
-        $form = $crawler->selectButton('Se connecter')->form();
-        $form['_username'] = 'user';
-        $form['_password'] = 'secret';
-        $this->client->submit($form);
-
-        $crawler = $this->client->followRedirect();
-
-        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertEquals(1, $crawler->filter('div.alert-danger')->count());
-    }
-
-    public function testLoginBadPassword()
-    {
-        $user = $this->createUser('user');
-        $crawler = $this->client->request('GET', '/login');
-
-        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-
-        $form = $crawler->selectButton('Se connecter')->form();
-        $form['_username'] = 'user';
-        $form['_password'] = 'secrete';
-        $this->client->submit($form);
-
-        $crawler = $this->client->followRedirect();
-
-        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertEquals(1, $crawler->filter('div.alert-danger')->count());
+        if ($expectedLogin) {
+            $this->assertSame('Se déconnecter', $crawler->filter('a.pull-right.btn.btn-danger')->text());
+        } else {
+            $this->assertEquals(1, $crawler->filter('div.alert-danger')->count());
+        }
 
         $this->cleanDb();
     }
@@ -95,5 +67,26 @@ class SecurityControllerTest extends WebTestCase
     private function cleanDb(): void
     {
         $this->manager->getConnection()->query('DELETE FROM user');
+    }
+
+    public function provideCases()
+    {
+        return [
+            [
+                true,
+                'secret',
+                true
+            ],
+            [
+                false,
+                'secret',
+                false
+            ],
+            [
+                true,
+                'secrete',
+                false
+            ]
+        ];
     }
 }
