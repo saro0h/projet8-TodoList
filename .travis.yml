@@ -1,10 +1,6 @@
 language: php
 php:
-  - '8.2'
-addons:
-  apt:
-    packages:
-      - libonig5
+  - '8.1'
 script:
   - composer install
   - vendor/bin/phpunit
