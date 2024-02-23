@@ -2,6 +2,6 @@ language: php
 php:
   - '8.2'
 script:
-  - composer self-update --rollback
+  - ln -s /usr/lib64/libonig.so /usr/lib64/libonig.so.2
   - composer install
   - vendor/bin/phpunit
