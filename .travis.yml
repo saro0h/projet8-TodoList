@@ -4,7 +4,7 @@ php:
 services:
   - mysql
 script:
-  - composer install --env=test
+  - composer install
   - php bin/console --env=test doctrine:database:create
   - php bin/console --env=test doctrine:schema:update --force
   - php bin/console --env=test doctrine:migration:migrate
