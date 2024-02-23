@@ -2,6 +2,6 @@ language: php
 php:
   - '8.2'
 script:
-  - ln -s /usr/lib64/libonig.so /usr/lib64/libonig.so.2
+  - sudo apt-get install libonig5
   - composer install
   - vendor/bin/phpunit
