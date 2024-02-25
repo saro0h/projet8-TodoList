@@ -5,8 +5,6 @@ env:
   - DATABASE_URL=mysql://root@127.0.0.1/travis_todolist
 services:
   - mysql
-addons:
-  mariadb: '10.4'
 script:
   - composer install
   - php bin/console doctrine:database:create --env=test
