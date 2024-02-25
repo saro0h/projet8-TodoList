@@ -9,5 +9,5 @@ script:
   - composer install
   - php bin/console doctrine:database:create --env=test
   - php bin/console doctrine:schema:update --force --env=test
-  - php bin/console doctrine:migration:migrate --env=test
+  - php bin/console doctrine:migrations:migrate --env=test
   - vendor/bin/phpunit
