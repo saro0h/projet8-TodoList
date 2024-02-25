@@ -1,13 +1,15 @@
 language: php
 php:
   - '8.1'
+env:
+  - DATABASE_URL=mysql://root@127.0.0.1/travis_todolist
 services:
   - mysql
 addons:
   mariadb: '10.4'
 script:
   - composer install
-  - php bin/console --env=test doctrine:database:create
-  - php bin/console --env=test doctrine:schema:update --force
-  - php bin/console --env=test doctrine:migration:migrate
+  - php bin/console doctrine:database:create --env=test
+  - php bin/console doctrine:schema:update --force --env=test
+  - php bin/console doctrine:migration:migrate --env=test
   - vendor/bin/phpunit
