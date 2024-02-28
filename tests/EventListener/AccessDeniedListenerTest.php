@@ -44,6 +44,8 @@ class AccessDeniedListenerTest extends KernelTestCase
         $dispatcher->addListener('onKernelException', [$listener, 'onKernelException']);
         $dispatcher->dispatch($event, 'onKernelException');
 
+        $this->assertTrue(isset($listener->getSubscribedEvents()['kernel.exception']));
+
         if ($expected) {
             $this->assertSame($expected, $event->getResponse()->getTargetUrl());
         } else {
