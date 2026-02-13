@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# wrapper qui préfère vendor/bin/phpunit puis vendor/bin/simple-phpunit
+if [ -f vendor/bin/phpunit ]; then
+  php vendor/bin/phpunit "$@"
+elif [ -f vendor/bin/simple-phpunit ]; then
+  php vendor/bin/simple-phpunit "$@"
+else
+  echo "Aucun binaire phpunit trouvé. Exécute: composer require --dev phpunit/phpunit:^8.5  (ou symfony/phpunit-bridge)"
+  exit 1
+fi
